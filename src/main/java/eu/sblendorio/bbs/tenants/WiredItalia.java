@@ -5,7 +5,7 @@ public class WiredItalia extends WordpressProxy {
     public WiredItalia() {
         super();
         this.logo = LOGO;
-        this.domain = "https://www.wired.it";
+        this.domain = "https://www.wired.com";
         this.pageSize = 7;
         this.screenRows = 19;
     }

@@ -68,7 +68,7 @@ public class MenuRetroAcademy extends PetsciiThread {
             logo();
 
             gotoXY(5, delta + 3); write(WHITE); print("Blog / News"); write(GREY3);
-            gotoXY(5, delta + 5); write(REVON); print(" 1 "); write(REVOFF); print(" Wired Italia");
+            gotoXY(5, delta + 5); write(REVON); print(" 1 "); write(REVOFF); print(" Wired");
             gotoXY(5, delta + 6); write(REVON); print(" 2 "); write(REVOFF); print(" Disinformatico");
             gotoXY(5, delta + 7); write(REVON); print(" 3 "); write(REVOFF); print(" Next Quotidiano");
             gotoXY(5, delta + 8); write(REVON); print(" 4 "); write(REVOFF); print(" MedBunker");
@@ -88,7 +88,7 @@ public class MenuRetroAcademy extends PetsciiThread {
             gotoXY(6, delta + 18); write(REVON); print(" P "); write(REVOFF); print(" PETSCII Art");
             gotoXY(6, delta + 19); write(REVON); print(" . "); write(REVOFF); print(" Logoff");
 
-            gotoXY(26, delta + 4); write(WHITE); print("Servizi"); write(GREY3);
+            gotoXY(26, delta + 4); write(WHITE); print("Services"); write(GREY3);
             gotoXY(26, delta + 6); write(REVON); print(" M "); write(REVOFF); print(" Messaggi");
             gotoXY(26, delta + 7); write(REVON); print(" T "); write(REVOFF); print(" Televideo");
             gotoXY(26, delta + 8); write(REVON); print(" D "); write(REVOFF); print(" CSDb");
@@ -141,7 +141,10 @@ public class MenuRetroAcademy extends PetsciiThread {
     }
 
     public void logo() throws Exception {
-        write(LOGO);
+        //write(LOGO);
+        String str = "The Old Net BBS";
+		byte[] byteArr = str.getBytes();
+        write(byteArr);
     }
 
     public static byte[] LOGO = new byte[] {
