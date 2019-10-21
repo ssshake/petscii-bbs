@@ -100,7 +100,7 @@ public class TelevideoRai extends PetsciiThread {
                 write(WHITE, REVON, SPACE_CHAR);
                 print(" . ");
                 write(SPACE_CHAR, REVOFF, SPACE_CHAR);
-                print("Fine");
+                print("End");
             }
             newline();
             newline();
@@ -109,7 +109,7 @@ public class TelevideoRai extends PetsciiThread {
         write(RIGHT, WHITE, REVON, SPACE_CHAR);
         print(" . ");
         write(SPACE_CHAR, REVOFF, SPACE_CHAR);
-        print("Fine");
+        print("End");
         write(GREY3, RETURN, RETURN);
         flush();
     }

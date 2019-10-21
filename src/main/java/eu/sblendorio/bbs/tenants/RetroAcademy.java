@@ -8,7 +8,7 @@ public class RetroAcademy extends WordpressProxy {
     public RetroAcademy() {
         super();
         this.logo = LOGO;
-        this.domain = "https://www.retroacademy.it";
+        this.domain = "http://theoldnet.com";
     }
 
     public final static byte[] LOGO = new byte[] {

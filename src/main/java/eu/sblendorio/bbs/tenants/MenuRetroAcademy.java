@@ -67,37 +67,38 @@ public class MenuRetroAcademy extends PetsciiThread {
             log("Starting MenuRetroAcademy BBS / main menu");
             logo();
 
-            gotoXY(5, delta + 3); write(WHITE); print("Blog / News"); write(GREY3);
-            gotoXY(5, delta + 5); write(REVON); print(" 1 "); write(REVOFF); print(" Wired");
-            gotoXY(5, delta + 6); write(REVON); print(" 2 "); write(REVOFF); print(" Disinformatico");
-            gotoXY(5, delta + 7); write(REVON); print(" 3 "); write(REVOFF); print(" Next Quotidiano");
+            gotoXY(0, delta + 3); write(WHITE); print("Blog / News"); write(GREY3);
+            gotoXY(0, delta + 5); write(REVON); print(" 1 "); write(REVOFF); print(" Wired");
+            gotoXY(0, delta + 6); write(REVON); print(" 2 "); write(REVOFF); print(" Disinformatico");
+            gotoXY(0, delta + 7); write(REVON); print(" 3 "); write(REVOFF); print(" Next Quotidiano");
             // gotoXY(5, delta + 8); write(REVON); print(" 4 "); write(REVOFF); print(" MedBunker");
-            gotoXY(5, delta + 8); write(REVON); print(" 4 "); write(REVOFF); print(" HomeAwesomation");
+            gotoXY(0, delta + 8); write(REVON); print(" 4 "); write(REVOFF); print(" HomeAwesomation");
             //gotoXY(5, delta + 9); write(REVON); print(" 5 "); write(REVOFF); print(" Fatto Quotidiano");
-            gotoXY(5, delta + 9); write(REVON); print(" 5 "); write(REVOFF); print(" Daggasoft");
-            gotoXY(5, delta + 10); write(REVON); print(" 6 "); write(REVOFF); print(" IndieRetroNews");
-            gotoXY(5, delta + 11); write(REVON); print(" 7 "); write(REVOFF); print(" Open Online");
-            gotoXY(5, delta + 12); write(REVON); print(" 8 "); write(REVOFF); print(" Il Post");
+            gotoXY(0, delta + 9); write(REVON); print(" 5 "); write(REVOFF); print(" Daggasoft");
+            gotoXY(0, delta + 10); write(REVON); print(" 6 "); write(REVOFF); print(" IndieRetroNews");
+            gotoXY(0, delta + 11); write(REVON); print(" 7 "); write(REVOFF); print(" Open Online");
+            gotoXY(0, delta + 12); write(REVON); print(" 8 "); write(REVOFF); print(" Il Post");
 
-            gotoXY(24, delta + 11); write(WHITE); print("Games"); write(GREY3);
-            gotoXY(24, delta + 13); write(REVON); print(" X "); write(REVOFF); print(" TIC-TAC-TOE");
-            gotoXY(24, delta + 14); write(REVON); print(" C "); write(REVOFF); print(" CONNECT-4");
-            gotoXY(24, delta + 15); write(REVON); print(" F "); write(REVOFF); print(" MAGIC-15");
+            gotoXY(19, delta + 11); write(WHITE); print("Games"); write(GREY3);
+            gotoXY(19, delta + 13); write(REVON); print(" X "); write(REVOFF); print(" TIC-TAC-TOE");
+            gotoXY(19, delta + 14); write(REVON); print(" C "); write(REVOFF); print(" CONNECT-4");
+            gotoXY(19, delta + 15); write(REVON); print(" F "); write(REVOFF); print(" MAGIC-15");
 
-            gotoXY(6, delta + 14); write(WHITE); print("Misc"); write(GREY3);
-            gotoXY(6, delta + 16); write(REVON); print(" S "); write(REVOFF); print(" Sportal.IT");
-            gotoXY(6, delta + 17); write(REVON); print(" L "); write(REVOFF); print(" Le ossa");
-            gotoXY(6, delta + 18); write(REVON); print(" P "); write(REVOFF); print(" PETSCII Art");
-            gotoXY(6, delta + 19); write(REVON); print(" . "); write(REVOFF); print(" Logoff");
+            gotoXY(2, delta + 14); write(WHITE); print("Misc"); write(GREY3);
+            gotoXY(2, delta + 16); write(REVON); print(" S "); write(REVOFF); print(" Sportal.IT");
+            gotoXY(2, delta + 17); write(REVON); print(" L "); write(REVOFF); print(" Le ossa");
+            gotoXY(2, delta + 18); write(REVON); print(" T "); write(REVOFF); print(" Televideo");
+            gotoXY(20, delta + 19); write(REVON); print(" . "); write(REVOFF); print(" Logoff");
 
-            gotoXY(26, delta + 4); write(WHITE); print("Services"); write(GREY3);
-            gotoXY(26, delta + 6); write(REVON); print(" M "); write(REVOFF); print(" Messaggi");
-            gotoXY(26, delta + 7); write(REVON); print(" T "); write(REVOFF); print(" Televideo");
-            gotoXY(26, delta + 8); write(REVON); print(" D "); write(REVOFF); print(" CSDb");
-            gotoXY(26, delta + 9); write(REVON); print(" A "); write(REVOFF); print(" Arnold 64");
+            gotoXY(20, delta + 4); write(WHITE); print("Services"); write(GREY3);
+            gotoXY(20, delta + 6); write(REVON); print(" M "); write(REVOFF); print(" Messages");
+            gotoXY(20, delta + 9); write(REVON); print(" P "); write(REVOFF); print(" Art");
+            gotoXY(20, delta + 7); write(REVON); print(" D "); write(REVOFF); print(" Download [CSDb]");
+            gotoXY(20, delta + 8); write(REVON); print(" A "); write(REVOFF); print(" Download [CBM]");
 
-            gotoXY(24, delta + 17); write(WHITE); print("Experimental"); write(GREY3);
-            gotoXY(24, delta + 19); write(REVON); print(" K "); write(REVOFF); print(" CSDb SD2IEC");
+
+            gotoXY(19, delta + 17); write(WHITE); print("Experimental"); write(GREY3);
+            gotoXY(19, delta + 19); write(REVON); print(" K "); write(REVOFF); print(" CSDb SD2IEC");
 
             //final String line = geoData != null ? "Connected from "+geoData.city+", "+geoData.country : EMPTY;
             final String line = "http://theoldnet.com";
@@ -146,7 +147,8 @@ public class MenuRetroAcademy extends PetsciiThread {
 
     public void logo() throws Exception {
         //write(LOGO);
-        String str = "The Old Net BBS";
+        // String str = "The Old Net BBS";
+        String str = "the old net bbs";
 		byte[] byteArr = str.getBytes();
         write(byteArr);
     }
