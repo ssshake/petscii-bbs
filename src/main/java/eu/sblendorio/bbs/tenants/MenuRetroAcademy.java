@@ -98,7 +98,7 @@ public class MenuRetroAcademy extends PetsciiThread {
             gotoXY(24, delta + 19); write(REVON); print(" K "); write(REVOFF); print(" CSDb SD2IEC");
 
             //final String line = geoData != null ? "Connected from "+geoData.city+", "+geoData.country : EMPTY;
-            final String line = "(C) F. Sblendorio in 2018, 2019";
+            final String line = "http://theoldnet.com";
             gotoXY((39-line.length()) / 2, 23);
             write(GREY3); print(line);
 

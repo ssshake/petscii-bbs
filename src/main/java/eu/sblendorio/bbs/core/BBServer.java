@@ -17,7 +17,7 @@ public class BBServer {
     private static Class<? extends PetsciiThread> bbs;
     private static List<Class<? extends PetsciiThread>> tenants = filterPetsciiThread();
     private static final long DEFAULT_TIMEOUT_IN_MILLIS = 3600000;
-    private static final long DEFAULT_PORT = 6510;
+    private static final long DEFAULT_PORT = 6400;
 
     public static void main(String[] args) throws Exception {
         // args = new String[] {"-b", "MenuRetroAcademy", "-p", "6510"};
