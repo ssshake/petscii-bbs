@@ -90,14 +90,14 @@ public class MenuRetroAcademy extends PetsciiThread {
             gotoXY(2, delta + 18); write(REVON); print(" T "); write(REVOFF); print(" Televideo");
             gotoXY(20, delta + 19); write(REVON); print(" . "); write(REVOFF); print(" Logoff");
 
-            gotoXY(20, delta + 4); write(WHITE); print("Services"); write(GREY3);
+            gotoXY(20, delta + 4); write(WHITE); print("Services"); write(CYAN);
             gotoXY(20, delta + 6); write(REVON); print(" M "); write(REVOFF); print(" Messages");
             gotoXY(20, delta + 9); write(REVON); print(" P "); write(REVOFF); print(" Art");
             gotoXY(20, delta + 7); write(REVON); print(" D "); write(REVOFF); print(" Download [CSDb]");
             gotoXY(20, delta + 8); write(REVON); print(" A "); write(REVOFF); print(" Download [CBM]");
 
 
-            gotoXY(19, delta + 17); write(WHITE); print("Experimental"); write(GREY3);
+            gotoXY(19, delta + 17); write(WHITE); print("Experimental"); write(ORANGE);
             gotoXY(19, delta + 19); write(REVON); print(" K "); write(REVOFF); print(" CSDb SD2IEC");
 
             //final String line = geoData != null ? "Connected from "+geoData.city+", "+geoData.country : EMPTY;
