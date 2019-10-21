@@ -88,7 +88,7 @@ public class MenuRetroAcademy extends PetsciiThread {
             gotoXY(2, delta + 16); write(REVON); print(" S "); write(REVOFF); print(" Sportal.IT");
             gotoXY(2, delta + 17); write(REVON); print(" L "); write(REVOFF); print(" Le ossa");
             gotoXY(2, delta + 18); write(REVON); print(" T "); write(REVOFF); print(" Televideo");
-            gotoXY(20, delta + 19); write(REVON); print(" . "); write(REVOFF); print(" Logoff");
+            gotoXY(2, delta + 19); write(REVON); print(" . "); write(REVOFF); print(" Logoff");
 
             gotoXY(20, delta + 4); write(WHITE); print("Services"); write(CYAN);
             gotoXY(20, delta + 6); write(REVON); print(" M "); write(REVOFF); print(" Messages");
