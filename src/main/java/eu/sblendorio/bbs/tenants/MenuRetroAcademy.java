@@ -87,12 +87,12 @@ public class MenuRetroAcademy extends PetsciiThread {
             gotoXY(0, delta + 19); write(REVON); print(" T "); write(REVOFF); print(" Televideo");
 
             gotoXY(20, delta + 4); write(WHITE); print("Services"); write(CYAN);
-            gotoXY(20, delta + 6); write(REVON); print(" M "); write(REVOFF); print(" Messages");
-            gotoXY(20, delta + 7); write(REVON); print(" O "); write(REVOFF); print(" The Old Net");
+            gotoXY(20, delta + 6); write(REVON); print(" M "); write(REVOFF); print(" Mail");
+            gotoXY(20, delta + 7); write(REVON); print(" O "); write(REVOFF); print(" The Internet");
             gotoXY(20, delta + 8); write(REVON); print(" D "); write(REVOFF); print(" Warez [CSDb]");
             gotoXY(20, delta + 9); write(REVON); print(" A "); write(REVOFF); print(" Warez [CBM]");
-            gotoXY(20, delta + 10); write(REVON); print(" K "); write(REVOFF); print(" CSDb SD2IEC");
-            gotoXY(20, delta + 11); write(REVON); print(" P "); write(REVOFF); print(" Art");
+            gotoXY(20, delta + 10); write(REVON); print(" K "); write(REVOFF); print(" CSDb to SD2IEC");
+            gotoXY(20, delta + 11); write(REVON); print(" P "); write(REVOFF); print(" Petscii Art");
 
             gotoXY(20, delta + 13); write(WHITE); print("Games"); write(YELLOW);
             gotoXY(20, delta + 15); write(REVON); print(" X "); write(REVOFF); print(" TIC-TAC-TOE");
@@ -157,7 +157,7 @@ public class MenuRetroAcademy extends PetsciiThread {
 
     public void logo() throws Exception {
         
-        write(NEWLOGO);
+        write(RetroAcademy.LOGO);
         // String str = "the old net bbs";
         // gotoXY(0, 0);
         // write(LIGHT_BLUE);
@@ -205,19 +205,19 @@ public class MenuRetroAcademy extends PetsciiThread {
         -102, 18, 32, -110, 32, 32, 32, -98, 18, 32, 5, -110, -76, -98, 18, 32,
         5, -110, -76, -98, 18, 32, 5, -110, -76, -102, 32, -98, 18, 32, 5, -110,
         -76, -98, 18, 32, 5, -110, -76, 28, 18, 32, 32, 5, -110, -76, 28, 18,
-        32, 5, -110, -76, 28, 18, 32, 5, -110, -76, -102, 32, 32, 32, 28, 18,
-        32, 5, -110, -76, -102, 32, 32, 32, 32, 32, 32, 32, 32, 32, 18, 32,
-        5, -110, -76, -102, 18, 32, 32, 32, -110, -72, 32, 32, -98, 18, 32, 5,
-        -110, -76, -98, 18, 32, 5, -110, -76, -98, 18, 32, 5, -110, -76, -102, 32,
-        -98, 18, 32, 5, -110, -76, -98, 18, 32, 5, -110, -76, 28, 18, 32, 5,
-        -110, -76, 28, 18, 32, 32, 5, -110, -76, 28, 18, 32, -110, -72, -102, 32,
-        32, 32, 28, 18, 32, 5, -110, -76, -102, 32, 32, 32, 32, 32, 32, 32,
-        32, 32, 18, 32, 5, -110, -76, -102, 18, 32, 5, -110, -76, -102, 18, 32,
-        32, 32, 5, -110, -76, -98, 18, 32, 32, 32, 5, -110, -76, -98, 18, 32,
-        32, 5, -110, -76, -98, 18, 32, 32, 5, -110, -76, -102, 32, 28, 18, 32,
-        5, -110, -76, -102, 32, 28, 18, 32, 5, -110, -76, 28, 18, 32, 32, 32,
-        5, -110, -76, -102, 32, 28, 18, 32, 5, -110, -76, 30, 66, 66, 83, -102,
+        32, 5, -110, -76, 28, 18, 32, -102, -110, 32, 32, 32, 32, 28, 18, 32,
+        5, -110, -76, -102, 32, 32, 32, 32, 32, 32, 32, 32, 32, 18, 32, 5,
+        -110, -76, -102, 18, 32, 32, 32, -110, -72, 32, 32, -98, 18, 32, 5, -110,
+        -76, -98, 18, 32, 5, -110, -76, -98, 18, 32, 5, -110, -76, -102, 32, -98,
+        18, 32, 5, -110, -76, -98, 18, 32, 5, -110, -76, 28, 18, 32, 5, -110,
+        -76, 28, 18, 32, 32, 5, -110, -76, 28, 18, 32, -110, -72, -102, 32, 32,
+        32, 28, 18, 32, 5, -110, -76, -102, 32, 32, 32, 32, 32, 32, 32, 32,
+        32, 18, 32, 5, -110, -76, -102, 18, 32, 5, -110, -76, -102, 18, 32, 32,
+        32, 5, -110, -76, -98, 18, 32, 32, 32, 5, -110, -76, -98, 18, 32, 32,
+        5, -110, -76, -98, 18, 32, 32, 5, -110, -76, -102, 32, 28, 18, 32, 5,
+        -110, -76, -102, 32, 28, 18, 32, 5, -110, -76, 28, 18, 32, 32, 32, 5,
+        -110, -76, -102, 32, 28, 18, 32, 5, -110, -76, 30, 66, 66, 83, -102, 32,
         32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32,
-        32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32,
+        32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32,
     };
 }
