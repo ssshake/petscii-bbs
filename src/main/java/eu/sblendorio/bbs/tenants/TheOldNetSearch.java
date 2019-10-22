@@ -70,7 +70,7 @@ public class TheOldNetSearch extends PetsciiThread {
             String entries = getSite(URL_TEMPLATE + URLEncoder.encode(search, "UTF-8"));
             print(entries);
             search = readLine();
-            return;
+            // return;
             // List<Entry> entries = getUrls(URL_TEMPLATE + URLEncoder.encode(search, "UTF-8"));
             // waitOff();
             // if (isEmpty(entries)) {
@@ -234,7 +234,8 @@ public class TheOldNetSearch extends PetsciiThread {
     }
 
     public static String getSite(String url) throws Exception {
-        return httpGet(url);
+        String response = httpGet(url);
+        return response.replaceAll("<[^>]*>", "");
     }
 
     public static List<Entry> getUrls(String url) throws Exception {
