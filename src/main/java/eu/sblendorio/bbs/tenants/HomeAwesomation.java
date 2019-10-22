@@ -4,7 +4,7 @@ public class HomeAwesomation extends WordpressProxy {
 
     public HomeAwesomation() {
         super();
-        this.logo = LOGO;
+        // this.logo = LOGO;
         this.domain = "http://homeawesomation.com";
         this.pageSize = 7;
         this.screenRows = 19;

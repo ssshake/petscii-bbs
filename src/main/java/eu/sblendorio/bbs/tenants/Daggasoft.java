@@ -4,7 +4,7 @@ public class Daggasoft extends WordpressProxy {
 
     public Daggasoft() {
         super();
-        this.logo = LOGO;
+        // this.logo = LOGO;
         this.domain = "http://daggasoft.wordpress.com";
         this.pageSize = 7;
         this.screenRows = 19;
