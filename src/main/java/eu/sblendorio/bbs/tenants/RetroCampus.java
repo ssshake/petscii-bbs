@@ -6,7 +6,7 @@ public class RetroCampus extends WordpressProxy {
         super();
         this.logo = LOGO;
         this.domain = "http://www.retrocampus.com";
-        this.pageSize = 9;
+        this.pageSize = 8;
         this.screenRows = 18;
     }
 

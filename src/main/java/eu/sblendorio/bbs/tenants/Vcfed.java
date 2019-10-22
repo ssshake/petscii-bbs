@@ -8,7 +8,7 @@ public class Vcfed extends WordpressProxy {
     public Vcfed() {
         super();
         this.logo = LOGO;
-        this.domain = "https://www.vcfed.org/wp";
+        this.domain = "http://www.vcfed.org/wp";
     }
 
     public final static byte[] LOGO = new byte [] {

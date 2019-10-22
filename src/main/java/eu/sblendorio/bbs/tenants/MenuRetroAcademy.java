@@ -70,16 +70,18 @@ public class MenuRetroAcademy extends PetsciiThread {
             gotoXY(0, delta + 4); write(WHITE); print("Blog / News"); write(GREY3);
             gotoXY(0, delta + 6); write(REVON); print(" 1 "); write(REVOFF); print(" Wired");
             gotoXY(0, delta + 7); write(REVON); print(" 2 "); write(REVOFF); print(" HomeAwesomation");
-            gotoXY(0, delta + 8); write(REVON); print(" 3 "); write(REVOFF); print(" Daggasoft");
+            // gotoXY(0, delta + 8); write(REVON); print(" 3 "); write(REVOFF); print(" Daggasoft");
+            gotoXY(0, delta + 8); write(REVON); print(" 3 "); write(REVOFF); print(" SYS64738.org");
             // gotoXY(5, delta + 8); write(REVON); print(" 4 "); write(REVOFF); print(" MedBunker");
-            gotoXY(0, delta + 9); write(REVON); print(" 4 "); write(REVOFF); print(" Disinformatico");
+            gotoXY(0, delta + 9); write(REVON); print(" 4 "); write(REVOFF); print(" VC Federation");
             //gotoXY(5, delta + 9); write(REVON); print(" 5 "); write(REVOFF); print(" Fatto Quotidiano");
-            gotoXY(0, delta + 10); write(REVON); print(" 5 "); write(REVOFF); print(" Next Quotidiano");
+            gotoXY(0, delta + 10); write(REVON); print(" 5 "); write(REVOFF); print(" Retro Campus");
             gotoXY(0, delta + 11); write(REVON); print(" 6 "); write(REVOFF); print(" IndieRetroNews");
             gotoXY(0, delta + 12); write(REVON); print(" 7 "); write(REVOFF); print(" Open Online");
-            gotoXY(0, delta + 13); write(REVON); print(" 8 "); write(REVOFF); print(" Il Post");
+            
 
-            gotoXY(0, delta + 15); write(WHITE); print("Misc"); write(PURPLE);
+            gotoXY(0, delta + 14); write(WHITE); print("Misc"); write(PURPLE);
+            gotoXY(0, delta + 16); write(REVON); print(" 8 "); write(REVOFF); print(" Il Post");
             gotoXY(0, delta + 17); write(REVON); print(" S "); write(REVOFF); print(" Sportal.IT");
             gotoXY(0, delta + 18); write(REVON); print(" L "); write(REVOFF); print(" Le ossa");
             gotoXY(0, delta + 19); write(REVON); print(" T "); write(REVOFF); print(" Televideo");
@@ -127,10 +129,11 @@ public class MenuRetroAcademy extends PetsciiThread {
                 }
                     else if (key == '1') launch(new WiredItalia());
                     else if (key == '2') launch(new HomeAwesomation());
-                    else if (key == '3') launch(new Daggasoft());
+                    // else if (key == '3') launch(new Daggasoft());
+                    else if (key == '3') launch(new Sys64738());
                     else if (key == 'o') launch(new TheOldNetSearch());
-                    else if (key == '4') launch(new Disinformatico());
-                    else if (key == '5') launch(new NextQuotidiano());
+                    else if (key == '4') launch(new Vcfed());
+                    else if (key == '5') launch(new RetroCampus());
                     // else if (key == '4') launch(new Medbunker());
                     // else if (key == '5') launch(new IlFattoQuotidiano());
                     else if (key == '6') launch(new IndieRetroNews());
