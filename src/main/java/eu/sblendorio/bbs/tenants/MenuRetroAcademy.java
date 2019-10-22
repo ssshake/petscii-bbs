@@ -84,20 +84,20 @@ public class MenuRetroAcademy extends PetsciiThread {
             gotoXY(0, delta + 18); write(REVON); print(" L "); write(REVOFF); print(" Le ossa");
             gotoXY(0, delta + 19); write(REVON); print(" T "); write(REVOFF); print(" Televideo");
 
-            gotoXY(20, delta + 11); write(WHITE); print("Games"); write(YELLOW);
-            gotoXY(20, delta + 13); write(REVON); print(" X "); write(REVOFF); print(" TIC-TAC-TOE");
-            gotoXY(20, delta + 14); write(REVON); print(" C "); write(REVOFF); print(" CONNECT-4");
-            gotoXY(20, delta + 15); write(REVON); print(" F "); write(REVOFF); print(" MAGIC-15");
-
             gotoXY(20, delta + 4); write(WHITE); print("Services"); write(CYAN);
             gotoXY(20, delta + 6); write(REVON); print(" M "); write(REVOFF); print(" Messages");
-            gotoXY(20, delta + 9); write(REVON); print(" P "); write(REVOFF); print(" Art");
-            gotoXY(20, delta + 7); write(REVON); print(" D "); write(REVOFF); print(" Warez [CSDb]");
-            gotoXY(20, delta + 8); write(REVON); print(" A "); write(REVOFF); print(" Warez [CBM]");
+            gotoXY(20, delta + 7); write(REVON); print(" O "); write(REVOFF); print(" The Old Net");
+            gotoXY(20, delta + 8); write(REVON); print(" D "); write(REVOFF); print(" Warez [CSDb]");
+            gotoXY(20, delta + 9); write(REVON); print(" A "); write(REVOFF); print(" Warez [CBM]");
+            gotoXY(20, delta + 10); write(REVON); print(" K "); write(REVOFF); print(" CSDb SD2IEC");
+            gotoXY(20, delta + 11); write(REVON); print(" P "); write(REVOFF); print(" Art");
 
+            gotoXY(20, delta + 13); write(WHITE); print("Games"); write(YELLOW);
+            gotoXY(20, delta + 15); write(REVON); print(" X "); write(REVOFF); print(" TIC-TAC-TOE");
+            gotoXY(20, delta + 16); write(REVON); print(" C "); write(REVOFF); print(" CONNECT-4");
+            gotoXY(20, delta + 17); write(REVON); print(" F "); write(REVOFF); print(" MAGIC-15");
 
-            gotoXY(20, delta + 17); write(WHITE); print("Experimental"); write(ORANGE);
-            gotoXY(20, delta + 19); write(REVON); print(" K "); write(REVOFF); print(" CSDb SD2IEC");
+            // gotoXY(20, delta + 17); write(WHITE); print("Experimental"); write(ORANGE);
 
             write(LIGHT_GREEN);
             gotoXY(20, delta + 22); write(REVON); print(" . "); write(REVOFF); print(" Logoff");
@@ -128,6 +128,7 @@ public class MenuRetroAcademy extends PetsciiThread {
                     else if (key == '1') launch(new WiredItalia());
                     else if (key == '2') launch(new HomeAwesomation());
                     else if (key == '3') launch(new Daggasoft());
+                    else if (key == 'o') launch(new TheOldNetSearch());
                     else if (key == '4') launch(new Disinformatico());
                     else if (key == '5') launch(new NextQuotidiano());
                     // else if (key == '4') launch(new Medbunker());
