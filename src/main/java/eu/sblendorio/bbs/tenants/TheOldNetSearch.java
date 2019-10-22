@@ -235,8 +235,15 @@ public class TheOldNetSearch extends PetsciiThread {
 
     public static String getSite(String url) throws Exception {
         String response = httpGet(url);
-        response = response.replaceAll("<[^>]*>", "\n\n");
-        // response = response.replaceAll("<[^>]*>", "");
+        response = response.replaceAll("<img.[^>]*>", " [IMAGE] ");
+        response = response.replaceAll("<a.[^>]*>", " [LINK]==> ");
+
+
+        response = response.replaceAll("<[^>]*>", " ");
+        
+        Pattern ptn = Pattern.compile("\\s{3,}");
+        Matcher mtch = ptn.matcher(response);
+        response = mtch.replaceAll("\n\r\n\r");
         return response;
     }
 
