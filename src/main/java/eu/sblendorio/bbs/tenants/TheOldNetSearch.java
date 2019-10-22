@@ -237,8 +237,10 @@ public class TheOldNetSearch extends PetsciiThread {
         String response = httpGet(url);
         response = response.replaceAll("<img.[^>]*>", " [IMAGE] ");
         response = response.replaceAll("<a.[^>]*>", " [LINK]==> ");
-
-
+        response = response.replaceAll("&quot;", "\"");
+        response = response.replaceAll("&apos;", "'");
+        response = response.replaceAll("&#xA0;", " ");
+        
         response = response.replaceAll("<[^>]*>", " ");
         
         Pattern ptn = Pattern.compile("\\s{3,}");
