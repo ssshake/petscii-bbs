@@ -635,7 +635,7 @@ public class UserLogon extends PetsciiThread {
     }
 
     public void showPrivacyPolicy() throws Exception {
-        List<String> rawText = readTextFile("gdpr/privacy-statement.txt");
+        List<String> rawText = readTextFile("gdpr/empty-privacy-statement.txt");
         List<String> text = new ArrayList<>();
         for (String row: rawText)
             text.addAll(asList(WordUtils.wrap(row, 39, "\n", true).split("\n")));
