@@ -24,6 +24,11 @@ import static org.apache.commons.collections4.CollectionUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.*;
 import static org.apache.commons.lang3.math.NumberUtils.toInt;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
 public class TheOldNetSearch extends PetsciiThread {
 
     public static final String URL_TEMPLATE = "http://theoldnet.com/get?url=";
@@ -36,9 +41,9 @@ public class TheOldNetSearch extends PetsciiThread {
         public final String url;
         public final String fileType;
 
-        public Entry(String url) throws Exception {
+        public Entry(String url, String name) throws Exception {
             this.url = defaultString(url);
-            this.name = url;
+            this.name = name;
             // this.name = URLDecoder.decode(defaultString(this.url).replaceAll("(?is)^.*/([^/]*?)$", "$1"), "UTF-8");
             this.fileType = defaultString(this.name).replaceAll("(?is)^.*\\.(.*?)$", "$1").toLowerCase();
         }
@@ -71,6 +76,9 @@ public class TheOldNetSearch extends PetsciiThread {
 
 
             String url = URL_TEMPLATE + URLEncoder.encode(search, "UTF-8");
+
+            TestJsoup(url);
+
             String content = getSite(url);
             print(content);
             String asdf = readLine(); //hack to make it wait for user input
@@ -95,7 +103,7 @@ public class TheOldNetSearch extends PetsciiThread {
     public void displaySearchResults(List<Entry> entries) throws Exception {
         listPosts(entries);
         while (true) {
-            log("ArnoldC64 waiting for input");
+            log("TheOldNet Browser waiting for input");
             write(WHITE);print("#"); write(GREY3);
             print(", [");
             write(WHITE); print("+-"); write(GREY3);
@@ -253,25 +261,88 @@ public class TheOldNetSearch extends PetsciiThread {
         return response;
     }
 
+    // public static List<Entry> getUrls(String url) throws Exception {
+    //     String output = httpGet(url);
+    //     // Pattern p = Pattern.compile("(?is)href=(\".*(ftp://[^\"]+\\.(p00|prg|d64|zip|t64|d71|d81|d82|d64\\.gz|t64\\.gz|d81\\.gz|d82\\.gz|d71\\.gz))\"");
+    //     Pattern p = Pattern.compile("(?is)href=(\".*?\")");
+    //     // Pattern p = Pattern.compile("(?is)href=(\".*?\".).*?>(.*)?<");
+
+    //     Matcher m = p.matcher(output);
+    //     List<Entry> urls = new ArrayList<>();
+    //     while (m.find()) urls.add(new Entry(m.group(1), m.group(1)));
+
+    //     String latestPageStr = output.replaceAll("(?is)^.*href=\".*?embedder=arnold&amp;page=([0-9]+)\">[0-9]+</a>\\s*<div class=\"footer\".*?$", "$1");
+    //     int latestPage = NumberUtils.toInt(latestPageStr.replaceAll("\\s|\n|\r",""));
+
+    //     if (latestPage > 0) {
+    //         for (int i=1; i<=latestPage; ++i) {
+    //             output = httpGet(url + "&page=" + i);
+    //             m = p.matcher(output);
+    //             while (m.find()) urls.add(new Entry(m.group(1), m.group(1)));
+    //         }
+    //     }
+    //     return urls;
+    // }
+
     public static List<Entry> getUrls(String url) throws Exception {
-        String output = httpGet(url);
-        // Pattern p = Pattern.compile("(?is)href=(\".*(ftp://[^\"]+\\.(p00|prg|d64|zip|t64|d71|d81|d82|d64\\.gz|t64\\.gz|d81\\.gz|d82\\.gz|d71\\.gz))\"");
-        Pattern p = Pattern.compile("(?is)href=(\".*?\")");
-        Matcher m = p.matcher(output);
-        List<Entry> urls = new ArrayList<>();
-        while (m.find()) urls.add(new Entry(m.group(1)));
+        Document doc = null; 
+        List<Entry> urls = new ArrayList<>(); //why
+        try{     
+            doc = Jsoup.connect(url).get();
+            String title = doc.title();
+            // log(title);
+            Elements links = doc.select("a[href]");
+            Element link;
 
-        String latestPageStr = output.replaceAll("(?is)^.*href=\".*?embedder=arnold&amp;page=([0-9]+)\">[0-9]+</a>\\s*<div class=\"footer\".*?$", "$1");
-        int latestPage = NumberUtils.toInt(latestPageStr.replaceAll("\\s|\n|\r",""));
+            for(int j=0; j < links.size(); j++){
+                link=links.get(j);
 
-        if (latestPage > 0) {
-            for (int i=1; i<=latestPage; ++i) {
-                output = httpGet(url + "&page=" + i);
-                m = p.matcher(output);
-                while (m.find()) urls.add(new Entry(m.group(1)));
+                // log (link.attr("href"));
+                // log (link.text());
+
+                String label = !StringUtils.isBlank(link.text()) ? link.text() : link.attr("href").split("url=")[1];
+                urls.add(new Entry(link.attr("href"), label));
+
+                // String latestPageStr = output.replaceAll("(?is)^.*href=\".*?embedder=arnold&amp;page=([0-9]+)\">[0-9]+</a>\\s*<div class=\"footer\".*?$", "$1");
+                // int latestPage = NumberUtils.toInt(latestPageStr.replaceAll("\\s|\n|\r",""));
+
+                // if (latestPage > 0) {
+                //     for (int i=1; i<=latestPage; ++i) {
+                //         output = httpGet(url + "&page=" + i);
+                //         m = p.matcher(output);
+                //         while (m.find()) urls.add(new Entry(m.group(1), m.group(1)));
+                //     }
+                // }
+
             }
+        } 
+        catch (Exception ex){     
+            System.out.println("Couldn't connect with the website."); 
         }
         return urls;
+    }
+
+    private void TestJsoup(String url){
+        log("GETTING URL FROM JSOUP");
+
+        Document doc = null; 
+        try{     
+            doc = Jsoup.connect(url).get();
+            String title = doc.title();
+            Elements links = doc.select("a[href]");
+            Element link;
+            for(int j=0; j < links.size(); j++){
+                    link=links.get(j);
+                    log (link.attr("href"));
+                    log (link.text());
+            }
+
+            log(title);
+        } 
+        catch (Exception ex){     
+            System.out.println("Couldn't connect with the website."); 
+        }
+
     }
 
     private void waitOn() {
