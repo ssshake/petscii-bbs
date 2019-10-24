@@ -11,7 +11,7 @@ import static eu.sblendorio.bbs.core.Keys.*;
 import static eu.sblendorio.bbs.core.Colors.*;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 
-public class MenuRetroAcademy extends PetsciiThread {
+public class MenuTheOldNet extends PetsciiThread {
 
     public static class GeoData {
         public final String city;
@@ -64,7 +64,7 @@ public class MenuRetroAcademy extends PetsciiThread {
         while (true) {
             int delta = 1;
             write(CLR, LOWERCASE, CASE_LOCK);
-            log("Starting MenuRetroAcademy BBS / main menu");
+            log("Starting MenuTheOldNet BBS / main menu");
             logo();
 
             gotoXY(0, delta + 4); write(WHITE); print("Blog / News"); write(GREY3);
@@ -157,7 +157,7 @@ public class MenuRetroAcademy extends PetsciiThread {
 
     public void logo() throws Exception {
         
-        write(RetroAcademy.LOGO);
+        write(TheOldNet.LOGO);
         // String str = "the old net bbs";
         // gotoXY(0, 0);
         // write(LIGHT_BLUE);

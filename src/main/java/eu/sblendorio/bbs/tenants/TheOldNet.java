@@ -3,9 +3,9 @@ package eu.sblendorio.bbs.tenants;
 import eu.sblendorio.bbs.core.Hidden;
 
 @Hidden
-public class RetroAcademy extends WordpressProxy {
+public class TheOldNet extends WordpressProxy {
 
-    public RetroAcademy() {
+    public TheOldNet() {
         super();
         this.logo = NEWLOGO;
         this.domain = "http://theoldnet.com";
@@ -47,7 +47,7 @@ public class RetroAcademy extends WordpressProxy {
         28, 18, 32, 5, -110, -76, 28, 18, 32, 32, 32, 5, -110, -76, -102, 32,
         28, 18, 32, 5, -110, -76, 30, 46, 67, 79, 77, -102, 32, 32, 32, 32,
         32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32,
-        32, 32, 32, 32, 32, 32, 32, 32,
+        32, 32, 32, 32, 32, 32, 32, 32, 13
     };
 
     public static byte[] LOGO = NEWLOGO;

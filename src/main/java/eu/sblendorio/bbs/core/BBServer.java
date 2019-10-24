@@ -20,7 +20,7 @@ public class BBServer {
     private static final long DEFAULT_PORT = 6400;
 
     public static void main(String[] args) throws Exception {
-        // args = new String[] {"-b", "MenuRetroAcademy", "-p", "6510"};
+        // args = new String[] {"-b", "MenuTheOldNet", "-p", "6510"};
         readParameters(args);
         ServerSocket listener = new ServerSocket(port);
         listener.setSoTimeout(INTEGER_ZERO);

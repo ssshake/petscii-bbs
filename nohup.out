@@ -1,52 +1,52 @@
-2019-10-21 14:06:32.749 The BBS MenuRetroAcademy is running: port = 6400, timeout = 3600000 millis
+2019-10-21 14:06:32.749 The BBS MenuTheOldNet is running: port = 6400, timeout = 3600000 millis
 2019-10-21 14:06:49.321 Client #1. New connection at Socket[addr=/208.79.61.232,port=63274,localport=6400]
 2019-10-21 14:06:49.531 Client #1. Error retrieving GeoIP data: java.io.FileNotFoundException
-2019-10-21 14:06:49.531 Client #1. Starting MenuRetroAcademy BBS / main menu
+2019-10-21 14:06:49.531 Client #1. Starting MenuTheOldNet BBS / main menu
 2019-10-21 14:06:49.537 Client #1. Menu. Waiting for key pressed.
 2019-10-21 14:06:59.131 Client #1. Menu. Pressed: 'm' (code=109)
-2019-10-21 14:07:13.709 Client #1. Starting MenuRetroAcademy BBS / main menu
+2019-10-21 14:07:13.709 Client #1. Starting MenuTheOldNet BBS / main menu
 2019-10-21 14:07:13.712 Client #1. Menu. Waiting for key pressed.
 2019-10-21 14:07:14.586 Client #1. Menu. Pressed: '.' (code=46)
 2019-10-21 14:07:14.588 Client #1. STOP. Connection CLOSED.
 2019-10-21 14:53:16.878 Client #2. New connection at Socket[addr=/208.79.61.232,port=64838,localport=6400]
 2019-10-21 14:53:17.100 Client #2. Error retrieving GeoIP data: java.io.FileNotFoundException
-2019-10-21 14:53:17.100 Client #2. Starting MenuRetroAcademy BBS / main menu
+2019-10-21 14:53:17.100 Client #2. Starting MenuTheOldNet BBS / main menu
 2019-10-21 14:53:17.104 Client #2. Menu. Waiting for key pressed.
 2019-10-21 14:53:21.483 Client #2. Menu. Pressed: '1' (code=49)
 2019-10-21 14:53:21.498 Client #2. Wordpress entering (https://www.wired.com)
 2019-10-21 14:53:23.592 Client #2. Wordpress waiting for input
-2019-10-21 14:53:28.638 Client #2. Starting MenuRetroAcademy BBS / main menu
+2019-10-21 14:53:28.638 Client #2. Starting MenuTheOldNet BBS / main menu
 2019-10-21 14:53:28.642 Client #2. Menu. Waiting for key pressed.
 2019-10-21 14:53:39.644 Client #2. Menu. Pressed: '7' (code=55)
 2019-10-21 14:53:39.645 Client #2. Wordpress entering (https://www.open.online)
 Unauthorized
-2019-10-21 14:53:40.235 Client #2. NullPointerException during launching of OpenOnline within MenuRetroAcademy. Launch interrupted. Stack trace:
+2019-10-21 14:53:40.235 Client #2. NullPointerException during launching of OpenOnline within MenuTheOldNet. Launch interrupted. Stack trace:
 java.lang.NullPointerException
 	at eu.sblendorio.bbs.tenants.WordpressProxy.getPosts(WordpressProxy.java:166)
 	at eu.sblendorio.bbs.tenants.WordpressProxy.listPosts(WordpressProxy.java:185)
 	at eu.sblendorio.bbs.tenants.WordpressProxy.doLoop(WordpressProxy.java:70)
 	at eu.sblendorio.bbs.core.PetsciiThread.launch(PetsciiThread.java:146)
-	at eu.sblendorio.bbs.tenants.MenuRetroAcademy.doLoop(MenuRetroAcademy.java:125)
+	at eu.sblendorio.bbs.tenants.MenuTheOldNet.doLoop(MenuTheOldNet.java:125)
 	at eu.sblendorio.bbs.core.PetsciiThread.run(PetsciiThread.java:120)
-2019-10-21 14:53:40.241 Client #2. Starting MenuRetroAcademy BBS / main menu
+2019-10-21 14:53:40.241 Client #2. Starting MenuTheOldNet BBS / main menu
 2019-10-21 14:53:40.244 Client #2. Menu. Waiting for key pressed.
 Flushing input buffer: '\r\n1', len = 3
 2019-10-21 14:53:41.555 Client #2. Menu. Pressed: '7' (code=55)
 2019-10-21 14:53:41.555 Client #2. Wordpress entering (https://www.open.online)
 Unauthorized
-2019-10-21 14:53:42.090 Client #2. NullPointerException during launching of OpenOnline within MenuRetroAcademy. Launch interrupted. Stack trace:
+2019-10-21 14:53:42.090 Client #2. NullPointerException during launching of OpenOnline within MenuTheOldNet. Launch interrupted. Stack trace:
 java.lang.NullPointerException
 	at eu.sblendorio.bbs.tenants.WordpressProxy.getPosts(WordpressProxy.java:166)
 	at eu.sblendorio.bbs.tenants.WordpressProxy.listPosts(WordpressProxy.java:185)
 	at eu.sblendorio.bbs.tenants.WordpressProxy.doLoop(WordpressProxy.java:70)
 	at eu.sblendorio.bbs.core.PetsciiThread.launch(PetsciiThread.java:146)
-	at eu.sblendorio.bbs.tenants.MenuRetroAcademy.doLoop(MenuRetroAcademy.java:125)
+	at eu.sblendorio.bbs.tenants.MenuTheOldNet.doLoop(MenuTheOldNet.java:125)
 	at eu.sblendorio.bbs.core.PetsciiThread.run(PetsciiThread.java:120)
-2019-10-21 14:53:42.090 Client #2. Starting MenuRetroAcademy BBS / main menu
+2019-10-21 14:53:42.090 Client #2. Starting MenuTheOldNet BBS / main menu
 2019-10-21 14:53:42.093 Client #2. Menu. Waiting for key pressed.
 2019-10-21 14:53:44.379 Client #2. Menu. Pressed: '5' (code=53)
 2019-10-21 14:53:44.381 Client #2. Wordpress entering (https://www.ilfattoquotidiano.it)
-2019-10-21 14:53:44.533 Client #2. SSLException during launching of IlFattoQuotidiano within MenuRetroAcademy. Launch interrupted. Stack trace:
+2019-10-21 14:53:44.533 Client #2. SSLException during launching of IlFattoQuotidiano within MenuTheOldNet. Launch interrupted. Stack trace:
 javax.net.ssl.SSLException: java.security.ProviderException: java.security.InvalidKeyException: EC parameters error
 	at sun.security.ssl.Alerts.getSSLException(Alerts.java:208)
 	at sun.security.ssl.SSLSocketImpl.fatal(SSLSocketImpl.java:1896)
@@ -66,7 +66,7 @@ javax.net.ssl.SSLException: java.security.ProviderException: java.security.Inval
 	at eu.sblendorio.bbs.tenants.WordpressProxy.listPosts(WordpressProxy.java:185)
 	at eu.sblendorio.bbs.tenants.WordpressProxy.doLoop(WordpressProxy.java:70)
 	at eu.sblendorio.bbs.core.PetsciiThread.launch(PetsciiThread.java:146)
-	at eu.sblendorio.bbs.tenants.MenuRetroAcademy.doLoop(MenuRetroAcademy.java:123)
+	at eu.sblendorio.bbs.tenants.MenuTheOldNet.doLoop(MenuTheOldNet.java:123)
 	at eu.sblendorio.bbs.core.PetsciiThread.run(PetsciiThread.java:120)
 Caused by: java.security.ProviderException: java.security.InvalidKeyException: EC parameters error
 	at sun.security.pkcs11.P11Key$P11ECPublicKey.getEncodedInternal(P11Key.java:1024)
@@ -98,33 +98,33 @@ Caused by: java.security.NoSuchProviderException: no such provider: SunEC
 	at java.security.AlgorithmParameters.getInstance(AlgorithmParameters.java:199)
 	at sun.security.ec.ECParameters.getAlgorithmParameters(ECParameters.java:279)
 	... 32 more
-2019-10-21 14:53:44.537 Client #2. Starting MenuRetroAcademy BBS / main menu
+2019-10-21 14:53:44.537 Client #2. Starting MenuTheOldNet BBS / main menu
 2019-10-21 14:53:44.540 Client #2. Menu. Waiting for key pressed.
 2019-10-21 14:53:45.730 Client #2. Menu. Pressed: '4' (code=52)
 2019-10-21 14:53:45.818 Client #2. Missing file /root/credentials.json on the server's filesystem
 2019-10-21 14:53:45.819 Client #2. EOF eu.sblendorio.bbs.core.CbmIOException: Missing file /root/credentials.json on the server's filesystem
 2019-10-21 14:53:45.822 Client #2. STOP. Connection CLOSED.
-2019-10-21 15:03:11.965 The BBS MenuRetroAcademy is running: port = 6400, timeout = 3600000 millis
+2019-10-21 15:03:11.965 The BBS MenuTheOldNet is running: port = 6400, timeout = 3600000 millis
 2019-10-21 15:03:20.915 Client #1. New connection at Socket[addr=/208.79.61.232,port=65170,localport=6400]
 2019-10-21 15:03:21.123 Client #1. Error retrieving GeoIP data: java.io.FileNotFoundException
-2019-10-21 15:03:21.124 Client #1. Starting MenuRetroAcademy BBS / main menu
+2019-10-21 15:03:21.124 Client #1. Starting MenuTheOldNet BBS / main menu
 2019-10-21 15:03:21.128 Client #1. Menu. Waiting for key pressed.
 2019-10-21 15:03:29.713 Client #1. EOF eu.sblendorio.bbs.core.CbmIOException: CbmInputOutput::readKey()
 2019-10-21 15:03:29.714 Client #1. STOP. Connection CLOSED.
-2019-10-21 15:04:24.882 The BBS MenuRetroAcademy is running: port = 6400, timeout = 3600000 millis
+2019-10-21 15:04:24.882 The BBS MenuTheOldNet is running: port = 6400, timeout = 3600000 millis
 2019-10-21 15:04:35.686 Client #1. New connection at Socket[addr=/208.79.61.232,port=65197,localport=6400]
 2019-10-21 15:04:35.894 Client #1. Error retrieving GeoIP data: java.io.FileNotFoundException
-2019-10-21 15:04:35.894 Client #1. Starting MenuRetroAcademy BBS / main menu
+2019-10-21 15:04:35.894 Client #1. Starting MenuTheOldNet BBS / main menu
 2019-10-21 15:04:35.897 Client #1. Menu. Waiting for key pressed.
 2019-10-21 15:04:38.229 Client #1. Menu. Pressed: '.' (code=46)
 2019-10-21 15:04:38.230 Client #1. STOP. Connection CLOSED.
 2019-10-21 15:04:39.789 Client #2. New connection at Socket[addr=/208.79.61.232,port=65204,localport=6400]
 2019-10-21 15:04:39.990 Client #2. Error retrieving GeoIP data: java.io.FileNotFoundException
-2019-10-21 15:04:39.991 Client #2. Starting MenuRetroAcademy BBS / main menu
+2019-10-21 15:04:39.991 Client #2. Starting MenuTheOldNet BBS / main menu
 2019-10-21 15:04:39.996 Client #2. Menu. Waiting for key pressed.
 2019-10-21 15:04:41.523 Client #2. Menu. Pressed: '5' (code=53)
 2019-10-21 15:04:41.526 Client #2. Wordpress entering (https://www.ilfattoquotidiano.it)
-2019-10-21 15:04:42.015 Client #2. SSLException during launching of IlFattoQuotidiano within MenuRetroAcademy. Launch interrupted. Stack trace:
+2019-10-21 15:04:42.015 Client #2. SSLException during launching of IlFattoQuotidiano within MenuTheOldNet. Launch interrupted. Stack trace:
 javax.net.ssl.SSLException: java.security.ProviderException: java.security.InvalidKeyException: EC parameters error
 	at sun.security.ssl.Alerts.getSSLException(Alerts.java:208)
 	at sun.security.ssl.SSLSocketImpl.fatal(SSLSocketImpl.java:1896)
@@ -144,7 +144,7 @@ javax.net.ssl.SSLException: java.security.ProviderException: java.security.Inval
 	at eu.sblendorio.bbs.tenants.WordpressProxy.listPosts(WordpressProxy.java:185)
 	at eu.sblendorio.bbs.tenants.WordpressProxy.doLoop(WordpressProxy.java:70)
 	at eu.sblendorio.bbs.core.PetsciiThread.launch(PetsciiThread.java:146)
-	at eu.sblendorio.bbs.tenants.MenuRetroAcademy.doLoop(MenuRetroAcademy.java:123)
+	at eu.sblendorio.bbs.tenants.MenuTheOldNet.doLoop(MenuTheOldNet.java:123)
 	at eu.sblendorio.bbs.core.PetsciiThread.run(PetsciiThread.java:120)
 Caused by: java.security.ProviderException: java.security.InvalidKeyException: EC parameters error
 	at sun.security.pkcs11.P11Key$P11ECPublicKey.getEncodedInternal(P11Key.java:1024)
@@ -176,47 +176,47 @@ Caused by: java.security.NoSuchProviderException: no such provider: SunEC
 	at java.security.AlgorithmParameters.getInstance(AlgorithmParameters.java:199)
 	at sun.security.ec.ECParameters.getAlgorithmParameters(ECParameters.java:279)
 	... 32 more
-2019-10-21 15:04:42.017 Client #2. Starting MenuRetroAcademy BBS / main menu
+2019-10-21 15:04:42.017 Client #2. Starting MenuTheOldNet BBS / main menu
 2019-10-21 15:04:42.020 Client #2. Menu. Waiting for key pressed.
 2019-10-21 15:04:43.404 Client #2. Menu. Pressed: '4' (code=52)
 2019-10-21 15:04:43.436 Client #2. Missing file /root/credentials.json on the server's filesystem
 2019-10-21 15:04:43.437 Client #2. EOF eu.sblendorio.bbs.core.CbmIOException: Missing file /root/credentials.json on the server's filesystem
 2019-10-21 15:04:43.438 Client #2. STOP. Connection CLOSED.
-2019-10-22 00:31:08.185 The BBS MenuRetroAcademy is running: port = 6400, timeout = 3600000 millis
+2019-10-22 00:31:08.185 The BBS MenuTheOldNet is running: port = 6400, timeout = 3600000 millis
 2019-10-22 00:35:14.862 Client #1. New connection at Socket[addr=/76.67.125.109,port=53462,localport=6400]
 2019-10-22 00:35:15.069 Client #1. Error retrieving GeoIP data: java.io.FileNotFoundException
-2019-10-22 00:35:15.070 Client #1. Starting MenuRetroAcademy BBS / main menu
+2019-10-22 00:35:15.070 Client #1. Starting MenuTheOldNet BBS / main menu
 2019-10-22 00:35:15.073 Client #1. Menu. Waiting for key pressed.
 2019-10-22 00:35:22.933 Client #1. Menu. Pressed: '1' (code=49)
 2019-10-22 00:35:22.936 Client #1. Wordpress entering (https://www.wired.com)
 2019-10-22 00:35:24.694 Client #1. Wordpress waiting for input
 2019-10-22 00:35:51.116 Client #1. Wordpress waiting for input
-2019-10-22 00:35:52.734 Client #1. Starting MenuRetroAcademy BBS / main menu
+2019-10-22 00:35:52.734 Client #1. Starting MenuTheOldNet BBS / main menu
 2019-10-22 00:35:52.738 Client #1. Menu. Waiting for key pressed.
 2019-10-22 00:36:19.098 Client #1. Menu. Pressed: '2' (code=50)
 2019-10-22 00:36:19.099 Client #1. Wordpress entering (http://homeawesomation.com)
 2019-10-22 00:36:19.779 Client #1. Wordpress waiting for input
 2019-10-22 00:36:26.293 Client #1. Wordpress waiting for input
 2019-10-22 00:36:56.526 Client #1. Wordpress waiting for input
-2019-10-22 00:36:59.017 Client #1. Starting MenuRetroAcademy BBS / main menu
+2019-10-22 00:36:59.017 Client #1. Starting MenuTheOldNet BBS / main menu
 2019-10-22 00:36:59.022 Client #1. Menu. Waiting for key pressed.
 2019-10-22 00:38:25.690 Client #1. Menu. Pressed: '7' (code=55)
 2019-10-22 00:38:25.691 Client #1. Wordpress entering (https://www.open.online)
 Unauthorized
-2019-10-22 00:38:26.264 Client #1. NullPointerException during launching of OpenOnline within MenuRetroAcademy. Launch interrupted. Stack trace:
+2019-10-22 00:38:26.264 Client #1. NullPointerException during launching of OpenOnline within MenuTheOldNet. Launch interrupted. Stack trace:
 java.lang.NullPointerException
 	at eu.sblendorio.bbs.tenants.WordpressProxy.getPosts(WordpressProxy.java:166)
 	at eu.sblendorio.bbs.tenants.WordpressProxy.listPosts(WordpressProxy.java:185)
 	at eu.sblendorio.bbs.tenants.WordpressProxy.doLoop(WordpressProxy.java:70)
 	at eu.sblendorio.bbs.core.PetsciiThread.launch(PetsciiThread.java:146)
-	at eu.sblendorio.bbs.tenants.MenuRetroAcademy.doLoop(MenuRetroAcademy.java:135)
+	at eu.sblendorio.bbs.tenants.MenuTheOldNet.doLoop(MenuTheOldNet.java:135)
 	at eu.sblendorio.bbs.core.PetsciiThread.run(PetsciiThread.java:120)
-2019-10-22 00:38:26.265 Client #1. Starting MenuRetroAcademy BBS / main menu
+2019-10-22 00:38:26.265 Client #1. Starting MenuTheOldNet BBS / main menu
 2019-10-22 00:38:26.269 Client #1. Menu. Waiting for key pressed.
 2019-10-22 00:38:27.930 Client #1. Menu. Pressed: '8' (code=56)
 2019-10-22 00:38:27.931 Client #1. Wordpress entering (https://www.ilpost.it)
 2019-10-22 00:38:28.096 Client #1. Wordpress waiting for input
-2019-10-22 00:38:31.624 Client #1. Starting MenuRetroAcademy BBS / main menu
+2019-10-22 00:38:31.624 Client #1. Starting MenuTheOldNet BBS / main menu
 2019-10-22 00:38:31.628 Client #1. Menu. Waiting for key pressed.
 2019-10-22 00:38:33.960 Client #1. Menu. Pressed: '4' (code=52)
 2019-10-22 00:38:34.004 Client #1. Missing file /root/credentials.json on the server's filesystem
@@ -224,35 +224,35 @@ java.lang.NullPointerException
 2019-10-22 00:38:34.005 Client #1. STOP. Connection CLOSED.
 2019-10-22 00:38:36.075 Client #2. New connection at Socket[addr=/76.67.125.109,port=53536,localport=6400]
 2019-10-22 00:38:36.276 Client #2. Error retrieving GeoIP data: java.io.FileNotFoundException
-2019-10-22 00:38:36.276 Client #2. Starting MenuRetroAcademy BBS / main menu
+2019-10-22 00:38:36.276 Client #2. Starting MenuTheOldNet BBS / main menu
 2019-10-22 00:38:36.288 Client #2. Menu. Waiting for key pressed.
 2019-10-22 00:39:51.450 Client #2. Menu. Pressed: '1' (code=49)
 2019-10-22 00:39:51.451 Client #2. Wordpress entering (https://www.wired.com)
 2019-10-22 00:39:51.525 Client #2. Wordpress waiting for input
 2019-10-22 00:39:55.100 Client #2. Wordpress waiting for input
 2019-10-22 00:40:09.783 Client #2. Wordpress waiting for input
-2019-10-22 00:40:12.084 Client #2. Starting MenuRetroAcademy BBS / main menu
+2019-10-22 00:40:12.084 Client #2. Starting MenuTheOldNet BBS / main menu
 2019-10-22 00:40:12.086 Client #2. Menu. Waiting for key pressed.
 2019-10-22 00:41:53.020 Client #2. Menu. Pressed: '.' (code=46)
 2019-10-22 00:41:53.022 Client #2. STOP. Connection CLOSED.
 2019-10-22 00:41:54.289 Client #3. New connection at Socket[addr=/76.67.125.109,port=53610,localport=6400]
 2019-10-22 00:41:54.490 Client #3. Error retrieving GeoIP data: java.io.FileNotFoundException
-2019-10-22 00:41:54.490 Client #3. Starting MenuRetroAcademy BBS / main menu
+2019-10-22 00:41:54.490 Client #3. Starting MenuTheOldNet BBS / main menu
 2019-10-22 00:41:54.492 Client #3. Menu. Waiting for key pressed.
 2019-10-22 00:41:56.162 Client #3. Menu. Pressed: '.' (code=46)
 2019-10-22 00:41:56.163 Client #3. STOP. Connection CLOSED.
 2019-10-22 00:41:57.340 Client #4. New connection at Socket[addr=/76.67.125.109,port=53612,localport=6400]
 2019-10-22 00:41:57.541 Client #4. Error retrieving GeoIP data: java.io.FileNotFoundException
-2019-10-22 00:41:57.541 Client #4. Starting MenuRetroAcademy BBS / main menu
+2019-10-22 00:41:57.541 Client #4. Starting MenuTheOldNet BBS / main menu
 2019-10-22 00:41:57.542 Client #4. Menu. Waiting for key pressed.
 2019-10-22 00:41:58.317 Client #4. Menu. Pressed: '.' (code=46)
 2019-10-22 00:41:58.318 Client #4. STOP. Connection CLOSED.
 2019-10-22 00:41:58.963 Client #5. New connection at Socket[addr=/76.67.125.109,port=53614,localport=6400]
 2019-10-22 00:41:59.164 Client #5. Error retrieving GeoIP data: java.io.FileNotFoundException
-2019-10-22 00:41:59.164 Client #5. Starting MenuRetroAcademy BBS / main menu
+2019-10-22 00:41:59.164 Client #5. Starting MenuTheOldNet BBS / main menu
 2019-10-22 00:41:59.165 Client #5. Menu. Waiting for key pressed.
 2019-10-22 00:47:16.480 Client #5. Menu. Pressed: 'f' (code=102)
-2019-10-22 00:47:25.932 Client #5. Starting MenuRetroAcademy BBS / main menu
+2019-10-22 00:47:25.932 Client #5. Starting MenuTheOldNet BBS / main menu
 2019-10-22 00:47:25.933 Client #5. Menu. Waiting for key pressed.
 2019-10-22 00:50:23.662 Client #5. Menu. Pressed: '1' (code=49)
 2019-10-22 00:50:23.671 Client #5. Wordpress entering (https://www.wired.com)
@@ -261,17 +261,17 @@ java.lang.NullPointerException
 2019-10-22 00:50:37.305 Client #5. Wordpress waiting for input
 2019-10-22 00:50:48.510 Client #5. Wordpress waiting for input
 2019-10-22 00:52:28.445 Client #5. Wordpress waiting for input
-2019-10-22 00:52:29.891 Client #5. Starting MenuRetroAcademy BBS / main menu
+2019-10-22 00:52:29.891 Client #5. Starting MenuTheOldNet BBS / main menu
 2019-10-22 00:52:29.893 Client #5. Menu. Waiting for key pressed.
 2019-10-22 00:52:38.595 Client #5. Menu. Pressed: '2' (code=50)
 2019-10-22 00:52:38.595 Client #5. Wordpress entering (http://homeawesomation.com)
 2019-10-22 00:52:39.431 Client #5. Wordpress waiting for input
 2019-10-22 00:53:03.228 Client #5. Wordpress waiting for input
 2019-10-22 00:53:03.618 Client #5. Wordpress waiting for input
-2019-10-22 00:53:04.766 Client #5. Starting MenuRetroAcademy BBS / main menu
+2019-10-22 00:53:04.766 Client #5. Starting MenuTheOldNet BBS / main menu
 2019-10-22 00:53:04.767 Client #5. Menu. Waiting for key pressed.
 2019-10-22 00:53:10.797 Client #5. Menu. Pressed: 'l' (code=108)
-2019-10-22 00:53:12.208 Client #5. Starting MenuRetroAcademy BBS / main menu
+2019-10-22 00:53:12.208 Client #5. Starting MenuTheOldNet BBS / main menu
 2019-10-22 00:53:12.209 Client #5. Menu. Waiting for key pressed.
 2019-10-22 00:53:14.508 Client #5. Menu. Pressed: 't' (code=116)
 2019-10-22 00:53:14.530 Client #5. Entered TelevideoRai
@@ -281,77 +281,77 @@ SLF4J: Defaulting to no-operation (NOP) logger implementation
 SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
 2019-10-22 00:53:29.481 Client #5. Televideo choice = 160 Culture
 2019-10-22 00:53:33.984 Client #5. Televideo-EXIT
-2019-10-22 00:53:33.984 Client #5. Starting MenuRetroAcademy BBS / main menu
+2019-10-22 00:53:33.984 Client #5. Starting MenuTheOldNet BBS / main menu
 2019-10-22 00:53:33.986 Client #5. Menu. Waiting for key pressed.
 2019-10-22 00:53:41.974 Client #5. Menu. Pressed: 'd' (code=100)
 2019-10-22 00:53:47.668 Client #5. CSDb waiting for input
 2019-10-22 00:54:01.847 Client #5. CSDb waiting for input
 2019-10-22 00:54:12.064 Client #5. Can't download https://csdb.dk/release/?id=117137
 2019-10-22 00:54:22.783 Client #5. CSDb waiting for input
-2019-10-22 00:57:19.735 Client #5. Starting MenuRetroAcademy BBS / main menu
+2019-10-22 00:57:19.735 Client #5. Starting MenuTheOldNet BBS / main menu
 2019-10-22 00:57:19.737 Client #5. Menu. Waiting for key pressed.
 2019-10-22 00:57:22.969 Client #5. Menu. Pressed: 'm' (code=109)
 Flushing input buffer: '\n', len = 1
-2019-10-22 00:58:09.391 Client #5. Starting MenuRetroAcademy BBS / main menu
+2019-10-22 00:58:09.391 Client #5. Starting MenuTheOldNet BBS / main menu
 2019-10-22 00:58:09.392 Client #5. Menu. Waiting for key pressed.
 2019-10-22 00:58:10.774 Client #5. Menu. Pressed: 'm' (code=109)
-2019-10-22 00:58:20.988 Client #5. Starting MenuRetroAcademy BBS / main menu
+2019-10-22 00:58:20.988 Client #5. Starting MenuTheOldNet BBS / main menu
 2019-10-22 00:58:20.989 Client #5. Menu. Waiting for key pressed.
 2019-10-22 00:58:22.627 Client #5. Menu. Pressed: '.' (code=46)
 2019-10-22 00:58:22.628 Client #5. STOP. Connection CLOSED.
 2019-10-22 00:58:23.752 Client #6. New connection at Socket[addr=/76.67.125.109,port=54053,localport=6400]
 2019-10-22 00:58:23.953 Client #6. Error retrieving GeoIP data: java.io.FileNotFoundException
-2019-10-22 00:58:23.953 Client #6. Starting MenuRetroAcademy BBS / main menu
+2019-10-22 00:58:23.953 Client #6. Starting MenuTheOldNet BBS / main menu
 2019-10-22 00:58:23.954 Client #6. Menu. Waiting for key pressed.
 2019-10-22 00:58:25.706 Client #6. Menu. Pressed: 'm' (code=109)
 Flushing input buffer: '\n', len = 1
 Flushing input buffer: '\n', len = 1
 Flushing input buffer: '\n', len = 1
-2019-10-22 00:59:40.517 Client #6. Starting MenuRetroAcademy BBS / main menu
+2019-10-22 00:59:40.517 Client #6. Starting MenuTheOldNet BBS / main menu
 2019-10-22 00:59:40.519 Client #6. Menu. Waiting for key pressed.
 2019-10-22 00:59:40.931 Client #6. Menu. Pressed: '.' (code=46)
 2019-10-22 00:59:40.932 Client #6. STOP. Connection CLOSED.
 2019-10-22 00:59:41.799 Client #7. New connection at Socket[addr=/76.67.125.109,port=54081,localport=6400]
 2019-10-22 00:59:42.000 Client #7. Error retrieving GeoIP data: java.io.FileNotFoundException
-2019-10-22 00:59:42.001 Client #7. Starting MenuRetroAcademy BBS / main menu
+2019-10-22 00:59:42.001 Client #7. Starting MenuTheOldNet BBS / main menu
 2019-10-22 00:59:42.007 Client #7. Menu. Waiting for key pressed.
 2019-10-22 00:59:42.997 Client #7. Menu. Pressed: 'm' (code=109)
-2019-10-22 00:59:43.252 Client #7. Starting MenuRetroAcademy BBS / main menu
+2019-10-22 00:59:43.252 Client #7. Starting MenuTheOldNet BBS / main menu
 2019-10-22 00:59:43.253 Client #7. Menu. Waiting for key pressed.
 2019-10-22 00:59:43.898 Client #7. Menu. Pressed: 'm' (code=109)
-2019-10-22 00:59:59.240 Client #7. Starting MenuRetroAcademy BBS / main menu
+2019-10-22 00:59:59.240 Client #7. Starting MenuTheOldNet BBS / main menu
 2019-10-22 00:59:59.241 Client #7. Menu. Waiting for key pressed.
 2019-10-22 01:01:18.755 Client #7. Menu. Pressed: '1' (code=49)
 2019-10-22 01:01:18.755 Client #7. Wordpress entering (https://www.wired.com)
 2019-10-22 01:01:18.842 Client #7. Wordpress waiting for input
 2019-10-22 01:01:21.386 Client #7. Wordpress waiting for input
-2019-10-22 01:01:22.329 Client #7. Starting MenuRetroAcademy BBS / main menu
+2019-10-22 01:01:22.329 Client #7. Starting MenuTheOldNet BBS / main menu
 2019-10-22 01:01:22.330 Client #7. Menu. Waiting for key pressed.
 2019-10-22 01:01:24.745 Client #7. Menu. Pressed: '2' (code=50)
 2019-10-22 01:01:24.745 Client #7. Wordpress entering (http://homeawesomation.com)
 2019-10-22 01:01:25.306 Client #7. Wordpress waiting for input
 Flushing input buffer: '\r\n', len = 2
-2019-10-22 01:01:30.592 Client #7. Starting MenuRetroAcademy BBS / main menu
+2019-10-22 01:01:30.592 Client #7. Starting MenuTheOldNet BBS / main menu
 2019-10-22 01:01:31.239 Client #7. Menu. Waiting for key pressed.
 2019-10-22 01:01:33.085 Client #7. Menu. Pressed: ',' (code=44)
 2019-10-22 01:01:33.085 Client #7. Menu. Waiting for key pressed.
 2019-10-22 01:01:34.088 Client #7. Menu. Pressed: 'm' (code=109)
-2019-10-22 01:01:37.022 Client #7. Starting MenuRetroAcademy BBS / main menu
+2019-10-22 01:01:37.022 Client #7. Starting MenuTheOldNet BBS / main menu
 2019-10-22 01:01:37.024 Client #7. Menu. Waiting for key pressed.
 2019-10-22 01:01:37.574 Client #7. Menu. Pressed: ',' (code=44)
 2019-10-22 01:01:37.574 Client #7. Menu. Waiting for key pressed.
 2019-10-22 01:01:38.053 Client #7. Menu. Pressed: ',' (code=44)
 2019-10-22 01:01:38.053 Client #7. Menu. Waiting for key pressed.
 2019-10-22 01:01:38.238 Client #7. Menu. Pressed: 'm' (code=109)
-2019-10-22 01:01:39.543 Client #7. Starting MenuRetroAcademy BBS / main menu
+2019-10-22 01:01:39.543 Client #7. Starting MenuTheOldNet BBS / main menu
 2019-10-22 01:01:39.545 Client #7. Menu. Waiting for key pressed.
 2019-10-22 01:01:39.925 Client #7. Menu. Pressed: 'n' (code=110)
 2019-10-22 01:01:39.925 Client #7. Menu. Waiting for key pressed.
 2019-10-22 01:01:40.407 Client #7. Menu. Pressed: 'm' (code=109)
-2019-10-22 01:01:45.985 Client #7. Starting MenuRetroAcademy BBS / main menu
+2019-10-22 01:01:45.985 Client #7. Starting MenuTheOldNet BBS / main menu
 2019-10-22 01:01:45.986 Client #7. Menu. Waiting for key pressed.
 2019-10-22 01:04:13.544 Client #7. Menu. Pressed: 'm' (code=109)
-2019-10-22 01:04:29.278 Client #7. Starting MenuRetroAcademy BBS / main menu
+2019-10-22 01:04:29.278 Client #7. Starting MenuTheOldNet BBS / main menu
 2019-10-22 01:04:29.279 Client #7. Menu. Waiting for key pressed.
 2019-10-22 01:05:27.138 Client #7. Menu. Pressed: 'p' (code=112)
 2019-10-22 01:05:28.955 Client #7. PETSCII (0) FILENAME=petscii-art-gallery/John Canady/06monster
@@ -573,12 +573,12 @@ Flushing input buffer: 'þ_', len = 2
 2019-10-22 01:15:05.561 Client #7. PETSCII (130) FILENAME=petscii-art-gallery/John Canady/star-trek-movie2
 2019-10-22 01:15:06.289 Client #7. PETSCII (131) FILENAME=petscii-art-gallery/John Canady/str-wrs-trench
 2019-10-22 01:15:06.880 Client #7. PETSCII (132) FILENAME=petscii-art-gallery/John Canady/sunset1
-2019-10-22 01:15:08.975 Client #7. Starting MenuRetroAcademy BBS / main menu
+2019-10-22 01:15:08.975 Client #7. Starting MenuTheOldNet BBS / main menu
 2019-10-22 01:15:08.977 Client #7. Menu. Waiting for key pressed.
 2019-10-22 01:15:25.820 Client #7. Menu. Pressed: '2' (code=50)
 2019-10-22 01:15:25.821 Client #7. Wordpress entering (http://homeawesomation.com)
 2019-10-22 01:15:26.578 Client #7. Wordpress waiting for input
-2019-10-22 01:15:28.642 Client #7. Starting MenuRetroAcademy BBS / main menu
+2019-10-22 01:15:28.642 Client #7. Starting MenuTheOldNet BBS / main menu
 2019-10-22 01:15:28.645 Client #7. Menu. Waiting for key pressed.
 2019-10-22 01:15:30.452 Client #7. Menu. Pressed: 'd' (code=100)
 2019-10-22 01:15:36.891 Client #7. CSDb waiting for input
@@ -587,19 +587,19 @@ Flushing input buffer: '\n', len = 1
 2019-10-22 01:15:49.981 Client #7. CSDb waiting for input
 Flushing input buffer: '\n', len = 1
 2019-10-22 01:15:53.341 Client #7. CSDb waiting for input
-2019-10-22 01:15:56.620 Client #7. Starting MenuRetroAcademy BBS / main menu
+2019-10-22 01:15:56.620 Client #7. Starting MenuTheOldNet BBS / main menu
 2019-10-22 01:15:56.622 Client #7. Menu. Waiting for key pressed.
 2019-10-22 01:16:06.309 Client #7. Menu. Pressed: 'p' (code=112)
 2019-10-22 01:16:08.074 Client #7. PETSCII (0) FILENAME=petscii-art-gallery/Markku Reunanen/calaveritas.seq
 2019-10-22 01:16:08.949 Client #7. PETSCII (1) FILENAME=petscii-art-gallery/Markku Reunanen/luikero.seq
 2019-10-22 01:16:09.411 Client #7. PETSCII (2) FILENAME=petscii-art-gallery/Markku Reunanen/pac-men.seq
-2019-10-22 01:16:13.828 Client #7. Starting MenuRetroAcademy BBS / main menu
+2019-10-22 01:16:13.828 Client #7. Starting MenuTheOldNet BBS / main menu
 2019-10-22 01:16:13.829 Client #7. Menu. Waiting for key pressed.
 2019-10-22 01:25:15.798 Client #7. Menu. Pressed: 'm' (code=109)
 Flushing input buffer: '\n', len = 1
 Flushing input buffer: '\n', len = 1
 Flushing input buffer: '\n', len = 1
-2019-10-22 01:25:40.985 Client #7. Starting MenuRetroAcademy BBS / main menu
+2019-10-22 01:25:40.985 Client #7. Starting MenuTheOldNet BBS / main menu
 2019-10-22 01:25:40.986 Client #7. Menu. Waiting for key pressed.
 2019-10-22 01:25:42.040 Client #7. Menu. Pressed: ',' (code=44)
 2019-10-22 01:25:42.041 Client #7. Menu. Waiting for key pressed.
@@ -607,22 +607,22 @@ Flushing input buffer: '\n', len = 1
 2019-10-22 01:25:42.756 Client #7. STOP. Connection CLOSED.
 2019-10-22 01:25:43.687 Client #8. New connection at Socket[addr=/76.67.125.109,port=54677,localport=6400]
 2019-10-22 01:25:43.890 Client #8. Error retrieving GeoIP data: java.io.FileNotFoundException
-2019-10-22 01:25:43.890 Client #8. Starting MenuRetroAcademy BBS / main menu
+2019-10-22 01:25:43.890 Client #8. Starting MenuTheOldNet BBS / main menu
 2019-10-22 01:25:43.891 Client #8. Menu. Waiting for key pressed.
 2019-10-22 01:25:45.159 Client #8. Menu. Pressed: 'm' (code=109)
-2019-10-22 01:26:10.404 Client #8. Starting MenuRetroAcademy BBS / main menu
+2019-10-22 01:26:10.404 Client #8. Starting MenuTheOldNet BBS / main menu
 2019-10-22 01:26:10.405 Client #8. Menu. Waiting for key pressed.
 2019-10-22 01:26:10.847 Client #8. Menu. Pressed: '.' (code=46)
 2019-10-22 01:26:10.850 Client #8. STOP. Connection CLOSED.
 2019-10-22 01:26:11.865 Client #9. New connection at Socket[addr=/76.67.125.109,port=54690,localport=6400]
 2019-10-22 01:26:12.068 Client #9. Error retrieving GeoIP data: java.io.FileNotFoundException
-2019-10-22 01:26:12.068 Client #9. Starting MenuRetroAcademy BBS / main menu
+2019-10-22 01:26:12.068 Client #9. Starting MenuTheOldNet BBS / main menu
 2019-10-22 01:26:12.070 Client #9. Menu. Waiting for key pressed.
 2019-10-22 01:38:51.188 Client #9. BROKEN PIPE java.net.SocketException: Connection reset
 2019-10-22 01:38:51.193 Client #9. STOP. Connection CLOSED.
 2019-10-22 11:16:53.598 Client #10. New connection at Socket[addr=/208.79.61.232,port=24805,localport=6400]
 2019-10-22 11:16:53.814 Client #10. Error retrieving GeoIP data: java.io.FileNotFoundException
-2019-10-22 11:16:53.815 Client #10. Starting MenuRetroAcademy BBS / main menu
+2019-10-22 11:16:53.815 Client #10. Starting MenuTheOldNet BBS / main menu
 2019-10-22 11:16:53.816 Client #10. Menu. Waiting for key pressed.
 2019-10-22 11:16:54.912 Client #10. Menu. Pressed: 'chr(10)' (code=10)
 2019-10-22 11:16:54.912 Client #10. Menu. Waiting for key pressed.
@@ -638,70 +638,70 @@ Flushing input buffer: '\n', len = 1
 2019-10-22 11:16:59.945 Client #10. STOP. Connection CLOSED.
 2019-10-22 12:26:34.608 Client #11. New connection at Socket[addr=/208.79.61.232,port=57564,localport=6400]
 2019-10-22 12:26:34.829 Client #11. Error retrieving GeoIP data: java.io.FileNotFoundException
-2019-10-22 12:26:34.830 Client #11. Starting MenuRetroAcademy BBS / main menu
+2019-10-22 12:26:34.830 Client #11. Starting MenuTheOldNet BBS / main menu
 2019-10-22 12:26:34.832 Client #11. Menu. Waiting for key pressed.
 2019-10-22 12:36:34.632 Client #11. Menu. Pressed: '.' (code=46)
 2019-10-22 12:36:34.643 Client #11. STOP. Connection CLOSED.
 2019-10-22 12:37:52.651 Client #12. New connection at Socket[addr=/208.79.61.232,port=57879,localport=6400]
 2019-10-22 12:37:52.856 Client #12. Error retrieving GeoIP data: java.io.FileNotFoundException
-2019-10-22 12:37:52.857 Client #12. Starting MenuRetroAcademy BBS / main menu
+2019-10-22 12:37:52.857 Client #12. Starting MenuTheOldNet BBS / main menu
 2019-10-22 12:37:52.858 Client #12. Menu. Waiting for key pressed.
 2019-10-22 12:38:03.824 Client #12. Menu. Pressed: '.' (code=46)
 2019-10-22 12:38:03.828 Client #12. STOP. Connection CLOSED.
 2019-10-22 12:38:14.646 Client #13. New connection at Socket[addr=/151.82.170.243,port=55792,localport=6400]
 2019-10-22 12:38:14.849 Client #13. Error retrieving GeoIP data: java.io.FileNotFoundException
-2019-10-22 12:38:14.849 Client #13. Starting MenuRetroAcademy BBS / main menu
+2019-10-22 12:38:14.849 Client #13. Starting MenuTheOldNet BBS / main menu
 2019-10-22 12:38:14.850 Client #13. Menu. Waiting for key pressed.
 2019-10-22 12:38:29.068 Client #13. Menu. Pressed: 'a' (code=97)
-2019-10-22 12:38:35.826 Client #13. Starting MenuRetroAcademy BBS / main menu
+2019-10-22 12:38:35.826 Client #13. Starting MenuTheOldNet BBS / main menu
 2019-10-22 12:38:35.827 Client #13. Menu. Waiting for key pressed.
 2019-10-22 12:38:42.385 Client #13. Menu. Pressed: '1' (code=49)
 2019-10-22 12:38:42.385 Client #13. Wordpress entering (https://www.wired.com)
 2019-10-22 12:38:43.280 Client #13. Wordpress waiting for input
-2019-10-22 12:38:50.307 Client #13. Starting MenuRetroAcademy BBS / main menu
+2019-10-22 12:38:50.307 Client #13. Starting MenuTheOldNet BBS / main menu
 2019-10-22 12:38:50.308 Client #13. Menu. Waiting for key pressed.
 2019-10-22 12:38:54.903 Client #14. New connection at Socket[addr=/208.79.61.232,port=57898,localport=6400]
 2019-10-22 12:38:55.110 Client #14. Error retrieving GeoIP data: java.io.FileNotFoundException
-2019-10-22 12:38:55.111 Client #14. Starting MenuRetroAcademy BBS / main menu
+2019-10-22 12:38:55.111 Client #14. Starting MenuTheOldNet BBS / main menu
 2019-10-22 12:38:55.112 Client #14. Menu. Waiting for key pressed.
 2019-10-22 12:38:56.455 Client #13. Menu. Pressed: '3' (code=51)
 2019-10-22 12:38:56.456 Client #13. Wordpress entering (http://daggasoft.wordpress.com)
 Not Found
-2019-10-22 12:38:56.715 Client #13. NullPointerException during launching of Daggasoft within MenuRetroAcademy. Launch interrupted. Stack trace:
+2019-10-22 12:38:56.715 Client #13. NullPointerException during launching of Daggasoft within MenuTheOldNet. Launch interrupted. Stack trace:
 java.lang.NullPointerException
 	at eu.sblendorio.bbs.tenants.WordpressProxy.getPosts(WordpressProxy.java:166)
 	at eu.sblendorio.bbs.tenants.WordpressProxy.listPosts(WordpressProxy.java:185)
 	at eu.sblendorio.bbs.tenants.WordpressProxy.doLoop(WordpressProxy.java:70)
 	at eu.sblendorio.bbs.core.PetsciiThread.launch(PetsciiThread.java:146)
-	at eu.sblendorio.bbs.tenants.MenuRetroAcademy.doLoop(MenuRetroAcademy.java:129)
+	at eu.sblendorio.bbs.tenants.MenuTheOldNet.doLoop(MenuTheOldNet.java:129)
 	at eu.sblendorio.bbs.core.PetsciiThread.run(PetsciiThread.java:120)
-2019-10-22 12:38:56.716 Client #13. Starting MenuRetroAcademy BBS / main menu
+2019-10-22 12:38:56.716 Client #13. Starting MenuTheOldNet BBS / main menu
 2019-10-22 12:38:56.717 Client #13. Menu. Waiting for key pressed.
 2019-10-22 12:39:00.009 Client #13. Menu. Pressed: '3' (code=51)
 2019-10-22 12:39:00.009 Client #13. Wordpress entering (http://daggasoft.wordpress.com)
 Not Found
-2019-10-22 12:39:00.204 Client #13. NullPointerException during launching of Daggasoft within MenuRetroAcademy. Launch interrupted. Stack trace:
+2019-10-22 12:39:00.204 Client #13. NullPointerException during launching of Daggasoft within MenuTheOldNet. Launch interrupted. Stack trace:
 java.lang.NullPointerException
 	at eu.sblendorio.bbs.tenants.WordpressProxy.getPosts(WordpressProxy.java:166)
 	at eu.sblendorio.bbs.tenants.WordpressProxy.listPosts(WordpressProxy.java:185)
 	at eu.sblendorio.bbs.tenants.WordpressProxy.doLoop(WordpressProxy.java:70)
 	at eu.sblendorio.bbs.core.PetsciiThread.launch(PetsciiThread.java:146)
-	at eu.sblendorio.bbs.tenants.MenuRetroAcademy.doLoop(MenuRetroAcademy.java:129)
+	at eu.sblendorio.bbs.tenants.MenuTheOldNet.doLoop(MenuTheOldNet.java:129)
 	at eu.sblendorio.bbs.core.PetsciiThread.run(PetsciiThread.java:120)
-2019-10-22 12:39:00.204 Client #13. Starting MenuRetroAcademy BBS / main menu
+2019-10-22 12:39:00.204 Client #13. Starting MenuTheOldNet BBS / main menu
 2019-10-22 12:39:00.205 Client #13. Menu. Waiting for key pressed.
 2019-10-22 12:39:04.224 Client #13. Menu. Pressed: '3' (code=51)
 2019-10-22 12:39:04.224 Client #13. Wordpress entering (http://daggasoft.wordpress.com)
 Not Found
-2019-10-22 12:39:04.428 Client #13. NullPointerException during launching of Daggasoft within MenuRetroAcademy. Launch interrupted. Stack trace:
+2019-10-22 12:39:04.428 Client #13. NullPointerException during launching of Daggasoft within MenuTheOldNet. Launch interrupted. Stack trace:
 java.lang.NullPointerException
 	at eu.sblendorio.bbs.tenants.WordpressProxy.getPosts(WordpressProxy.java:166)
 	at eu.sblendorio.bbs.tenants.WordpressProxy.listPosts(WordpressProxy.java:185)
 	at eu.sblendorio.bbs.tenants.WordpressProxy.doLoop(WordpressProxy.java:70)
 	at eu.sblendorio.bbs.core.PetsciiThread.launch(PetsciiThread.java:146)
-	at eu.sblendorio.bbs.tenants.MenuRetroAcademy.doLoop(MenuRetroAcademy.java:129)
+	at eu.sblendorio.bbs.tenants.MenuTheOldNet.doLoop(MenuTheOldNet.java:129)
 	at eu.sblendorio.bbs.core.PetsciiThread.run(PetsciiThread.java:120)
-2019-10-22 12:39:04.428 Client #13. Starting MenuRetroAcademy BBS / main menu
+2019-10-22 12:39:04.428 Client #13. Starting MenuTheOldNet BBS / main menu
 2019-10-22 12:39:04.429 Client #13. Menu. Waiting for key pressed.
 2019-10-22 12:39:07.904 Client #13. Menu. Pressed: '4' (code=52)
 2019-10-22 12:39:07.905 Client #13. Missing file /root/credentials.json on the server's filesystem
@@ -709,14 +709,14 @@ java.lang.NullPointerException
 2019-10-22 12:39:07.907 Client #13. STOP. Connection CLOSED.
 2019-10-22 12:39:16.477 Client #15. New connection at Socket[addr=/151.82.170.243,port=55797,localport=6400]
 2019-10-22 12:39:16.680 Client #15. Error retrieving GeoIP data: java.io.FileNotFoundException
-2019-10-22 12:39:16.680 Client #15. Starting MenuRetroAcademy BBS / main menu
+2019-10-22 12:39:16.680 Client #15. Starting MenuTheOldNet BBS / main menu
 2019-10-22 12:39:16.681 Client #15. Menu. Waiting for key pressed.
 2019-10-22 12:39:23.177 Client #15. Menu. Pressed: 'p' (code=112)
 2019-10-22 12:39:32.625 Client #15. EOF eu.sblendorio.bbs.core.CbmIOException: CbmInputOutput::readKey()
 2019-10-22 12:39:32.627 Client #15. STOP. Connection CLOSED.
 2019-10-22 12:40:58.374 Client #14. Menu. Pressed: '.' (code=46)
 2019-10-22 12:40:58.376 Client #14. STOP. Connection CLOSED.
-2019-10-22 13:13:47.897 The BBS MenuRetroAcademy is running: port = 6400, timeout = 3600000 millis
+2019-10-22 13:13:47.897 The BBS MenuTheOldNet is running: port = 6400, timeout = 3600000 millis
 Exception in thread "main" java.net.BindException: Address already in use (Bind failed)
 	at java.net.PlainSocketImpl.socketBind(Native Method)
 	at java.net.AbstractPlainSocketImpl.bind(AbstractPlainSocketImpl.java:376)
@@ -726,7 +726,7 @@ Exception in thread "main" java.net.BindException: Address already in use (Bind 
 	at eu.sblendorio.bbs.core.BBServer.main(BBServer.java:25)
 2019-10-22 13:18:29.405 Client #1. New connection at Socket[addr=/208.79.61.232,port=58789,localport=6400]
 2019-10-22 13:18:29.611 Client #1. Error retrieving GeoIP data: java.io.FileNotFoundException
-2019-10-22 13:18:29.611 Client #1. Starting MenuRetroAcademy BBS / main menu
+2019-10-22 13:18:29.611 Client #1. Starting MenuTheOldNet BBS / main menu
 2019-10-22 13:18:29.616 Client #1. Menu. Waiting for key pressed.
 2019-10-22 13:22:41.893 Client #1. Menu. Pressed: '4' (code=52)
 2019-10-22 13:22:41.931 Client #1. Missing file /root/credentials.json on the server's filesystem
@@ -734,36 +734,36 @@ Exception in thread "main" java.net.BindException: Address already in use (Bind 
 2019-10-22 13:22:41.934 Client #1. STOP. Connection CLOSED.
 2019-10-22 13:22:44.632 Client #2. New connection at Socket[addr=/208.79.61.232,port=58947,localport=6400]
 2019-10-22 13:22:44.833 Client #2. Error retrieving GeoIP data: java.io.FileNotFoundException
-2019-10-22 13:22:44.834 Client #2. Starting MenuRetroAcademy BBS / main menu
+2019-10-22 13:22:44.834 Client #2. Starting MenuTheOldNet BBS / main menu
 2019-10-22 13:22:44.837 Client #2. Menu. Waiting for key pressed.
 2019-10-22 13:22:45.850 Client #2. Menu. Pressed: 'chr(13)' (code=13)
 2019-10-22 13:22:45.850 Client #2. Menu. Waiting for key pressed.
 Flushing input buffer: '\n', len = 1
 2019-10-22 13:22:46.654 Client #2. Menu. Pressed: '.' (code=46)
 2019-10-22 13:22:46.655 Client #2. STOP. Connection CLOSED.
-2019-10-22 13:48:31.438 The BBS MenuRetroAcademy is running: port = 6400, timeout = 3600000 millis
+2019-10-22 13:48:31.438 The BBS MenuTheOldNet is running: port = 6400, timeout = 3600000 millis
 2019-10-22 13:51:19.968 Client #1. New connection at Socket[addr=/208.79.61.232,port=61117,localport=6400]
 2019-10-22 13:51:20.186 Client #1. Error retrieving GeoIP data: java.io.FileNotFoundException
-2019-10-22 13:51:20.186 Client #1. Starting MenuRetroAcademy BBS / main menu
+2019-10-22 13:51:20.186 Client #1. Starting MenuTheOldNet BBS / main menu
 2019-10-22 13:51:20.195 Client #1. Menu. Waiting for key pressed.
 2019-10-22 13:51:23.570 Client #1. Menu. Pressed: 'o' (code=111)
-2019-10-22 13:51:26.211 Client #1. Starting MenuRetroAcademy BBS / main menu
+2019-10-22 13:51:26.211 Client #1. Starting MenuTheOldNet BBS / main menu
 2019-10-22 13:51:26.217 Client #1. Menu. Waiting for key pressed.
 2019-10-22 13:51:31.335 Client #1. Menu. Pressed: 'k' (code=107)
-2019-10-22 13:51:33.041 Client #1. Starting MenuRetroAcademy BBS / main menu
+2019-10-22 13:51:33.041 Client #1. Starting MenuTheOldNet BBS / main menu
 2019-10-22 13:51:33.045 Client #1. Menu. Waiting for key pressed.
 2019-10-22 13:51:35.128 Client #1. Menu. Pressed: 'd' (code=100)
-2019-10-22 13:51:36.250 Client #1. Starting MenuRetroAcademy BBS / main menu
+2019-10-22 13:51:36.250 Client #1. Starting MenuTheOldNet BBS / main menu
 2019-10-22 13:51:36.254 Client #1. Menu. Waiting for key pressed.
 2019-10-22 13:51:39.759 Client #1. Menu. Pressed: '.' (code=46)
 2019-10-22 13:51:39.761 Client #1. STOP. Connection CLOSED.
-2019-10-22 15:44:35.956 The BBS MenuRetroAcademy is running: port = 6400, timeout = 3600000 millis
+2019-10-22 15:44:35.956 The BBS MenuTheOldNet is running: port = 6400, timeout = 3600000 millis
 2019-10-22 16:04:23.439 Client #1. New connection at Socket[addr=/208.79.61.232,port=49512,localport=6400]
 2019-10-22 16:04:23.658 Client #1. Error retrieving GeoIP data: java.io.FileNotFoundException
-2019-10-22 16:04:23.658 Client #1. Starting MenuRetroAcademy BBS / main menu
+2019-10-22 16:04:23.658 Client #1. Starting MenuTheOldNet BBS / main menu
 2019-10-22 16:04:23.665 Client #1. Menu. Waiting for key pressed.
 2019-10-22 16:04:25.468 Client #1. Menu. Pressed: 'm' (code=109)
-2019-10-22 16:04:28.354 Client #1. Starting MenuRetroAcademy BBS / main menu
+2019-10-22 16:04:28.354 Client #1. Starting MenuTheOldNet BBS / main menu
 2019-10-22 16:04:28.358 Client #1. Menu. Waiting for key pressed.
 2019-10-22 16:04:30.684 Client #1. Menu. Pressed: '.' (code=46)
 2019-10-22 16:04:30.686 Client #1. STOP. Connection CLOSED.

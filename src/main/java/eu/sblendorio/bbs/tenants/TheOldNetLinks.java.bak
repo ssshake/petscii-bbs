@@ -24,12 +24,35 @@ import static org.apache.commons.collections4.CollectionUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.*;
 import static org.apache.commons.lang3.math.NumberUtils.toInt;
 
-public class TheOldNetSearch extends PetsciiThread {
+public class TheOldNetLinks extends PetsciiThread {
 
     public static final String URL_TEMPLATE = "http://theoldnet.com/get?url=";
 
     protected int currentPage = 1;
     protected int pageSize = 10;
+
+    static class Link {
+        public final String name;
+        public final String url;
+        public final String fileType;
+
+        public Link(String url) throws Exception {
+            this.url = defaultString(url);
+            this.name = URLDecoder.decode(defaultString(this.url).replaceAll("(?is)^.*/([^/]*?)$", "$1"), "UTF-8");
+            this.fileType = defaultString(this.name).replaceAll("(?is)^.*\\.(.*?)$", "$1").toLowerCase();
+        }
+    }
+
+    static class Image {
+        public final long id;
+        public final String src;
+        public final String alttext;
+        public Image() throws Exception {
+            this.id = 0;
+            this.src = "";
+            this.alttext = ""; 
+        }
+    }
 
     static class Entry {
         public final String name;
@@ -38,12 +61,13 @@ public class TheOldNetSearch extends PetsciiThread {
 
         public Entry(String url) throws Exception {
             this.url = defaultString(url);
-            this.name = url;
-            // this.name = URLDecoder.decode(defaultString(this.url).replaceAll("(?is)^.*/([^/]*?)$", "$1"), "UTF-8");
+            this.name = URLDecoder.decode(defaultString(this.url).replaceAll("(?is)^.*/([^/]*?)$", "$1"), "UTF-8");
             this.fileType = defaultString(this.name).replaceAll("(?is)^.*\\.(.*?)$", "$1").toLowerCase();
         }
     }
 
+    protected Map<Integer, Image> images = emptyMap();
+    protected Map<Integer, Link> links = emptyMap();
     protected Map<Integer, Entry> posts = emptyMap();
 
 
@@ -68,21 +92,30 @@ public class TheOldNetSearch extends PetsciiThread {
             println();
             println();
             waitOn();
-
-
-            String url = URL_TEMPLATE + URLEncoder.encode(search, "UTF-8");
-            String content = getSite(url);
-            print(content);
-            String asdf = readLine(); //hack to make it wait for user input
             
-            List<Entry> entries = getUrls(url);
+            // String entries = getSite(URL_TEMPLATE + URLEncoder.encode(search, "UTF-8"));
+            // print(entries);
+            // search = readLine(); //hack to make it wait for user input
+            // return;
+
+
+            List<Link> links = getLinks(URL_TEMPLATE + URLEncoder.encode(search, "UTF-8"));
             waitOff();
-            if (isEmpty(entries)) {
+            if (isEmpty(links)) {
                 write(RED); println("Zero result page - press any key");
                 flush(); resetInput(); readKey();
                 continue;
             }
-            displaySearchResults(entries);
+            displaySearchResults(links);
+
+            // List<Entry> entries = getUrls(URL_TEMPLATE + URLEncoder.encode(search, "UTF-8"));
+            // waitOff();
+            // if (isEmpty(entries)) {
+            //     write(RED); println("Zero result page - press any key");
+            //     flush(); resetInput(); readKey();
+            //     continue;
+            // }
+            // displaySearchResults(entries);
         } while (true);
     }
     private void logo() throws Exception {
@@ -92,8 +125,8 @@ public class TheOldNetSearch extends PetsciiThread {
         write(GREY3); gotoXY(0,5);
     }
 
-    public void displaySearchResults(List<Entry> entries) throws Exception {
-        listPosts(entries);
+    public void displaySearchResults(List<Link> links) throws Exception {
+        listLinks(links);
         while (true) {
             log("ArnoldC64 waiting for input");
             write(WHITE);print("#"); write(GREY3);
@@ -115,33 +148,33 @@ public class TheOldNetSearch extends PetsciiThread {
                 break;
             } else if ("help".equals(input) || "h".equals(input)) {
                 help();
-                listPosts(entries);
+                listLinks(links);
             } else if ("+".equals(input)) {
                 ++currentPage;
                 posts = null;
                 try {
-                    listPosts(entries);
+                    listLinks(links);
                 } catch (NullPointerException e) {
                     --currentPage;
                     posts = null;
-                    listPosts(entries);
+                    listLinks(links);
                 }
             } else if ("-".equals(input) && currentPage > 1) {
                 --currentPage;
                 posts = null;
-                listPosts(entries);
+                listLinks(links);
             } else if ("--".equals(input) && currentPage > 1) {
                 currentPage = 1;
                 posts = null;
-                listPosts(entries);
+                listLinks(links);
             } else if ("r".equals(input) || "reload".equals(input) || "refresh".equals(input)) {
                 posts = null;
-                listPosts(entries);
+                listLinks(links);
             } else if (posts.containsKey(toInt(input))) {
                 displayPost(toInt(input));
-                listPosts(entries);
+                listLinks(links);
             } else if ("".equals(input)) {
-                listPosts(entries);
+                listLinks(links);
             }
         }
         flush();
@@ -204,6 +237,21 @@ public class TheOldNetSearch extends PetsciiThread {
         }
     }
 
+    private void listLinks(List<Link> things) throws Exception {
+        logo();
+        links = getSomething(things, currentPage, pageSize);
+        for (Map.Link<Integer, Link> thing: links.entrySet()) {
+            int i = thing.getKey();
+            Link link = thing.getValue();
+            write(WHITE); print(i + "."); write(GREY3);
+            final int iLen = 37-String.valueOf(i).length();
+            String title = link.name;
+            String line = WordUtils.wrap(filterPrintable(HtmlUtils.htmlClean(title)), iLen, "\r", true);
+            println(line.replaceAll("\r", "\r " + repeat(" ", 37-iLen)));
+        }
+        newline();
+    }
+
     private void listPosts(List<Entry> entries) throws Exception {
         logo();
         posts = getPosts(entries, currentPage, pageSize);
@@ -217,6 +265,15 @@ public class TheOldNetSearch extends PetsciiThread {
             println(line.replaceAll("\r", "\r " + repeat(" ", 37-iLen)));
         }
         newline();
+    }
+
+    private Map<Integer, Link> getSomething(List<Link> links, int page, int perPage) throws Exception {
+        if (page < 1 || perPage < 1) return null;
+
+        Map<Integer, Link> result = new LinkedHashMap<>();
+        for (int i=(page-1)*perPage; i<page*perPage; ++i)
+            if (i<links.size()) result.put(i+1, links.get(i));
+        return result;
     }
 
     private Map<Integer, Entry> getPosts(List<Entry> entries, int page, int perPage) throws Exception {
@@ -253,20 +310,31 @@ public class TheOldNetSearch extends PetsciiThread {
         return response;
     }
 
+    public static List<Link> getLinks(String url) throws Exception {
+        String output = httpGet(url);
+        Pattern p = Pattern.compile("(?is)href=(\".*\")");
+        Matcher m = p.matcher(output);
+        List<Link> urls = new ArrayList<>();
+        while (m.find()) {
+            urls.add(new Link(m.group(1)));
+        }
+        return urls;
+    }    
+
     public static List<Entry> getUrls(String url) throws Exception {
         String output = httpGet(url);
-        // Pattern p = Pattern.compile("(?is)href=(\".*(ftp://[^\"]+\\.(p00|prg|d64|zip|t64|d71|d81|d82|d64\\.gz|t64\\.gz|d81\\.gz|d82\\.gz|d71\\.gz))\"");
-        Pattern p = Pattern.compile("(?is)href=(\".*?\")");
+        Pattern p = Pattern.compile("(?is)href=\"(ftp://[^\"]+\\.(p00|prg|d64|zip|t64|d71|d81|d82|d64\\.gz|t64\\.gz|d81\\.gz|d82\\.gz|d71\\.gz))\"");
         Matcher m = p.matcher(output);
         List<Entry> urls = new ArrayList<>();
+        
         while (m.find()) urls.add(new Entry(m.group(1)));
 
         String latestPageStr = output.replaceAll("(?is)^.*href=\".*?embedder=arnold&amp;page=([0-9]+)\">[0-9]+</a>\\s*<div class=\"footer\".*?$", "$1");
         int latestPage = NumberUtils.toInt(latestPageStr.replaceAll("\\s|\n|\r",""));
 
-        if (latestPage > 0) {
+        if (latestPage > 0) { //does this recursively get all the pages??
             for (int i=1; i<=latestPage; ++i) {
-                output = httpGet(url + "&page=" + i);
+                output = httpGet(url + "&page=" + i); ///I think so
                 m = p.matcher(output);
                 while (m.find()) urls.add(new Entry(m.group(1)));
             }
