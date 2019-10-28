@@ -79,14 +79,7 @@ public class TheOldNetSearch extends PetsciiThread {
 
 
             String url = URL_TEMPLATE + URLEncoder.encode(search, "UTF-8");
-
-
-            //String content = getSite(url);
-            //print(content);
-            
             displayPage(url);
-            print("-- End of Page --");
-            String asdf = readLine(); //hack to make it wait for user input
             List<Entry> entries = getUrls(url);
             waitOff();
             if (isEmpty(entries)) {
@@ -130,8 +123,8 @@ public class TheOldNetSearch extends PetsciiThread {
             print("]eload [");
             write(WHITE); print("."); write(GREY3);
             print("]");
-            write(WHITE); print("Q"); write(GREY3);
-            print("uit> ");
+            write(WHITE); print("B"); write(GREY3);
+            print("ack> ");
             resetInput();
             flush(); String inputRaw = readLine();
             String input = lowerCase(trim(inputRaw));
@@ -181,16 +174,33 @@ public class TheOldNetSearch extends PetsciiThread {
         logo();
         waitOn();
 
+        Document doc = null;
+        String title = url;
+
+        // try{     
+        //     doc = Jsoup.connect(url).get();
+        //     title = doc.title();
+        // } catch (Exception ex){
+        //     System.out.println("Couldn't connect with the website."); 
+        // }
+
         String response = httpGet(url);
 
         final String content = response
+                .replaceAll("<img.[^>]*>", " [IMAGE] ")
+                .replaceAll("<a.[^>]*>", " [LINK] ")
+                .replaceAll("&quot;", "\"")
+                .replaceAll("&apos;", "'")
+                .replaceAll("&#xA0;", " ")
                 .replaceAll("(?is)<style>.*</style>", EMPTY)
                 .replaceAll("(?is)<script .*</script>", EMPTY)
                 .replaceAll("(?is)^[\\s\\n\\r]+|^\\s*(</?(br|div|figure|iframe|img|p|h[0-9])[^>]*>\\s*)+", EMPTY)
                 .replaceAll("(?is)^(<[^>]+>(\\s|\n|\r)*)+", EMPTY);
-        final String head = "TEST TITLE PAGE";
-        List<String> rows = wordWrap(head);
 
+        
+        final String head = title;
+
+        List<String> rows = wordWrap(""); //head removed because dups
         List<String> article = wordWrap(content);
         
         rows.addAll(article);
@@ -202,7 +212,7 @@ public class TheOldNetSearch extends PetsciiThread {
             if (j>0 && j % screenRows == 0 && forward) {
                 println();
                 write(WHITE);
-                print("-PAGE " + page + "-  SPACE=NEXT  -=PREV  .=EXIT");
+                print("-PAGE " + page + "-  SPACE=NEXT  -=PREV  .=LINKS");
                 write(GREY3);
 
                 resetInput(); int ch = readKey();
@@ -228,6 +238,9 @@ public class TheOldNetSearch extends PetsciiThread {
             ++j;
         }
         println();
+        println("-- End of Page --");
+        // String asdf = readLine(); //hack to make it wait for user input
+        readKey();
     }
 
     protected List<String> wordWrap(String s) {
@@ -242,82 +255,99 @@ public class TheOldNetSearch extends PetsciiThread {
         return result;
     }    
 
-    //what gets called when you load a url by number
-    private void displayPost(int n) throws Exception {
-        int i = 3;
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-        cls();
-        logo();
-
-        waitOn();
-        final Entry p = posts.get(n);
-        final String url = p.url;
-        final String title = p.name;
-        final String type = p.fileType;
-        // byte[] content = DiskUtilities.getPrgContentFromUrl(url);
-
-        //////////////
-        String content = getSite(url);
-        print(content);
-        String asdf = readLine(); //hack to make it wait for user input
+    public static String getSite(String url) throws Exception {
+        String response = httpGet(url);
+        response = response.replaceAll("<img.[^>]*>", " [IMAGE] ");
+        response = response.replaceAll("<a.[^>]*>", " [LINK]==> ");
+        response = response.replaceAll("&quot;", "\"");
+        response = response.replaceAll("&apos;", "'");
+        response = response.replaceAll("&#xA0;", " ");
         
-        List<Entry> entries = getUrls(url);
-        waitOff();
-        if (isEmpty(entries)) {
-            write(RED); println("Zero result page - press any key");
-            flush(); resetInput(); readKey();
-            // continue;
-        }
-        displayLinksOnPage(entries); //causes nesting maybe a good thing, not sure 
-        return;
-        /////////////
-        // waitOff();
-
-        // write(GREY3);
-        // println("Title:");
-        // write(WHITE);
-        // println(title.replaceAll("(?is)\\.[a-z0-9]+(\\.gz)?$", EMPTY));
-        // println();
-        // if (content == null) {
-        //     log("Can't download " + url);
-        //     write(RED, REVON); println("      ");
-        //     write(RED, REVON); print(" WARN "); write(WHITE, REVOFF); println(" Can't handle this. Use browser.");
-        //     write(RED, REVON); println("      "); write(WHITE, REVOFF);
-        //     write(CYAN); println();
-        //     print("SORRY - press any key to go back ");
-        //     readKey();
-        //     resetInput();
-        // } else {
-        //     write(GREY3);
-        //     println("Size:");
-        //     write(WHITE);
-        //     println(content.length + " bytes");
-        //     println();
-        //     write(GREY3);
-        //     println("Press any key to prepare to download");
-        //     println("Or press \".\" to abort it");
-        //     resetInput();
-        //     int ch = readKey();
-        //     if (ch == '.') return;
-        //     println();
-        //     write(REVON, LIGHT_GREEN);
-        //     write(REVON); println("                              ");
-        //     write(REVON); println(" Please start XMODEM transfer ");
-        //     write(REVON); println("                              ");
-        //     write(REVOFF, WHITE);
-        //     log("Downloading " + url);
-        //     XModem xm = new XModem(cbm, cbm.out());
-        //     xm.send(content);
-        //     println();
-        //     write(CYAN);
-        //     print("DONE - press any key to go back ");
-        //     readKey();
-        //     resetInput();
-        // }
+        response = response.replaceAll("<[^>]*>", " ");
+        
+        Pattern ptn = Pattern.compile("\\s{3,}");
+        Matcher mtch = ptn.matcher(response);
+        response = mtch.replaceAll("\n\r\n\r");
+        return response;
     }
+
+    //what gets called when you load a url by number
+    // private void displayPost(int n) throws Exception {
+    //     int i = 3;
+    //     DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+    //     cls();
+    //     logo();
+
+    //     waitOn();
+    //     final Entry p = posts.get(n);
+    //     final String url = p.url;
+    //     final String title = p.name;
+    //     final String type = p.fileType;
+    //     // byte[] content = DiskUtilities.getPrgContentFromUrl(url);
+
+    //     //////////////
+    //     String content = getSite(url);
+    //     print(content);
+    //     String asdf = readLine(); //hack to make it wait for user input
+    //     // readKey();
+    //     List<Entry> entries = getUrls(url);
+    //     waitOff();
+    //     if (isEmpty(entries)) {
+    //         write(RED); println("Zero result page - press any key");
+    //         flush(); resetInput(); readKey();
+    //         // continue;
+    //     }
+    //     displayLinksOnPage(entries); //causes nesting maybe a good thing, not sure 
+    //     return;
+    //     /////////////
+    //     // waitOff();
+
+    //     // write(GREY3);
+    //     // println("Title:");
+    //     // write(WHITE);
+    //     // println(title.replaceAll("(?is)\\.[a-z0-9]+(\\.gz)?$", EMPTY));
+    //     // println();
+    //     // if (content == null) {
+    //     //     log("Can't download " + url);
+    //     //     write(RED, REVON); println("      ");
+    //     //     write(RED, REVON); print(" WARN "); write(WHITE, REVOFF); println(" Can't handle this. Use browser.");
+    //     //     write(RED, REVON); println("      "); write(WHITE, REVOFF);
+    //     //     write(CYAN); println();
+    //     //     print("SORRY - press any key to go back ");
+    //     //     readKey();
+    //     //     resetInput();
+    //     // } else {
+    //     //     write(GREY3);
+    //     //     println("Size:");
+    //     //     write(WHITE);
+    //     //     println(content.length + " bytes");
+    //     //     println();
+    //     //     write(GREY3);
+    //     //     println("Press any key to prepare to download");
+    //     //     println("Or press \".\" to abort it");
+    //     //     resetInput();
+    //     //     int ch = readKey();
+    //     //     if (ch == '.') return;
+    //     //     println();
+    //     //     write(REVON, LIGHT_GREEN);
+    //     //     write(REVON); println("                              ");
+    //     //     write(REVON); println(" Please start XMODEM transfer ");
+    //     //     write(REVON); println("                              ");
+    //     //     write(REVOFF, WHITE);
+    //     //     log("Downloading " + url);
+    //     //     XModem xm = new XModem(cbm, cbm.out());
+    //     //     xm.send(content);
+    //     //     println();
+    //     //     write(CYAN);
+    //     //     print("DONE - press any key to go back ");
+    //     //     readKey();
+    //     //     resetInput();
+    //     // }
+    // }
 
     private void listPosts(List<Entry> entries) throws Exception {
         logo();
+        println("Links On Page:");
         posts = getPosts(entries, currentPage, pageSize);
         for (Map.Entry<Integer, Entry> entry: posts.entrySet()) {
             int i = entry.getKey();
@@ -347,22 +377,6 @@ public class TheOldNetSearch extends PetsciiThread {
         int c = 0;
         for (Entry url: urls)
             System.out.println((++c)+"* "+url.name);
-    }
-
-    public static String getSite(String url) throws Exception {
-        String response = httpGet(url);
-        response = response.replaceAll("<img.[^>]*>", " [IMAGE] ");
-        response = response.replaceAll("<a.[^>]*>", " [LINK]==> ");
-        response = response.replaceAll("&quot;", "\"");
-        response = response.replaceAll("&apos;", "'");
-        response = response.replaceAll("&#xA0;", " ");
-        
-        response = response.replaceAll("<[^>]*>", " ");
-        
-        Pattern ptn = Pattern.compile("\\s{3,}");
-        Matcher mtch = ptn.matcher(response);
-        response = mtch.replaceAll("\n\r\n\r");
-        return response;
     }
 
     // public static List<Entry> getUrls(String url) throws Exception {
