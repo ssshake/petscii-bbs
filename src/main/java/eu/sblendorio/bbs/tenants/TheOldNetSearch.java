@@ -1,12 +1,12 @@
 package eu.sblendorio.bbs.tenants;
 
-import droid64.addons.DiskUtilities;
 import eu.sblendorio.bbs.core.HtmlUtils;
 import eu.sblendorio.bbs.core.PetsciiThread;
-import eu.sblendorio.bbs.core.XModem;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.text.WordUtils;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -18,6 +18,8 @@ import java.util.regex.Pattern;
 
 import static eu.sblendorio.bbs.core.Colors.*;
 import static eu.sblendorio.bbs.core.Keys.*;
+import static eu.sblendorio.bbs.core.Utils.*;
+import static java.util.Arrays.asList;
 import static eu.sblendorio.bbs.core.Utils.filterPrintable;
 import static java.util.Collections.emptyMap;
 import static org.apache.commons.collections4.CollectionUtils.isEmpty;
@@ -35,6 +37,7 @@ public class TheOldNetSearch extends PetsciiThread {
 
     protected int currentPage = 1;
     protected int pageSize = 10;
+    protected int screenRows = 19;
 
     static class Entry {
         public final String name;
@@ -77,12 +80,13 @@ public class TheOldNetSearch extends PetsciiThread {
 
             String url = URL_TEMPLATE + URLEncoder.encode(search, "UTF-8");
 
-            // TestJsoup(url);
 
-            String content = getSite(url);
-            print(content);
-            String asdf = readLine(); //hack to make it wait for user input
+            //String content = getSite(url);
+            //print(content);
             
+            displayPage(url);
+            print("-- End of Page --");
+            String asdf = readLine(); //hack to make it wait for user input
             List<Entry> entries = getUrls(url);
             waitOff();
             if (isEmpty(entries)) {
@@ -90,7 +94,7 @@ public class TheOldNetSearch extends PetsciiThread {
                 flush(); resetInput(); readKey();
                 continue;
             }
-            displaySearchResults(entries);
+            displayLinksOnPage(entries);
         } while (true);
     }
     private void logo() throws Exception {
@@ -100,7 +104,19 @@ public class TheOldNetSearch extends PetsciiThread {
         write(GREY3); gotoXY(0,5);
     }
 
-    public void displaySearchResults(List<Entry> entries) throws Exception {
+    public void getAndDisplayLinksOnPage(String url) throws Exception{
+        waitOn();
+        List<Entry> entries = getUrls(url);
+        waitOff();
+        if (isEmpty(entries)) {
+            write(RED); println("Zero result page - press any key");
+            flush(); resetInput(); readKey();
+            return;
+        }
+        displayLinksOnPage(entries);
+    }
+
+    public void displayLinksOnPage(List<Entry> entries) throws Exception {
         listPosts(entries);
         while (true) {
             log("TheOldNet Browser waiting for input");
@@ -146,7 +162,10 @@ public class TheOldNetSearch extends PetsciiThread {
                 posts = null;
                 listPosts(entries);
             } else if (posts.containsKey(toInt(input))) {
-                displayPost(toInt(input));
+                // displayPost(toInt(input));
+                final Entry p = posts.get(toInt(input));
+                displayPage(p.url);
+                getAndDisplayLinksOnPage(p.url);
                 listPosts(entries);
             } else if ("".equals(input)) {
                 listPosts(entries);
@@ -155,6 +174,75 @@ public class TheOldNetSearch extends PetsciiThread {
         flush();
     }
 
+    protected void displayPage(String url) throws Exception {
+        int i = 3;
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        cls();
+        logo();
+        waitOn();
+
+        String response = httpGet(url);
+
+        final String content = response
+                .replaceAll("(?is)<style>.*</style>", EMPTY)
+                .replaceAll("(?is)<script .*</script>", EMPTY)
+                .replaceAll("(?is)^[\\s\\n\\r]+|^\\s*(</?(br|div|figure|iframe|img|p|h[0-9])[^>]*>\\s*)+", EMPTY)
+                .replaceAll("(?is)^(<[^>]+>(\\s|\n|\r)*)+", EMPTY);
+        final String head = "TEST TITLE PAGE";
+        List<String> rows = wordWrap(head);
+
+        List<String> article = wordWrap(content);
+        
+        rows.addAll(article);
+        waitOff();
+        int page = 1;
+        int j = 0;
+        boolean forward = true;
+        while (j < rows.size()) {
+            if (j>0 && j % screenRows == 0 && forward) {
+                println();
+                write(WHITE);
+                print("-PAGE " + page + "-  SPACE=NEXT  -=PREV  .=EXIT");
+                write(GREY3);
+
+                resetInput(); int ch = readKey();
+                if (ch == '.') {
+                    //listPosts(); //should we show the list of new links on page upon this?
+                    return;
+                } else if (ch == '-' && page > 1) {
+                    j -= (screenRows *2);
+                    --page;
+                    forward = false;
+                    cls();
+                    logo();
+                    continue;
+                } else {
+                    ++page;
+                }
+                cls();
+                logo();
+            }
+            String row = rows.get(j);
+            println(row);
+            forward = true;
+            ++j;
+        }
+        println();
+    }
+
+    protected List<String> wordWrap(String s) {
+        String[] cleaned = filterPrintableWithNewline(HtmlUtils.htmlClean(s)).split("\n");
+        List<String> result = new ArrayList<>();
+        for (String item: cleaned) {
+            String[] wrappedLine = WordUtils
+                    .wrap(item, 39, "\n", true)
+                    .split("\n");
+            result.addAll(asList(wrappedLine));
+        }
+        return result;
+    }    
+
+    //what gets called when you load a url by number
     private void displayPost(int n) throws Exception {
         int i = 3;
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
@@ -169,19 +257,19 @@ public class TheOldNetSearch extends PetsciiThread {
         // byte[] content = DiskUtilities.getPrgContentFromUrl(url);
 
         //////////////
-            String content = getSite(url);
-            print(content);
-            String asdf = readLine(); //hack to make it wait for user input
-            
-            List<Entry> entries = getUrls(url);
-            waitOff();
-            if (isEmpty(entries)) {
-                write(RED); println("Zero result page - press any key");
-                flush(); resetInput(); readKey();
-                // continue;
-            }
-            displaySearchResults(entries);
-            return;
+        String content = getSite(url);
+        print(content);
+        String asdf = readLine(); //hack to make it wait for user input
+        
+        List<Entry> entries = getUrls(url);
+        waitOff();
+        if (isEmpty(entries)) {
+            write(RED); println("Zero result page - press any key");
+            flush(); resetInput(); readKey();
+            // continue;
+        }
+        displayLinksOnPage(entries); //causes nesting maybe a good thing, not sure 
+        return;
         /////////////
         // waitOff();
 
