@@ -47,6 +47,7 @@ public class TheOldNetSearch extends PetsciiThread {
         public Entry(String url, String name) throws Exception {
             this.url = defaultString(url);
             this.name = name;
+            // this.name = URLDecoder.decode(defaultString(this.url).replaceAll("(?is)^.*/([^/]*?)$", "$1"), "UTF-8");
             this.fileType = defaultString(this.name).replaceAll("(?is)^.*\\.(.*?)$", "$1").toLowerCase();
         }
     }
@@ -92,6 +93,7 @@ public class TheOldNetSearch extends PetsciiThread {
     private void logo() throws Exception {
         write(CLR, LOWERCASE, CASE_LOCK);
         write(TheOldNet.LOGO);
+        // write(LOGO);
         write(GREY3); gotoXY(0,5);
     }
 
@@ -175,6 +177,13 @@ public class TheOldNetSearch extends PetsciiThread {
         Document doc = null;
         String title = url;
 
+        // try{     
+        //     doc = Jsoup.connect(url).get();
+        //     title = doc.title();
+        // } catch (Exception ex){
+        //     System.out.println("Couldn't connect with the website."); 
+        // }
+
         String response = httpGet(url);
 
         final String content = response
@@ -230,6 +239,7 @@ public class TheOldNetSearch extends PetsciiThread {
         }
         println();
         println("-- End of Page --");
+        // String asdf = readLine(); //hack to make it wait for user input
         readKey();
     }
 
@@ -260,6 +270,80 @@ public class TheOldNetSearch extends PetsciiThread {
         response = mtch.replaceAll("\n\r\n\r");
         return response;
     }
+
+    //what gets called when you load a url by number
+    // private void displayPost(int n) throws Exception {
+    //     int i = 3;
+    //     DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+    //     cls();
+    //     logo();
+
+    //     waitOn();
+    //     final Entry p = posts.get(n);
+    //     final String url = p.url;
+    //     final String title = p.name;
+    //     final String type = p.fileType;
+    //     // byte[] content = DiskUtilities.getPrgContentFromUrl(url);
+
+    //     //////////////
+    //     String content = getSite(url);
+    //     print(content);
+    //     String asdf = readLine(); //hack to make it wait for user input
+    //     // readKey();
+    //     List<Entry> entries = getUrls(url);
+    //     waitOff();
+    //     if (isEmpty(entries)) {
+    //         write(RED); println("Zero result page - press any key");
+    //         flush(); resetInput(); readKey();
+    //         // continue;
+    //     }
+    //     displayLinksOnPage(entries); //causes nesting maybe a good thing, not sure 
+    //     return;
+    //     /////////////
+    //     // waitOff();
+
+    //     // write(GREY3);
+    //     // println("Title:");
+    //     // write(WHITE);
+    //     // println(title.replaceAll("(?is)\\.[a-z0-9]+(\\.gz)?$", EMPTY));
+    //     // println();
+    //     // if (content == null) {
+    //     //     log("Can't download " + url);
+    //     //     write(RED, REVON); println("      ");
+    //     //     write(RED, REVON); print(" WARN "); write(WHITE, REVOFF); println(" Can't handle this. Use browser.");
+    //     //     write(RED, REVON); println("      "); write(WHITE, REVOFF);
+    //     //     write(CYAN); println();
+    //     //     print("SORRY - press any key to go back ");
+    //     //     readKey();
+    //     //     resetInput();
+    //     // } else {
+    //     //     write(GREY3);
+    //     //     println("Size:");
+    //     //     write(WHITE);
+    //     //     println(content.length + " bytes");
+    //     //     println();
+    //     //     write(GREY3);
+    //     //     println("Press any key to prepare to download");
+    //     //     println("Or press \".\" to abort it");
+    //     //     resetInput();
+    //     //     int ch = readKey();
+    //     //     if (ch == '.') return;
+    //     //     println();
+    //     //     write(REVON, LIGHT_GREEN);
+    //     //     write(REVON); println("                              ");
+    //     //     write(REVON); println(" Please start XMODEM transfer ");
+    //     //     write(REVON); println("                              ");
+    //     //     write(REVOFF, WHITE);
+    //     //     log("Downloading " + url);
+    //     //     XModem xm = new XModem(cbm, cbm.out());
+    //     //     xm.send(content);
+    //     //     println();
+    //     //     write(CYAN);
+    //     //     print("DONE - press any key to go back ");
+    //     //     readKey();
+    //     //     resetInput();
+    //     // }
+    // }
 
     private void listPosts(List<Entry> entries) throws Exception {
         logo();
@@ -295,33 +379,58 @@ public class TheOldNetSearch extends PetsciiThread {
             System.out.println((++c)+"* "+url.name);
     }
 
+    // public static List<Entry> getUrls(String url) throws Exception {
+    //     String output = httpGet(url);
+    //     // Pattern p = Pattern.compile("(?is)href=(\".*(ftp://[^\"]+\\.(p00|prg|d64|zip|t64|d71|d81|d82|d64\\.gz|t64\\.gz|d81\\.gz|d82\\.gz|d71\\.gz))\"");
+    //     Pattern p = Pattern.compile("(?is)href=(\".*?\")");
+    //     // Pattern p = Pattern.compile("(?is)href=(\".*?\".).*?>(.*)?<");
+
+    //     Matcher m = p.matcher(output);
+    //     List<Entry> urls = new ArrayList<>();
+    //     while (m.find()) urls.add(new Entry(m.group(1), m.group(1)));
+
+    //     String latestPageStr = output.replaceAll("(?is)^.*href=\".*?embedder=arnold&amp;page=([0-9]+)\">[0-9]+</a>\\s*<div class=\"footer\".*?$", "$1");
+    //     int latestPage = NumberUtils.toInt(latestPageStr.replaceAll("\\s|\n|\r",""));
+
+    //     if (latestPage > 0) {
+    //         for (int i=1; i<=latestPage; ++i) {
+    //             output = httpGet(url + "&page=" + i);
+    //             m = p.matcher(output);
+    //             while (m.find()) urls.add(new Entry(m.group(1), m.group(1)));
+    //         }
+    //     }
+    //     return urls;
+    // }
 
     public static List<Entry> getUrls(String url) throws Exception {
         Document doc = null; 
         List<Entry> urls = new ArrayList<>(); //why
-        System.out.println(url);
         try{     
             doc = Jsoup.connect(url).get();
             String title = doc.title();
+            // log(title);
             Elements links = doc.select("a[href]");
             Element link;
-            System.out.println("hi");
 
             for(int j=0; j < links.size(); j++){
                 link=links.get(j);
 
-                String label = "Empty";
-                if (!StringUtils.isBlank(link.text())){
-                    label = link.text();
-                } else {
-                    try {
-                        label = link.attr("href").split("url=")[1];
-                    } catch (ArrayIndexOutOfBoundsException e){
-                        label = link.attr("href");
-                    }
-                }
-                
+                // log (link.attr("href"));
+                // log (link.text());
+
+                String label = !StringUtils.isBlank(link.text()) ? link.text() : link.attr("href").split("url=")[1];
                 urls.add(new Entry(link.attr("href"), label));
+
+                // String latestPageStr = output.replaceAll("(?is)^.*href=\".*?embedder=arnold&amp;page=([0-9]+)\">[0-9]+</a>\\s*<div class=\"footer\".*?$", "$1");
+                // int latestPage = NumberUtils.toInt(latestPageStr.replaceAll("\\s|\n|\r",""));
+
+                // if (latestPage > 0) {
+                //     for (int i=1; i<=latestPage; ++i) {
+                //         output = httpGet(url + "&page=" + i);
+                //         m = p.matcher(output);
+                //         while (m.find()) urls.add(new Entry(m.group(1), m.group(1)));
+                //     }
+                // }
 
             }
         } 
@@ -329,6 +438,29 @@ public class TheOldNetSearch extends PetsciiThread {
             System.out.println("Couldn't connect with the website."); 
         }
         return urls;
+    }
+
+    private void TestJsoup(String url){
+        log("GETTING URL FROM JSOUP");
+
+        Document doc = null; 
+        try{     
+            doc = Jsoup.connect(url).get();
+            String title = doc.title();
+            Elements links = doc.select("a[href]");
+            Element link;
+            for(int j=0; j < links.size(); j++){
+                    link=links.get(j);
+                    log (link.attr("href"));
+                    log (link.text());
+            }
+
+            log(title);
+        } 
+        catch (Exception ex){     
+            System.out.println("Couldn't connect with the website."); 
+        }
+
     }
 
     private void waitOn() {
