@@ -77,7 +77,7 @@ public class TheOldNetSearch extends PetsciiThread {
 
             String url = URL_TEMPLATE + URLEncoder.encode(search, "UTF-8");
 
-            TestJsoup(url);
+            // TestJsoup(url);
 
             String content = getSite(url);
             print(content);
@@ -166,50 +166,66 @@ public class TheOldNetSearch extends PetsciiThread {
         final String url = p.url;
         final String title = p.name;
         final String type = p.fileType;
-        byte[] content = DiskUtilities.getPrgContentFromUrl(url);
-        waitOff();
+        // byte[] content = DiskUtilities.getPrgContentFromUrl(url);
 
-        write(GREY3);
-        println("Title:");
-        write(WHITE);
-        println(title.replaceAll("(?is)\\.[a-z0-9]+(\\.gz)?$", EMPTY));
-        println();
-        if (content == null) {
-            log("Can't download " + url);
-            write(RED, REVON); println("      ");
-            write(RED, REVON); print(" WARN "); write(WHITE, REVOFF); println(" Can't handle this. Use browser.");
-            write(RED, REVON); println("      "); write(WHITE, REVOFF);
-            write(CYAN); println();
-            print("SORRY - press any key to go back ");
-            readKey();
-            resetInput();
-        } else {
-            write(GREY3);
-            println("Size:");
-            write(WHITE);
-            println(content.length + " bytes");
-            println();
-            write(GREY3);
-            println("Press any key to prepare to download");
-            println("Or press \".\" to abort it");
-            resetInput();
-            int ch = readKey();
-            if (ch == '.') return;
-            println();
-            write(REVON, LIGHT_GREEN);
-            write(REVON); println("                              ");
-            write(REVON); println(" Please start XMODEM transfer ");
-            write(REVON); println("                              ");
-            write(REVOFF, WHITE);
-            log("Downloading " + url);
-            XModem xm = new XModem(cbm, cbm.out());
-            xm.send(content);
-            println();
-            write(CYAN);
-            print("DONE - press any key to go back ");
-            readKey();
-            resetInput();
-        }
+        //////////////
+            String content = getSite(url);
+            print(content);
+            String asdf = readLine(); //hack to make it wait for user input
+            
+            List<Entry> entries = getUrls(url);
+            waitOff();
+            if (isEmpty(entries)) {
+                write(RED); println("Zero result page - press any key");
+                flush(); resetInput(); readKey();
+                // continue;
+            }
+            displaySearchResults(entries);
+            return;
+        /////////////
+        // waitOff();
+
+        // write(GREY3);
+        // println("Title:");
+        // write(WHITE);
+        // println(title.replaceAll("(?is)\\.[a-z0-9]+(\\.gz)?$", EMPTY));
+        // println();
+        // if (content == null) {
+        //     log("Can't download " + url);
+        //     write(RED, REVON); println("      ");
+        //     write(RED, REVON); print(" WARN "); write(WHITE, REVOFF); println(" Can't handle this. Use browser.");
+        //     write(RED, REVON); println("      "); write(WHITE, REVOFF);
+        //     write(CYAN); println();
+        //     print("SORRY - press any key to go back ");
+        //     readKey();
+        //     resetInput();
+        // } else {
+        //     write(GREY3);
+        //     println("Size:");
+        //     write(WHITE);
+        //     println(content.length + " bytes");
+        //     println();
+        //     write(GREY3);
+        //     println("Press any key to prepare to download");
+        //     println("Or press \".\" to abort it");
+        //     resetInput();
+        //     int ch = readKey();
+        //     if (ch == '.') return;
+        //     println();
+        //     write(REVON, LIGHT_GREEN);
+        //     write(REVON); println("                              ");
+        //     write(REVON); println(" Please start XMODEM transfer ");
+        //     write(REVON); println("                              ");
+        //     write(REVOFF, WHITE);
+        //     log("Downloading " + url);
+        //     XModem xm = new XModem(cbm, cbm.out());
+        //     xm.send(content);
+        //     println();
+        //     write(CYAN);
+        //     print("DONE - press any key to go back ");
+        //     readKey();
+        //     resetInput();
+        // }
     }
 
     private void listPosts(List<Entry> entries) throws Exception {
