@@ -31,13 +31,13 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-public class TheOldNetBrowserV2 extends PetsciiThread {
+public class TheOldNetBrowserV3 extends PetsciiThread {
 
     public static final String URL_TEMPLATE = "http://theoldnet.com/get?url=";
 
     protected int __currentPage = 1;
     protected int __pageSize = 10;
-    protected int __screenRows = 18;
+    protected int __screenRows = 16;
 
     static class Entry {
         public final String name;
@@ -82,14 +82,17 @@ public class TheOldNetBrowserV2 extends PetsciiThread {
 
     void renderHomeScreen() throws Exception {
             logo();
-            println();
-            print("Enter URL ");
-            write(GREY1);
-            println("(\".\" to go back):");
-            write(GREY3);
-            println();
-            println(StringUtils.repeat(chr(163), 21));
-            write(UP, UP);
+            // println();
+            gotoXY(10,1);
+            print("URL: ");
+            // write(GREY1);
+            // println("(\".\" to go back):");
+            // write(GREY3);
+            // println();
+            // gotoXY(10,2);
+            // print(StringUtils.repeat(chr(163), 21));
+            // write(UP, UP);
+            gotoXY(15,1);
             flush();
     }
 
@@ -154,9 +157,15 @@ public class TheOldNetBrowserV2 extends PetsciiThread {
 
             if (endOfPage || endOfDocument) { 
 
-                println();
+                // println();
                 write(WHITE);
-                print("PAGE " + page + " (N)EXT  (P)REV  (L)INKS (B)ACK");
+                gotoXY(0,20);
+                write(BROWSERBOTTOM);
+                gotoXY(1,22);
+                print("PAGE " + page);
+                gotoXY(37,22);
+                
+                // print("PAGE " + page + " (N)EXT  (P)REV  (L)INKS (B)ACK");
                 write(GREY3);
 
                 resetInput(); 
@@ -409,7 +418,8 @@ public class TheOldNetBrowserV2 extends PetsciiThread {
     private void logo() throws Exception {
         write(CLR, LOWERCASE, CASE_LOCK);
         // write(TheOldNet.LOGO);
-        write(LOGO);
+        // write(LOGO);
+        write(BROWSERTOP);
         write(GREY3); gotoXY(0,5);
     }
 
@@ -441,5 +451,52 @@ public class TheOldNetBrowserV2 extends PetsciiThread {
         32, 32, 32, 32, 32, 32, 32,
         13
     };
-    
+
+    private final static byte[] BROWSERTOP = {
+        -101, 18, 32, 32, 32, 32, 32, 32, 32, 32, -110, -49, -73, -73, -73, -73,
+        -73, -73, -73, -73, -73, -73, -73, -73, -73, -73, -73, -73, -73, -73, -73, -73,
+        -73, -73, -73, -73, -73, -73, -73, -73, -73, 18, 32, 32, -104, 32, 40, 66,
+        41, 65, 67, 75, 32, -110, -76, 31, 32, 32, 32, 32, 32, 32, 32, 32,
+        32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32,
+        32, 5, 32, 32, 32, 32, -104, 18, 32, 32, -105, 32, 32, 32, 32, 32,
+        32, 32, 32, -110, -52, -81, -81, -81, -81, -81, -81, -81, -81, -81, -81, -81,
+        -81, -81, -81, -81, -81, -81, -81, -81, -81, -81, -81, -81, -81, -81, -81, -81,
+        -81, -81, 18, 32, 32, 31, -110, 32, 32, 32, 32, 32, 32, 32, 32, 32,
+        32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32,
+        32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, -102,
+        32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 31, 32, 32, -102, 32, 32,
+        32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32,
+        32, 32, 32, 32, 32, 32, 32, 32, 32, -107, 32, -102, 32, 32, 32, 32,
+        32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32,
+
+        32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 5,
+        32, 32, 32, 32, 32, 32, 32, 32, -102, 32, 32, 32, 32, 32, 32, 32,
+        32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 31, 32,
+        32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32,
+
+        32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, -101,
+        32, 32, 5, 32, 31, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32,
+        32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32,
+
+        32, 32,
+
+        13
+    };
+
+    private final static byte[] BROWSERBOTTOM = {
+        -101, 18, 32, -110, -72, -72, -72, -72, -72, -72, -72, -72, -72, -72, -72, -72,
+        -72, -72, -72, -72, -72, -72, -72, -72, -72, -72, -72, -72, -72, -72, -72, -72,
+        -72, -72, -72, -72, -72, -72, -72, -72, -72, 18, 32, 32, -104, 32, -101, -110,
+        80, 65, 71, 69, 32, 49, 32, -104, -91, -101, 40, 78, 41, 69, 88, 84,
+        32, -104, -91, -101, 40, 80, 41, 82, 69, 86, 32, -104, -91, -101, 40, 76,
+        41, 73, 78, 75, 83, 32, 32, 5, 32, 32, 32, 32, -104, 18, 32, 32,
+        -105, 32, -110, -94, -94, -94, -94, -94, -94, -94, -94, -94, -94, -94, -94, -94,
+        -94, -94, -94, -94, -94, -94, -94, -94, -94, -94, -94, -94, -94, -94, -94, -94,
+        -94, -94, -94, -94, -94, -94, -94, -94, 18, 32, 32, -102, -110, 32, 32, 32,
+        32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32,
+
+        32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32,
+
+    };
+
 }
