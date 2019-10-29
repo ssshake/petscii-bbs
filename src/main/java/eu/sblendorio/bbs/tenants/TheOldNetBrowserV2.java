@@ -134,9 +134,86 @@ public class TheOldNetBrowserV2 extends PetsciiThread {
         int currentRow = 0;
         boolean forward = true;
 
-        while (currentRow < rows.size()) {
+        while (currentRow < rows.size() + 1) {
+            log("Current Row: " + Integer.toString(currentRow));
+            log("Rows: " + Integer.toString(rows.size()));
+            log("Page: " + Integer.toString(page));
+            log("Prior Page Start Row: " + Integer.toString((page - 1 )* __screenRows));
+            
+
+            boolean startOfDocument = page <= 1;
+            boolean endOfDocument = currentRow == rows.size();
             boolean endOfPage = currentRow > 0 && currentRow % __screenRows == 0 && forward;
-            if (endOfPage) { 
+
+            if (endOfDocument){
+                println();
+                println("-- End of Document --");
+            }
+
+            if (endOfPage || endOfDocument) { 
+
+                println();
+                write(WHITE);
+                print("PAGE " + page + " (N)EXT  (P)REV  (L)INKS (B)ACK");
+                write(GREY3);
+
+                resetInput(); 
+                int ch = readKey();
+
+                if (ch == '.' || ch == 'b' || ch == 'B') {
+
+                    return; //should bail
+
+                } else if (ch == 'l' || ch == 'L') {
+                    getAndDisplayLinksOnPage(webpage);
+                    // return; //should dive into links page
+
+                } else if ((ch == 'p' || ch == 'P')) {  //PREVIOUS PAGE
+                    if (startOfDocument){
+                        continue;
+                    }
+
+                    --page;
+                    currentRow = ( page -1 ) * __screenRows;
+                    forward = false;
+                    cls();
+                    logo();
+                    continue;
+
+                } else if (ch == 'n' || ch == 'N') {  //NEXT PAGE
+                    if (endOfDocument){
+                        continue;
+                    }
+                    ++page;
+
+                } else {
+                    continue;
+                }
+
+                cls();
+                logo();
+            }
+
+            //success path
+            if (!endOfDocument){
+                String row = rows.get(currentRow);
+                println(row);
+                forward = true;
+                ++currentRow;
+            }
+
+        }
+    }
+
+
+/*
+
+        // while (currentRow < rows.size()) {
+        while (true) {
+            boolean endOfDocument = currentRow >= rows.size();
+            boolean endOfPage = (currentRow > 0 && currentRow % __screenRows == 0 && forward);
+
+            if (endOfPage || endOfDocument) { 
 
                 println();
                 write(WHITE);
@@ -174,16 +251,22 @@ public class TheOldNetBrowserV2 extends PetsciiThread {
             }
 
             //success path
-            String row = rows.get(currentRow);
-            println(row);
-            forward = true;
-            ++currentRow;
-        }
+            if (currentRow < rows.size()){
+                String row = rows.get(currentRow);
+                println(row);
+                forward = true;
+                ++currentRow;
+            } else {
+                println();
+                println("-- End of Page --");
+            }
 
-        //handle end of document
-        println();
-        println("-- End of Page --");
-    }
+        }
+*/
+
+
+
+
 
     public void getAndDisplayLinksOnPage(Document webpage) throws Exception{
         waitOn();
