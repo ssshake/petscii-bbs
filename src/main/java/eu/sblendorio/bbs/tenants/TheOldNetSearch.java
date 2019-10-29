@@ -202,7 +202,7 @@ public class TheOldNetSearch extends PetsciiThread {
             head = url;
         }
 
-        head = "URL: " + StringUtils.left(head, 30);
+        head = "[URL: " + StringUtils.left(head, 30) + "]";
 
         List<String> rows = wordWrap(head); //head removed because dups
         List<String> article = wordWrap(content);
