@@ -183,8 +183,8 @@ public class TheOldNetSearch extends PetsciiThread {
         String response = httpGet(url);
 
         final String content = response
-                .replaceAll("<img.[^>]*>", " [IMAGE] ")
-                .replaceAll("<a.[^>]*>", " [LINK] ")
+                .replaceAll("<img.[^>]*>", "<br>[IMAGE] ")
+                .replaceAll("<a.[^>]*>", " <br>[LINK] ")
                 .replaceAll("&quot;", "\"")
                 .replaceAll("&apos;", "'")
                 .replaceAll("&#xA0;", " ")
