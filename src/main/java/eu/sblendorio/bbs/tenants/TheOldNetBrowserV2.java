@@ -98,7 +98,6 @@ public class TheOldNetBrowserV2 extends PetsciiThread {
 
         cls();
         logo();
-        waitOn();
 
         String title = url;
 
@@ -123,12 +122,13 @@ public class TheOldNetBrowserV2 extends PetsciiThread {
             head = url;
         }
 
-        head = "[URL: " + StringUtils.left(head, 30) + "]";
+        write(GREEN);
+        print ("[URL: " + StringUtils.left(head, 30) + "]");
+        write(GREY3);
 
-        List<String> rows = wordWrap(head);
+        List<String> rows = wordWrap("");
         rows.addAll(wordWrap(content));
 
-        waitOff();
 
         int page = 1;
         int currentRow = 0;
@@ -195,8 +195,35 @@ public class TheOldNetBrowserV2 extends PetsciiThread {
 
             //success path
             if (!endOfDocument){
+
                 String row = rows.get(currentRow);
+
+                String patternStringLink = ".*\\[LINK\\].*";
+                Pattern patternLink = Pattern.compile(patternStringLink);
+                Matcher matcherLink = patternLink.matcher(row);
+                boolean matchesLink = matcherLink.matches();
+
+                String patternStringImage = ".*\\[IMAGE\\].*";
+                Pattern patternImage = Pattern.compile(patternStringImage);
+                Matcher matcherImage = patternImage.matcher(row);
+                boolean matchesImage = matcherImage.matches();
+
+                if (matchesLink){
+                    log("MATCHES!!!!!!!!!!!");
+                    write(LIGHT_BLUE);
+                }
+
+                if (matchesImage){
+                    log("MATCHES!!!!!!!!!!!");
+                    write(YELLOW);
+                }
+                
                 println(row);
+                
+                if (matchesLink || matchesImage){
+                    write(GREY3);
+                }
+                
                 forward = true;
                 ++currentRow;
             }
@@ -363,7 +390,7 @@ public class TheOldNetBrowserV2 extends PetsciiThread {
     }
 
     private void waitOff() {
-        for (int i=0; i<14; ++i) {
+        for (int i=0; i<10; ++i) {
             write(DEL);
         }
         flush();
