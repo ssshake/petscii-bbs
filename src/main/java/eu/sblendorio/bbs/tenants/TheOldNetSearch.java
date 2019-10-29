@@ -78,9 +78,13 @@ public class TheOldNetSearch extends PetsciiThread {
 
 
             String url = URL_TEMPLATE + URLEncoder.encode(search, "UTF-8");
-            displayPage(url);
             List<Entry> entries = getUrls(url);
+            displayPage(url);
             waitOff();
+
+            //I dont really want to this here anymore.
+            //Links page should be pushed on the stack when pressing L or reaching end of page
+            //Going back from links page should just take you back to the page itself.
             if (isEmpty(entries)) {
                 write(RED); println("Zero result page - press any key");
                 flush(); resetInput(); readKey();
@@ -190,9 +194,17 @@ public class TheOldNetSearch extends PetsciiThread {
                 .replaceAll("(?is)^(<[^>]+>(\\s|\n|\r)*)+", EMPTY);
 
         
-        final String head = title;
 
-        List<String> rows = wordWrap(""); //head removed because dups
+        String head;
+        try {
+            head = url.split("url=")[1];
+        } catch (ArrayIndexOutOfBoundsException e){
+            head = url;
+        }
+
+        head = "URL: " + StringUtils.left(head, 30);
+
+        List<String> rows = wordWrap(head); //head removed because dups
         List<String> article = wordWrap(content);
         
         rows.addAll(article);
@@ -204,11 +216,17 @@ public class TheOldNetSearch extends PetsciiThread {
             if (j>0 && j % screenRows == 0 && forward) {
                 println();
                 write(WHITE);
-                print("-PAGE " + page + "-  SPACE=NEXT  -=PREV  .=LINKS");
+                print("-PAGE " + page + "-  SPACE=NEXT  -=PREV  L=LINKS");
                 write(GREY3);
 
                 resetInput(); int ch = readKey();
                 if (ch == '.') {
+                    //because this goes to the next screen which is links its a hack not an intention
+                    //listPosts(); //should we show the list of new links on page upon this?
+                    return;
+                } else if (ch == 'l' || ch == 'L') {
+                    // getAndDisplayLinksOnPage(url);//didnt work as expected
+                    //because this goes to the next screen which is links its a hack not an intention
                     //listPosts(); //should we show the list of new links on page upon this?
                     return;
                 } else if (ch == '-' && page > 1) {
@@ -264,6 +282,7 @@ public class TheOldNetSearch extends PetsciiThread {
 
     private void listPosts(List<Entry> entries) throws Exception {
         logo();
+        write(ORANGE);
         println("Links On Page:");
         println();
         posts = getPosts(entries, currentPage, pageSize);
@@ -352,33 +371,34 @@ public class TheOldNetSearch extends PetsciiThread {
     }
 
     private final static byte[] LOGO = {
-  -102, 32, 18, 32, 30, 32, -104, -110, 32, 32, 18, 32, -102, -110, 32, -104,
- 32, 32, 18, 32, -110, 32, 18, 32, -110, 32, 32, 32, 18, 32, -110, 32,
- 18, 32, -110, 32, 32, 32, 18, 32, -110, 32, 32, 32, 32, 32, -102, 32,
- 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 18, 32, 30, 32,
- 32, -102, 32, -104, -110, 32, 18, 32, -110, 32, 18, 32, -110, 32, 18, 32,
- -110, 32, 18, 32, -110, 32, 18, 32, -110, 32, 18, 32, -110, 32, 18, 32,
- -110, 32, 18, 32, -110, 32, 18, 32, -110, 32, 32, 32, -102, 32, 32, 32,
- 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 18, 32, 30, 32,
- -102, 32, 32, -104, -110, 32, 32, 18, 32, -110, 32, 18, 32, -110, 32, 32,
- 32, 18, 32, -110, 32, 18, 32, -110, 32, 32, 32, 18, 32, -110, 32, 18,
- 32, -110, 32, 32, 32, 32, -102, 32, 32, 32, 32, 32, 32, 32, 32, 32,
- 32, 32, 32, 32, 32, 32, -104, 32, -102, 18, 32, 30, 32, -104, -110, 32,
- 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32,
- 32, 32, 32, 32, 32, 32, 32, -102, 32, 32, 32, 32, 32, 32, 32, 32,
- 32, 32, 32, 32, 32, -104, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32,
- 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32,
- 32, 32, -102, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, -104,
- 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32,
- 32, 32, 32, 32, 32, 32, 32, 32, 32, -102, 32, -104, 32, 32, -102, 32,
- 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32,
+        -102, 32, 18, 32, 30, 32, -104, -110, 32, 32, 18, 32, -102, -110, 32, -104,
+        32, 32, 18, 32, -110, 32, 18, 32, -110, 32, 32, 32, 18, 32, -110, 32,
+        18, 32, -110, 32, 32, 32, 18, 32, -110, 32, 32, 32, 32, 32, -102, 32,
+        32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 18, 32, 30, 32,
+        32, -102, 32, -104, -110, 32, 18, 32, -110, 32, 18, 32, -110, 32, 18, 32,
+        -110, 32, 18, 32, -110, 32, 18, 32, -110, 32, 18, 32, -110, 32, 18, 32,
+        -110, 32, 18, 32, -110, 32, 18, 32, -110, 32, 32, 32, -102, 32, 32, 32,
+        32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 18, 32, 30, 32,
+        -102, 32, 32, -104, -110, 32, 32, 18, 32, -110, 32, 18, 32, -110, 32, 32,
+        32, 18, 32, -110, 32, 18, 32, -110, 32, 32, 32, 18, 32, -110, 32, 18,
+        32, -110, 32, 32, 32, 32, -102, 32, 32, 32, 32, 32, 32, 32, 32, 32,
+        32, 32, 32, 32, 32, 32, -104, 32, -102, 18, 32, 30, 32, -104, -110, 32,
+        32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32,
+        32, 32, 32, 32, 32, 32, 32, -102, 32, 32, 32, 32, 32, 32, 32, 32,
+        32, 32, 32, 32, 32, -104, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32,
+        32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32,
+        32, 32, -102, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, -104,
+        32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32,
+        32, 32, 32, 32, 32, 32, 32, 32, 32, -102, 32, -104, 32, 32, -102, 32,
+        32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32,
 
- 32, 32, -104, 32, 32, 32, 32, -102, 32, 32, 32, 32, 32, 32, 32, 32,
- 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32,
- 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, -104, 32, -102,
- 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32,
+        32, 32, -104, 32, 32, 32, 32, -102, 32, 32, 32, 32, 32, 32, 32, 32,
+        32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32,
+        32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, -104, 32, -102,
+        32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32,
 
- 32, 32, 32, 32, 32, 32, 32,
+        32, 32, 32, 32, 32, 32, 32,
 
- 13};
+        13
+    };
 }
