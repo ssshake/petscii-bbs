@@ -161,13 +161,12 @@ public class TheOldNetBrowserV2 extends PetsciiThread {
                 int ch = readKey();
 
                 if (ch == '.' || ch == 'b' || ch == 'B') {
-
                     return; //should bail
-
                 } else if (ch == 'l' || ch == 'L') {
+                    waitOn();
                     getAndDisplayLinksOnPage(webpage);
-                    // return; //should dive into links page
-
+                    currentRow = 0;
+                    page = 0;
                 } else if ((ch == 'p' || ch == 'P')) {  //PREVIOUS PAGE
                     if (startOfDocument){
                         continue;
@@ -206,68 +205,6 @@ public class TheOldNetBrowserV2 extends PetsciiThread {
     }
 
 
-/*
-
-        // while (currentRow < rows.size()) {
-        while (true) {
-            boolean endOfDocument = currentRow >= rows.size();
-            boolean endOfPage = (currentRow > 0 && currentRow % __screenRows == 0 && forward);
-
-            if (endOfPage || endOfDocument) { 
-
-                println();
-                write(WHITE);
-                print("PAGE " + page + " (N)EXT  (P)REV  (L)INKS (B)ACK");
-                write(GREY3);
-
-                resetInput(); 
-                int ch = readKey();
-
-                if (ch == '.' || ch == 'b' || ch == 'B') {
-
-                    return; //should bail
-
-                } else if (ch == 'l' || ch == 'L') {
-                    getAndDisplayLinksOnPage(webpage);
-                    // return; //should dive into links page
-
-                } else if ((ch == 'p' || ch == 'P') && page > 1) {  //PREVIOUS PAGE
-
-                    currentRow -= (__screenRows * 2); //NO idea why
-                    --page;
-                    forward = false;
-                    cls();
-                    logo();
-                    continue;
-
-                } else if (ch == 'n' || ch == 'N') {  //NEXT PAGE
-
-                    ++page;
-
-                }
-
-                cls();
-                logo();
-            }
-
-            //success path
-            if (currentRow < rows.size()){
-                String row = rows.get(currentRow);
-                println(row);
-                forward = true;
-                ++currentRow;
-            } else {
-                println();
-                println("-- End of Page --");
-            }
-
-        }
-*/
-
-
-
-
-
     public void getAndDisplayLinksOnPage(Document webpage) throws Exception{
         waitOn();
         List<Entry> entries = getUrls(webpage);
@@ -294,14 +231,12 @@ public class TheOldNetBrowserV2 extends PetsciiThread {
             print("]elp [");
             write(WHITE); print("R"); write(GREY3);
             print("]eload [");
-            write(WHITE); print("."); write(GREY3);
-            print("]");
             write(WHITE); print("B"); write(GREY3);
-            print("ack> ");
+            print("]ack> ");
             resetInput();
             flush(); String inputRaw = readLine();
             String input = lowerCase(trim(inputRaw));
-            if (".".equals(input) || "exit".equals(input) || "quit".equals(input) || "q".equals(input)) {
+            if ("B".equals(input) || "b".equals(input) || ".".equals(input) || "exit".equals(input) || "quit".equals(input) || "q".equals(input)) {
                 break;
             } else if ("help".equals(input) || "h".equals(input)) {
                 help();
