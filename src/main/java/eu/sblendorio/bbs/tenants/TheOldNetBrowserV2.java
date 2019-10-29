@@ -53,13 +53,7 @@ public class TheOldNetBrowserV2 extends PetsciiThread {
 
     protected Map<Integer, Entry> posts = emptyMap();
 
-    public static void main(String[] args) throws Exception { //why do I have this in here?
-        List<Entry> urls = getUrls(URL_TEMPLATE + URLEncoder.encode("super", "UTF-8"));
-
-        int c = 0;
-        for (Entry url: urls)
-            System.out.println((++c)+"* "+url.name);
-    }
+    public static void main(String[] args) throws Exception {}
 
     @Override
     public void doLoop() throws Exception {
@@ -77,13 +71,12 @@ public class TheOldNetBrowserV2 extends PetsciiThread {
 
             println();
             println();
+
             waitOn();
             
-            List<Entry> entries = getUrls(url);
-
-            waitOff();
+            Document webpage = getWebpage(url);
+            displayPage(webpage, url);
             
-            displayPage(url);
         } while (true);
     }
 
@@ -100,10 +93,104 @@ public class TheOldNetBrowserV2 extends PetsciiThread {
             flush();
     }
 
+    protected void displayPage(Document webpage, String url) throws Exception {
+        __currentPage = 1;
 
-    public void getAndDisplayLinksOnPage(String url) throws Exception{
+        cls();
+        logo();
         waitOn();
-        List<Entry> entries = getUrls(url);
+
+        String title = url;
+
+        String pageAsString = webpage.toString();
+
+        final String content = pageAsString
+            .replaceAll("<img.[^>]*>", "<br>[IMAGE] ")
+            .replaceAll("<a.[^>]*>", " <br>[LINK] ")
+            .replaceAll("&quot;", "\"")
+            .replaceAll("&apos;", "'")
+            .replaceAll("&#xA0;", " ")
+            .replaceAll("(?is)<style>.*</style>", EMPTY)
+            .replaceAll("(?is)<script .*</script>", EMPTY)
+            .replaceAll("(?is)^[\\s\\n\\r]+|^\\s*(</?(br|div|figure|iframe|img|p|h[0-9])[^>]*>\\s*)+", EMPTY)
+            .replaceAll("(?is)^(<[^>]+>(\\s|\n|\r)*)+", EMPTY);
+
+
+        String head;
+        try {
+            head = url.split("url=")[1];
+        } catch (ArrayIndexOutOfBoundsException e){
+            head = url;
+        }
+
+        head = "[URL: " + StringUtils.left(head, 30) + "]";
+
+        List<String> rows = wordWrap(head);
+        rows.addAll(wordWrap(content));
+
+        waitOff();
+
+        int page = 1;
+        int currentRow = 0;
+        boolean forward = true;
+
+        // while (currentRow < rows.size()) {
+        while (true) {
+            boolean endOfPage = (currentRow > 0 && currentRow % __screenRows == 0 && forward) || currentRow == rows.size();
+            if (endOfPage) { 
+
+                println();
+                write(WHITE);
+                print("PAGE " + page + " (N)EXT  (P)REV  (L)INKS (B)ACK");
+                write(GREY3);
+
+                resetInput(); 
+                int ch = readKey();
+
+                if (ch == '.' || ch == 'b' || ch == 'B') {
+
+                    return; //should bail
+
+                } else if (ch == 'l' || ch == 'L') {
+                    getAndDisplayLinksOnPage(webpage);
+                    // return; //should dive into links page
+
+                } else if ((ch == 'p' || ch == 'P') && page > 1) {  //PREVIOUS PAGE
+
+                    currentRow -= (__screenRows * 2); //NO idea why
+                    --page;
+                    forward = false;
+                    cls();
+                    logo();
+                    continue;
+
+                } else if (ch == 'n' || ch == 'N') {  //NEXT PAGE
+
+                    ++page;
+
+                }
+
+                cls();
+                logo();
+            }
+
+            //success path
+            if (currentRow < rows.size()){
+                String row = rows.get(currentRow);
+                println(row);
+                forward = true;
+                ++currentRow;
+            } else {
+                println();
+                println("-- End of Page --");
+            }
+
+        }
+    }
+
+    public void getAndDisplayLinksOnPage(Document webpage) throws Exception{
+        waitOn();
+        List<Entry> entries = getUrls(webpage);
         waitOff();
         if (isEmpty(entries)) {
             write(RED); println("Zero result page - press any key");
@@ -160,100 +247,23 @@ public class TheOldNetBrowserV2 extends PetsciiThread {
             } else if ("r".equals(input) || "reload".equals(input) || "refresh".equals(input)) {
                 posts = null;
                 listPosts(entries);
-            } else if (posts.containsKey(toInt(input))) {
+            } else if (posts.containsKey(toInt(input))) { //what condition is this?
                 // displayPost(toInt(input));
                 final Entry p = posts.get(toInt(input));
-                displayPage(p.url);
-                getAndDisplayLinksOnPage(p.url);
-                listPosts(entries);
+
+                // displayPage(p.url);
+                // getAndDisplayLinksOnPage(p.url);
+                log("I DO NOTHING");
+                Document webpage = getWebpage(p.url);
+                displayPage(webpage, p.url);
+                listPosts(entries); //redraw after coming back?
+                
+                // listPosts(entries);
             } else if ("".equals(input)) {
                 listPosts(entries);
             }
         }
         flush();
-    }
-
-    protected void displayPage(String url) throws Exception {
-        __currentPage = 1;
-        int i = 3;
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        cls();
-        logo();
-        waitOn();
-
-        Document doc = null;
-        String title = url;
-
-        String response = httpGet(url);
-
-        final String content = response
-                .replaceAll("<img.[^>]*>", "<br>[IMAGE] ")
-                .replaceAll("<a.[^>]*>", " <br>[LINK] ")
-                .replaceAll("&quot;", "\"")
-                .replaceAll("&apos;", "'")
-                .replaceAll("&#xA0;", " ")
-                .replaceAll("(?is)<style>.*</style>", EMPTY)
-                .replaceAll("(?is)<script .*</script>", EMPTY)
-                .replaceAll("(?is)^[\\s\\n\\r]+|^\\s*(</?(br|div|figure|iframe|img|p|h[0-9])[^>]*>\\s*)+", EMPTY)
-                .replaceAll("(?is)^(<[^>]+>(\\s|\n|\r)*)+", EMPTY);
-
-        
-
-        String head;
-        try {
-            head = url.split("url=")[1];
-        } catch (ArrayIndexOutOfBoundsException e){
-            head = url;
-        }
-
-        head = "[URL: " + StringUtils.left(head, 30) + "]";
-
-        List<String> rows = wordWrap(head); //head removed because dups
-        List<String> article = wordWrap(content);
-        
-        rows.addAll(article);
-        waitOff();
-        int page = 1;
-        int j = 0;
-        boolean forward = true;
-        while (j < rows.size()) {
-            if (j>0 && j % __screenRows == 0 && forward) {
-                println();
-                write(WHITE);
-                print("-PAGE " + page + "-  SPACE=NEXT  -=PREV  L=LINKS");
-                write(GREY3);
-
-                resetInput(); int ch = readKey();
-                if (ch == '.') {
-                    //because this goes to the next screen which is links its a hack not an intention
-                    //listPosts(); //should we show the list of new links on page upon this?
-                    return;
-                } else if (ch == 'l' || ch == 'L') {
-                    // getAndDisplayLinksOnPage(url);//didnt work as expected
-                    //because this goes to the next screen which is links its a hack not an intention
-                    //listPosts(); //should we show the list of new links on page upon this?
-                    return;
-                } else if (ch == '-' && page > 1) {
-                    j -= (__screenRows *2);
-                    --page;
-                    forward = false;
-                    cls();
-                    logo();
-                    continue;
-                } else {
-                    ++page;
-                }
-                cls();
-                logo();
-            }
-            String row = rows.get(j);
-            println(row);
-            forward = true;
-            ++j;
-        }
-        println();
-        println("-- End of Page --");
-        readKey();
     }  
 
     private void listPosts(List<Entry> entries) throws Exception {
@@ -283,38 +293,41 @@ public class TheOldNetBrowserV2 extends PetsciiThread {
         return result;
     }
 
-    public static List<Entry> getUrls(String url) throws Exception {
-        Document doc = null; 
+    public static List<Entry> getUrls(Document webpage) throws Exception {
         List<Entry> urls = new ArrayList<>(); //why
-        System.out.println(url);
-        try{     
-            doc = Jsoup.connect(url).get();
-            String title = doc.title();
-            Elements links = doc.select("a[href]");
-            Element link;
+        String title = webpage.title();
+        Elements links = webpage.select("a[href]");
+        Element link;
 
-            for(int j=0; j < links.size(); j++){
-                link=links.get(j);
+        for(int j=0; j < links.size(); j++){
+            link=links.get(j);
 
-                String label = "Empty";
-                if (!StringUtils.isBlank(link.text())){
-                    label = link.text();
-                } else {
-                    try {
-                        label = link.attr("href").split("url=")[1];
-                    } catch (ArrayIndexOutOfBoundsException e){
-                        label = link.attr("href");
-                    }
+            String label = "Empty";
+            if (!StringUtils.isBlank(link.text())){
+                label = link.text();
+            } else {
+                try {
+                    label = link.attr("href").split("url=")[1];
+                } catch (ArrayIndexOutOfBoundsException e){
+                    label = link.attr("href");
                 }
-                
-                urls.add(new Entry(link.attr("href"), label));
-
             }
+            
+            urls.add(new Entry(link.attr("href"), label));
+
+        }
+        return urls;
+    }
+
+    public static Document getWebpage(String url) throws Exception {
+        Document doc = null;
+        try{    
+            doc = Jsoup.connect(url).get();
         } 
         catch (Exception ex){     
             System.out.println("Couldn't connect with the website."); 
         }
-        return urls;
+        return doc;
     }
 
     protected List<String> wordWrap(String s) {

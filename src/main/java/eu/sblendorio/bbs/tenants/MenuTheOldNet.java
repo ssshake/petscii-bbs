@@ -133,7 +133,8 @@ public class MenuTheOldNet extends PetsciiThread {
                     else if (key == '2') launch(new HomeAwesomation());
                     // else if (key == '3') launch(new Daggasoft());
                     else if (key == '3') launch(new Sys64738());
-                    else if (key == 'i') launch(new TheOldNetSearch());
+                    // else if (key == 'i') launch(new TheOldNetSearch());
+                    else if (key == 'i') launch(new TheOldNetBrowserV2());
                     else if (key == 'o') launch(new TheOldNetBrowserV2());
 
                     else if (key == '4') launch(new Vcfed());
