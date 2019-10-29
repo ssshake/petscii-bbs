@@ -134,9 +134,8 @@ public class TheOldNetBrowserV2 extends PetsciiThread {
         int currentRow = 0;
         boolean forward = true;
 
-        // while (currentRow < rows.size()) {
-        while (true) {
-            boolean endOfPage = (currentRow > 0 && currentRow % __screenRows == 0 && forward) || currentRow == rows.size();
+        while (currentRow < rows.size()) {
+            boolean endOfPage = currentRow > 0 && currentRow % __screenRows == 0 && forward;
             if (endOfPage) { 
 
                 println();
@@ -175,17 +174,15 @@ public class TheOldNetBrowserV2 extends PetsciiThread {
             }
 
             //success path
-            if (currentRow < rows.size()){
-                String row = rows.get(currentRow);
-                println(row);
-                forward = true;
-                ++currentRow;
-            } else {
-                println();
-                println("-- End of Page --");
-            }
-
+            String row = rows.get(currentRow);
+            println(row);
+            forward = true;
+            ++currentRow;
         }
+
+        //handle end of document
+        println();
+        println("-- End of Page --");
     }
 
     public void getAndDisplayLinksOnPage(Document webpage) throws Exception{
