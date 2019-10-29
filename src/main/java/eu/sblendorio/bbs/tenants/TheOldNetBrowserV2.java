@@ -147,7 +147,9 @@ public class TheOldNetBrowserV2 extends PetsciiThread {
 
             if (endOfDocument){
                 println();
+                write(RED);
                 println("-- End of Document --");
+                write(GREY3);
             }
 
             if (endOfPage || endOfDocument) { 
