@@ -87,8 +87,8 @@ public class MenuTheOldNet extends PetsciiThread {
             gotoXY(0, delta + 19); write(REVON); print(" T "); write(REVOFF); print(" Televideo");
 
             gotoXY(20, delta + 4); write(WHITE); print("Services"); write(CYAN);
-            gotoXY(20, delta + 6); write(REVON); print(" M "); write(REVOFF); print(" Mail");
-            gotoXY(20, delta + 7); write(REVON); print(" O "); write(REVOFF); print(" Internet");
+            gotoXY(20, delta + 6); write(REVON); print(" I "); write(REVOFF); print(" Internet");
+            gotoXY(20, delta + 7); write(REVON); print(" M "); write(REVOFF); print(" Mail");
             gotoXY(20, delta + 8); write(REVON); print(" D "); write(REVOFF); print(" Files [CSDb]");
             gotoXY(20, delta + 9); write(REVON); print(" A "); write(REVOFF); print(" Files [CBM]");
             gotoXY(20, delta + 10); write(REVON); print(" K "); write(REVOFF); print(" CSDb to SD2IEC");
@@ -131,7 +131,7 @@ public class MenuTheOldNet extends PetsciiThread {
                     else if (key == '2') launch(new HomeAwesomation());
                     // else if (key == '3') launch(new Daggasoft());
                     else if (key == '3') launch(new Sys64738());
-                    else if (key == 'o') launch(new TheOldNetSearch());
+                    else if (key == 'i') launch(new TheOldNetSearch());
                     else if (key == '4') launch(new Vcfed());
                     else if (key == '5') launch(new RetroCampus());
                     // else if (key == '4') launch(new Medbunker());
