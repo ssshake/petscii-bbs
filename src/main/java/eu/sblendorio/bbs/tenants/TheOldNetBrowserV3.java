@@ -203,7 +203,7 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
 
             case 'l': 
             case 'L': 
-                listLinksForPage(pager, webpage);
+                listLinksForPage(pager, webpage, currentAddress);
                 writeAddressBar(currentAddress);
                 break;
 
@@ -246,8 +246,8 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
         prepareDisplayForNewPage(head);        
     }
 
-    void listLinksForPage(Pager pager, Document webpage) throws Exception {
-        getAndDisplayLinksOnPage(webpage);
+    void listLinksForPage(Pager pager, Document webpage, String currentAddress) throws Exception {
+        getAndDisplayLinksOnPage(webpage, currentAddress);
         clearBrowserWindow();
         pager.currentRow = 0;
         pager.page = 0;
@@ -330,9 +330,10 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
         write(GREY3);
     }
 
-    void getAndDisplayLinksOnPage(Document webpage) throws Exception{
-        // loading();
+    void getAndDisplayLinksOnPage(Document webpage, String currentAddress) throws Exception{
+        loading();
         while (true) {
+            writeAddressBar(currentAddress);
             listLinks(webpage);
 
             write(WHITE);
