@@ -400,12 +400,13 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
             print(i + "."); 
             write(GREY3);
             
-            final int iLen = 37-String.valueOf(i).length(); //I'm guessing something to do with the row width
+            // final int iLen = 37-String.valueOf(i).length(); //I'm guessing something to do with the row width
             
-            String title = post.name;
-            String line = WordUtils.wrap(filterPrintable(HtmlUtils.htmlClean(title)), iLen, "\r", true);
+            // String title = post.name;
+            // String line = WordUtils.wrap(filterPrintable(HtmlUtils.htmlClean(title)), iLen, "\r", true);
             
-            println(line.replaceAll("\r", "\r " + repeat(" ", 37-iLen)));
+            // println(line.replaceAll("\r", "\r " + repeat(" ", 37-iLen)));
+            println(post.name);
         }
         newline();
     }
