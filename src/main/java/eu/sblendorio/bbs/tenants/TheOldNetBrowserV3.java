@@ -46,7 +46,6 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
 
         public Entry(String url, String name) throws Exception {
             this.url = defaultString(url);
-            // this.name = name;
             if (name.length() > 60){
                     this.name = " ..." + StringUtils.right(name, 31).trim();
             } else {
@@ -55,6 +54,19 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
             this.fileType = defaultString(this.name).replaceAll("(?is)^.*\\.(.*?)$", "$1").toLowerCase();
         }
     }
+
+    static class Pager {
+        public final boolean forward;
+        public final int page;
+        public final int currentRow;
+
+        public Pager(boolean forward, int page, int currentRow) throws Exception {
+            this.forward = forward;
+            this.page = page;
+            this.currentRow = currentRow;
+        }
+    }
+
 
     protected Map<Integer, Entry> posts = emptyMap();
 
@@ -74,10 +86,7 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
 
             String url = URL_TEMPLATE + URLEncoder.encode(search, "UTF-8");
 
-            println();
-            println();
-
-            waitOn();
+            loading();
             
             Document webpage = getWebpage(url);
             displayPage(webpage, url);
@@ -87,42 +96,18 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
 
     void renderHomeScreen() throws Exception {
             logo();
-            // write(BROWSERSPLASH);
-            // println();
             gotoXY(10,1);
-            // print("URL: ");
-            // write(GREY1);
-            // println("(\".\" to go back):");
-            // write(GREY3);
-            // println();
-            // gotoXY(10,2);
-            // print(StringUtils.repeat(chr(163), 21));
-            // write(UP, UP);
-            // gotoXY(15,1);
             flush();
     }
 
     protected void displayPage(Document webpage, String url) throws Exception {
-        __currentPage = 1;
+        __currentPage = 1; //reset this globally, not sure if required
 
-        // cls();
-        // logo();
+        Pager pager = new Pager(true, 0, 0);
 
         String title = url;
 
-        String pageAsString = webpage.toString();
-
-        final String content = pageAsString
-            .replaceAll("<img.[^>]*>", "<br>[IMAGE] ")
-            .replaceAll("<a.[^>]*>", " <br>[LINK] ")
-            .replaceAll("&quot;", "\"")
-            .replaceAll("&apos;", "'")
-            .replaceAll("&#xA0;", " ")
-            .replaceAll("(?is)<style>.*</style>", EMPTY)
-            .replaceAll("(?is)<script .*</script>", EMPTY)
-            .replaceAll("(?is)^[\\s\\n\\r]+|^\\s*(</?(br|div|figure|iframe|img|p|h[0-9])[^>]*>\\s*)+", EMPTY)
-            .replaceAll("(?is)^(<[^>]+>(\\s|\n|\r)*)+", EMPTY);
-
+        final String content = formattedWebpage(webpage);
 
         String head;
         try {
@@ -155,95 +140,62 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
             boolean startOfPage = currentRow % __screenRows == 1;
             boolean endOfPage = currentRow > 0 && currentRow % __screenRows == 0 && forward;
 
-            // if (endOfDocument){
-            //     println();
-            //     write(RED);
-            //     println("-- End of Document --");
-            //     write(GREY3);
-            // }
-
             if (startOfPage){
                 printPageNumber(page);
             }
 
             if (endOfPage || endOfDocument) { 
 
-                // println();
-                // gotoXY(0,21);
-                // write(BROWSERBOTTOM);
-                // printPageNumber(page);
-		write(BLACK);
-                gotoXY(9,1);
-                
-                // print("PAGE " + page + " (N)EXT  (P)REV  (L)INKS (B)ACK");
-                write(GREY3);
+                parkCursor();
 
-                resetInput(); 
-                int ch = readKey();
+                int choice = getInputKey();
 
-                if (ch == '.' || ch == 'b' || ch == 'B') {
-                    return; //should bail
-                } else if (ch == 'l' || ch == 'L') {
-                    // waitOn();
-                    getAndDisplayLinksOnPage(webpage);
-                    currentRow = 0;
-                    page = 0;
-                } else if ((ch == 'p' || ch == 'P')) {  //PREVIOUS PAGE
-                    if (startOfDocument){
+                switch(choice){
+                    case '.': 
+                    case 'b': 
+                    case 'B': 
+                        return;
+
+                    case 'l': 
+                    case 'L': 
+                        getAndDisplayLinksOnPage(webpage);
+                        clearBrowserWindow();
+                        currentRow = 0;
+                        page = 0;
+                        break;
+                    
+                    case 'p': 
+                    case 'P': 
+                        if (startOfDocument){
+                            continue;
+                        }
+
+                        --page;
+                        currentRow = ( page -1 ) * __screenRows;
+                        forward = false;
+                        prepareDisplayForNewPage(head);
                         continue;
-                    }
-
-                    --page;
-                    currentRow = ( page -1 ) * __screenRows;
-                    forward = false;
-                    prepareDisplayForNewPage(head);
-                    continue;
-
-                } else if (ch == 'n' || ch == 'N') {  //NEXT PAGE
-                    if (endOfDocument){
+                    
+                    case 'n': 
+                    case 'N': 
+                        if (endOfDocument){
+                            continue;
+                        }
+                        ++page;
+                        forward = true;
+                        prepareDisplayForNewPage(head);
+                        break;
+                    
+                    default: 
                         continue;
-                    }
-                    ++page;
-                    //shouldn't next page explicitly draw it just like previous page?
-                    //It should also set forward to true instead of implying it.
-                } else {
-                    continue;
                 }
-
-                prepareDisplayForNewPage(head);
+     
             }
 
             //success path
             if (!endOfDocument){
-
                 String row = rows.get(currentRow);
-
-                String patternStringLink = ".*\\[LINK\\].*";
-                Pattern patternLink = Pattern.compile(patternStringLink);
-                Matcher matcherLink = patternLink.matcher(row);
-                boolean matchesLink = matcherLink.matches();
-
-                String patternStringImage = ".*\\[IMAGE\\].*";
-                Pattern patternImage = Pattern.compile(patternStringImage);
-                Matcher matcherImage = patternImage.matcher(row);
-                boolean matchesImage = matcherImage.matches();
-
-                if (matchesLink){
-                    log("MATCHES!!!!!!!!!!!");
-                    write(LIGHT_BLUE);
-                }
-
-                if (matchesImage){
-                    log("MATCHES!!!!!!!!!!!");
-                    write(YELLOW);
-                }
-                gotoXY(0, currentRow % __screenRows + 3);
-                print(row);
-                
-                if (matchesLink || matchesImage){
-                    write(GREY3);
-                }
-                
+                printRowWithColor(row, currentRow);
                 forward = true;
                 ++currentRow;
             }
@@ -251,18 +203,69 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
         }
     }
 
+    int getInputKey() throws Exception {
+        resetInput();
+        return readKey();
+    }
+
+    void parkCursor(){
+        write(BLACK);
+        gotoXY(9,1);
+        write(GREY3);
+    }
+
+    String formattedWebpage(Document webpage){
+        return webpage
+            .toString()
+            .replaceAll("<img.[^>]*>", "<br>[IMAGE] ")
+            .replaceAll("<a.[^>]*>", " <br>[LINK] ")
+            .replaceAll("&quot;", "\"")
+            .replaceAll("&apos;", "'")
+            .replaceAll("&#xA0;", " ")
+            .replaceAll("(?is)<style>.*</style>", EMPTY)
+            .replaceAll("(?is)<script .*</script>", EMPTY)
+            .replaceAll("(?is)^[\\s\\n\\r]+|^\\s*(</?(br|div|figure|iframe|img|p|h[0-9])[^>]*>\\s*)+", EMPTY)
+            .replaceAll("(?is)^(<[^>]+>(\\s|\n|\r)*)+", EMPTY);
+    }
+
+    void printRowWithColor(String row, int currentRow){
+        String patternStringLink = ".*\\[LINK\\].*";
+        Pattern patternLink = Pattern.compile(patternStringLink);
+        Matcher matcherLink = patternLink.matcher(row);
+        boolean matchesLink = matcherLink.matches();
+
+        String patternStringImage = ".*\\[IMAGE\\].*";
+        Pattern patternImage = Pattern.compile(patternStringImage);
+        Matcher matcherImage = patternImage.matcher(row);
+        boolean matchesImage = matcherImage.matches();
+
+        if (matchesLink){
+            log("MATCHES!!!!!!!!!!!");
+            write(LIGHT_BLUE);
+        }
+
+        if (matchesImage){
+            log("MATCHES!!!!!!!!!!!");
+            write(YELLOW);
+        }
+        gotoXY(0, currentRow % __screenRows + 3);
+        print(row);
+        
+        if (matchesLink || matchesImage){
+            write(GREY3);
+        }
+    }
+
     void printPageNumber(int page){
         write(BLACK);
-	gotoXY(1,22);
+	    gotoXY(1,22);
         write(WHITE);
         print("PAGE " + page);
         write(GREY3);
     }
 
     void prepareDisplayForNewPage(String head){
-        // cls();
-        // logo();
-        waitOn();
+        loading();
         clearBrowserWindow();
         writeAddressBar(head);
     }
@@ -271,17 +274,16 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
         write(GREEN);
         gotoXY(10,1);
         print(StringUtils.left(url, 28));
-        // print ("[URL: " + StringUtils.left(head, 30) + "]");
         gotoXY(0,3);
         write(GREY3);
     }
 
     public void getAndDisplayLinksOnPage(Document webpage) throws Exception{
-        // waitOn();
+        loading();
         List<Entry> entries = getUrls(webpage);
-        // waitOff();
         if (isEmpty(entries)) {
-            write(RED); println("Zero result page - press any key");
+            write(RED); 
+            println("Zero result page - press any key");
             flush(); 
             resetInput(); 
             readKey();
@@ -334,18 +336,14 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
             } else if ("r".equals(input) || "reload".equals(input) || "refresh".equals(input)) {
                 posts = null;
                 listPosts(entries);
-            } else if (posts.containsKey(toInt(input))) { //what condition is this?
-                // displayPost(toInt(input));
+            } else if (posts.containsKey(toInt(input))) { 
                 final Entry p = posts.get(toInt(input));
 
-                // displayPage(p.url);
-                // getAndDisplayLinksOnPage(p.url);
-                log("I DO NOTHING");
                 Document webpage = getWebpage(p.url);
+                clearBrowserWindow();
                 displayPage(webpage, p.url);
-                listPosts(entries); //redraw after coming back?
+                listPosts(entries);
                 
-                // listPosts(entries);
             } else if ("".equals(input)) {
                 listPosts(entries);
             }
@@ -354,7 +352,6 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
     }  
 
     private void listPosts(List<Entry> entries) throws Exception {
-        // logo();
         clearForLinks();
         gotoXY(0,4);
         write(ORANGE);
@@ -364,21 +361,33 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
         for (Map.Entry<Integer, Entry> entry: posts.entrySet()) {
             int i = entry.getKey();
             Entry post = entry.getValue();
-            write(WHITE); print(i + "."); write(GREY3);
-            final int iLen = 37-String.valueOf(i).length();
+
+            write(WHITE); 
+            print(i + "."); 
+            write(GREY3);
+            
+            final int iLen = 37-String.valueOf(i).length(); //I'm guessing something to do with the row width
+            
             String title = post.name;
             String line = WordUtils.wrap(filterPrintable(HtmlUtils.htmlClean(title)), iLen, "\r", true);
+            
             println(line.replaceAll("\r", "\r " + repeat(" ", 37-iLen)));
         }
         newline();
     }
 
     private Map<Integer, Entry> getPosts(List<Entry> entries, int page, int perPage) throws Exception {
-        if (page < 1 || perPage < 1) return null;
+        if (page < 1 || perPage < 1) {
+            return null;
+        };
 
         Map<Integer, Entry> result = new LinkedHashMap<>();
-        for (int i=(page-1)*perPage; i<page*perPage; ++i)
-            if (i<entries.size()) result.put(i+1, entries.get(i));
+
+        for ( int i = ( page - 1 ) * perPage; i < page * perPage; ++i ){
+            if (i<entries.size()) { 
+                result.put( i + 1, entries.get(i));
+            }
+        }
         return result;
     }
 
@@ -431,7 +440,7 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
         return result;
     }  
 
-    private void waitOn() {
+    private void loading() {
         gotoXY(10,1);
         write(PURPLE);
         print("LOADING...                 ");
@@ -443,10 +452,7 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
         write(BLACK);
         gotoXY(0, 3);
         for (int i=0; i<720; ++i) {
-            //gotoXY(0, i + 3);
-            //for (int j=0; j<40; ++j) {
-                write(SPACE_CHAR);
-            //}
+                write(PERIOD);
         }
         flush();
         write(GREY3);
@@ -456,9 +462,9 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
         write(BLACK);
         gotoXY(0, 3);
         for (int i=0; i<18; ++i) {
-            gotoXY(40, i + 3);
+            gotoXY(0, i + 3);
             for (int j=0; j<40; ++j) {
-                write(DEL);
+                write(PERIOD);
             }
         }
         flush();
