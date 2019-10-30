@@ -498,7 +498,7 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
         for (int i=0; i<18; ++i) {
             gotoXY(0, i + 3);
             for (int j=0; j<39; ++j) {
-                write(PERIOD);
+                write(SPACE_CHAR);
             }
         }
         flush();
