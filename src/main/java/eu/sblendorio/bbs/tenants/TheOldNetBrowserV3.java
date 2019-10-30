@@ -56,9 +56,9 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
     }
 
     static class Pager {
-        public final boolean forward;
-        public final int page;
-        public final int currentRow;
+        public boolean forward;
+        public int page;
+        public int currentRow;
 
         public Pager(boolean forward, int page, int currentRow) throws Exception {
             this.forward = forward;
@@ -103,104 +103,125 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
     protected void displayPage(Document webpage, String url) throws Exception {
         __currentPage = 1; //reset this globally, not sure if required
 
-        Pager pager = new Pager(true, 0, 0);
-
-        String title = url;
+        Pager pager = new Pager(true, 1, 0);
 
         final String content = formattedWebpage(webpage);
 
-        String head;
-        try {
-            head = url.split("url=")[1];
-        } catch (ArrayIndexOutOfBoundsException e){
-            head = url;
-        }
+        String address = removeProxyFromUrl(url);
 
-        writeAddressBar(head);
+        writeAddressBar(address);
         writeFooter();
 
         List<String> rows = wordWrap("");
         rows.addAll(wordWrap(content));
 
-
-        int page = 1;
-        int currentRow = 0;
-        boolean forward = true;
-
-        while (currentRow < rows.size() + 1) {
-            log("Current Row: " + Integer.toString(currentRow));
-            log("Rows: " + Integer.toString(rows.size()));
-            log("Page: " + Integer.toString(page));
-            log("Prior Page Start Row: " + Integer.toString((page - 1 )* __screenRows));
+        while (pager.currentRow < rows.size() + 1) {
+            logPaging(pager, rows);
             
+            boolean startOfDocument = pager.page <= 1;
+            boolean endOfDocument = pager.currentRow == rows.size();
 
-            boolean startOfDocument = page <= 1;
-            boolean endOfDocument = currentRow == rows.size();
-
-            boolean startOfPage = currentRow % __screenRows == 1;
-            boolean endOfPage = currentRow > 0 && currentRow % __screenRows == 0 && forward;
+            boolean startOfPage = pager.currentRow % __screenRows == 1;
+            boolean endOfPage = pager.currentRow > 0 && pager.currentRow % __screenRows == 0 && pager.forward;
 
             if (startOfPage){
-                printPageNumber(page);
+                printPageNumber(pager.page);
             }
 
             if (endOfPage || endOfDocument) { 
-
                 parkCursor();
 
-                int choice = getInputKey();
-
-                switch(choice){
-                    case '.': 
-                    case 'b': 
-                    case 'B': 
+                String nextStep = promptForUserInput(pager, webpage, address, startOfDocument, endOfDocument);
+                switch (nextStep){
+                    case "skip":
+                        continue;
+                    case "exit":
                         return;
-
-                    case 'l': 
-                    case 'L': 
-                        getAndDisplayLinksOnPage(webpage);
-                        clearBrowserWindow();
-                        currentRow = 0;
-                        page = 0;
+                    default:
                         break;
-                    
-                    case 'p': 
-                    case 'P': 
-                        if (startOfDocument){
-                            continue;
-                        }
-
-                        --page;
-                        currentRow = ( page -1 ) * __screenRows;
-                        forward = false;
-                        prepareDisplayForNewPage(head);
-                        continue;
-                    
-                    case 'n': 
-                    case 'N': 
-                        if (endOfDocument){
-                            continue;
-                        }
-                        ++page;
-                        forward = true;
-                        prepareDisplayForNewPage(head);
-                        break;
-                    
-                    default: 
-                        continue;
                 }
-     
             }
 
-            //success path
             if (!endOfDocument){
-                String row = rows.get(currentRow);
-                printRowWithColor(row, currentRow);
-                forward = true;
-                ++currentRow;
+                printRowWithColor(pager, rows);
+                pager.forward = true;
+                ++pager.currentRow;
             }
-
         }
+    }
+
+    String removeProxyFromUrl(String url){
+        try {
+            return url.split("url=")[1];
+        } catch (ArrayIndexOutOfBoundsException e){
+            return url;
+        }        
+    }
+    void logPaging(Pager pager, List<String> rows){
+        log("Current Row: " + Integer.toString(pager.currentRow));
+        log("Rows: " + Integer.toString(rows.size()));
+        log("Page: " + Integer.toString(pager.page));
+        log("Prior Page Start Row: " + Integer.toString((pager.page - 1 )* __screenRows));
+    }
+
+    String promptForUserInput(Pager pager, Document webpage, String head, boolean startOfDocument, boolean endOfDocument) throws Exception {
+        String instruction = "";
+        switch(getInputKey()){
+            case '.': 
+            case 'b': 
+            case 'B': 
+                instruction = "exit";
+                break;
+
+            case 'l': 
+            case 'L': 
+                listLinksForPage(pager, webpage);
+                break;
+
+            case 'p': 
+            case 'P': 
+                if (startOfDocument){
+                    instruction = "skip";
+                    break;
+                }
+
+                loadPreviousPage(pager, head);
+                instruction = "skip";
+                break;
+            
+            case 'n': 
+            case 'N': 
+                if (endOfDocument){
+                    instruction = "skip";
+                    break;
+                }
+                loadNextPage(pager, head);
+                break;
+            
+            default: 
+                instruction = "skip";
+        }
+        return instruction;
+    }
+
+    void loadPreviousPage(Pager pager, String head){
+        --pager.page;
+        pager.currentRow = ( pager.page -1 ) * __screenRows;
+        pager.forward = false;
+        prepareDisplayForNewPage(head);
+    }
+
+    void loadNextPage(Pager pager, String head){
+        ++pager.page;
+        pager.forward = true;
+        prepareDisplayForNewPage(head);        
+    }
+
+    void listLinksForPage(Pager pager, Document webpage) throws Exception {
+        getAndDisplayLinksOnPage(webpage);
+        clearBrowserWindow();
+        pager.currentRow = 0;
+        pager.page = 0;
     }
 
     int getInputKey() throws Exception {
@@ -228,7 +249,8 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
             .replaceAll("(?is)^(<[^>]+>(\\s|\n|\r)*)+", EMPTY);
     }
 
-    void printRowWithColor(String row, int currentRow){
+    void printRowWithColor(Pager pager, List<String> rows){
+        String row = rows.get(pager.currentRow);
         String patternStringLink = ".*\\[LINK\\].*";
         Pattern patternLink = Pattern.compile(patternStringLink);
         Matcher matcherLink = patternLink.matcher(row);
@@ -248,7 +270,7 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
             log("MATCHES!!!!!!!!!!!");
             write(YELLOW);
         }
-        gotoXY(0, currentRow % __screenRows + 3);
+        gotoXY(0, pager.currentRow % __screenRows + 3);
         print(row);
         
         if (matchesLink || matchesImage){
@@ -278,7 +300,7 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
         write(GREY3);
     }
 
-    public void getAndDisplayLinksOnPage(Document webpage) throws Exception{
+    void getAndDisplayLinksOnPage(Document webpage) throws Exception{
         loading();
         List<Entry> entries = getUrls(webpage);
         if (isEmpty(entries)) {
@@ -292,9 +314,10 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
         displayLinksOnPage(entries);
     }
 
-    public void displayLinksOnPage(List<Entry> entries) throws Exception {
+    void displayLinksOnPage(List<Entry> entries) throws Exception {
         listPosts(entries);
         while (true) {
+
             log("TheOldNet Browser waiting for input");
             write(WHITE);print("#"); write(GREY3);
             print(", [");
@@ -308,14 +331,23 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
             print("]ack> ");
             resetInput();
             flush(); 
+            
             String inputRaw = readLine();
             String input = lowerCase(trim(inputRaw));
+
+            //QUIT
             if ("B".equals(input) || "b".equals(input) || ".".equals(input) || "exit".equals(input) || "quit".equals(input) || "q".equals(input)) {
                 break;
-            } else if ("help".equals(input) || "h".equals(input)) {
+            } 
+            
+            //HELP (do we even want this?)
+            else if ("help".equals(input) || "h".equals(input)) {
                 help();
                 listPosts(entries);
-            } else if ("+".equals(input)) {
+            } 
+            
+            //NEXT PAGE
+            else if ("+".equals(input)) {
                 ++__currentPage;
                 posts = null;
                 try {
@@ -325,18 +357,31 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
                     posts = null;
                     listPosts(entries);
                 }
-            } else if ("-".equals(input) && __currentPage > 1) {
+            } 
+            
+            //PREVIOUS PAGE
+            else if ("-".equals(input) && __currentPage > 1) {
                 --__currentPage;
                 posts = null;
                 listPosts(entries);
-            } else if ("--".equals(input) && __currentPage > 1) {
+            } 
+            
+            //ALSO PREVIOUS PAGE< WHY?
+            else if ("--".equals(input) && __currentPage > 1) {
                 __currentPage = 1;
                 posts = null;
                 listPosts(entries);
-            } else if ("r".equals(input) || "reload".equals(input) || "refresh".equals(input)) {
+            } 
+            
+            //RELOAD (why have this)
+            else if ("r".equals(input) || "reload".equals(input) || "refresh".equals(input)) {
                 posts = null;
                 listPosts(entries);
-            } else if (posts.containsKey(toInt(input))) { 
+            } 
+            
+            //SUCCESS PATH
+            //DO THE THING WHERE YOU LOAD A NEW PAGE
+            else if (posts.containsKey(toInt(input))) { 
                 final Entry p = posts.get(toInt(input));
 
                 Document webpage = getWebpage(p.url);
@@ -344,7 +389,10 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
                 displayPage(webpage, p.url);
                 listPosts(entries);
                 
-            } else if ("".equals(input)) {
+            } 
+            
+            //JUST SHOW THE SAME SCREEN I GUESS< DO WE WANT THIS?
+            else if ("".equals(input)) {
                 listPosts(entries);
             }
         }
