@@ -68,23 +68,22 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
     }
 
 
-    protected Map<Integer, Entry> posts = emptyMap();
+    protected Map<Integer, Entry> links = emptyMap();
 
     public static void main(String[] args) throws Exception {}
 
     @Override
     public void doLoop() throws Exception {
         do {
-            renderHomeScreen();
-            resetInput();
 
-            String search = readLine();
-            
-            if (defaultString(search).trim().equals(".") || isBlank(search)) {
+            writeHeader();
+            writeFooter();
+
+            String url = focusAddressBar();
+
+            if (url == "_quit_program"){
                 return;
             }
-
-            String url = URL_TEMPLATE + URLEncoder.encode(search, "UTF-8");
 
             loading();
             
@@ -94,10 +93,27 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
         } while (true);
     }
 
-    void renderHomeScreen() throws Exception {
-            logo();
-            gotoXY(10,1);
-            flush();
+    String focusAddressBar() throws Exception{
+        gotoXY(10,1);
+        flush();
+        resetInput();
+        String search = readLine();
+
+        if (defaultString(search).trim().equals(".") || isBlank(search)) {
+            return "_quit_program";
+        }
+
+        String url = URL_TEMPLATE + URLEncoder.encode(search, "UTF-8");
+        return url;
+    }
+
+    void enterAddress() throws Exception {
+        String url = focusAddressBar();
+        loading();
+        clearBrowserWindow();
+        Document webpage = getWebpage(url);
+        displayPage(webpage, url);
+        clearBrowserWindow();
     }
 
     protected void displayPage(Document webpage, String url) throws Exception {
@@ -110,7 +126,6 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
         String address = removeProxyFromUrl(url);
 
         writeAddressBar(address);
-        writeFooter();
 
         List<String> rows = wordWrap("");
         rows.addAll(wordWrap(content));
@@ -167,6 +182,10 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
     String promptForUserInput(Pager pager, Document webpage, String head, boolean startOfDocument, boolean endOfDocument) throws Exception {
         String instruction = "";
         switch(getInputKey()){
+            case 'u' :
+            case 'U' :
+                enterAddress();
+                break;
             case '.': 
             case 'b': 
             case 'B': 
@@ -302,33 +321,13 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
 
     void getAndDisplayLinksOnPage(Document webpage) throws Exception{
         loading();
-        List<Entry> entries = getUrls(webpage);
-        if (isEmpty(entries)) {
-            write(RED); 
-            println("Zero result page - press any key");
-            flush(); 
-            resetInput(); 
-            readKey();
-            return;
-        }
-        displayLinksOnPage(entries);
-    }
-
-    void displayLinksOnPage(List<Entry> entries) throws Exception {
-        listPosts(entries);
         while (true) {
+            listLinks(webpage);
 
-            log("TheOldNet Browser waiting for input");
-            write(WHITE);print("#"); write(GREY3);
-            print(", [");
-            write(WHITE); print("+-"); write(GREY3);
-            print("]Page [");
-            write(WHITE); print("H"); write(GREY3);
-            print("]elp [");
-            write(WHITE); print("R"); write(GREY3);
-            print("]eload [");
-            write(WHITE); print("B"); write(GREY3);
-            print("]ack> ");
+            write(WHITE);
+            print("Enter Link # or Command> ");
+            write(GREY3);
+
             resetInput();
             flush(); 
             
@@ -340,73 +339,50 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
                 break;
             } 
             
-            //HELP (do we even want this?)
-            else if ("help".equals(input) || "h".equals(input)) {
-                help();
-                listPosts(entries);
-            } 
-            
             //NEXT PAGE
-            else if ("+".equals(input)) {
+            else if ("n".equals(input) || "N".equals(input)) {
                 ++__currentPage;
-                posts = null;
-                try {
-                    listPosts(entries);
-                } catch (NullPointerException e) {
-                    --__currentPage;
-                    posts = null;
-                    listPosts(entries);
-                }
+                links = null;
             } 
             
             //PREVIOUS PAGE
-            else if ("-".equals(input) && __currentPage > 1) {
+            else if (("p".equals(input) || "P".equals(input))  && __currentPage > 1) {
                 --__currentPage;
-                posts = null;
-                listPosts(entries);
-            } 
-            
-            //ALSO PREVIOUS PAGE< WHY?
-            else if ("--".equals(input) && __currentPage > 1) {
-                __currentPage = 1;
-                posts = null;
-                listPosts(entries);
-            } 
-            
-            //RELOAD (why have this)
-            else if ("r".equals(input) || "reload".equals(input) || "refresh".equals(input)) {
-                posts = null;
-                listPosts(entries);
+                links = null;
             } 
             
             //SUCCESS PATH
             //DO THE THING WHERE YOU LOAD A NEW PAGE
-            else if (posts.containsKey(toInt(input))) { 
-                final Entry p = posts.get(toInt(input));
-
-                Document webpage = getWebpage(p.url);
+            else if (links.containsKey(toInt(input))) { 
+                final Entry link = links.get(toInt(input));
+                Document nextWebpage = getWebpage(link.url);
                 clearBrowserWindow();
-                displayPage(webpage, p.url);
-                listPosts(entries);
-                
+                displayPage(nextWebpage, link.url);  
             } 
-            
-            //JUST SHOW THE SAME SCREEN I GUESS< DO WE WANT THIS?
-            else if ("".equals(input)) {
-                listPosts(entries);
-            }
         }
-        flush();
     }  
 
-    private void listPosts(List<Entry> entries) throws Exception {
+    private void listLinks(Document webpage) throws Exception {
         clearForLinks();
         gotoXY(0,4);
         write(ORANGE);
         println("Links On Page:");
         println();
-        posts = getPosts(entries, __currentPage, __pageSize);
-        for (Map.Entry<Integer, Entry> entry: posts.entrySet()) {
+
+        List<Entry> entries = getAllLinks(webpage);
+
+        if (isEmpty(entries)) {
+            write(RED); 
+            println("Zero result page - press any key");
+            flush(); 
+            resetInput(); 
+            readKey();
+            return;
+        }
+
+        links = getLinksForPage(entries, __currentPage, __pageSize);
+        
+        for (Map.Entry<Integer, Entry> entry: links.entrySet()) {
             int i = entry.getKey();
             Entry post = entry.getValue();
 
@@ -424,7 +400,7 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
         newline();
     }
 
-    private Map<Integer, Entry> getPosts(List<Entry> entries, int page, int perPage) throws Exception {
+    private Map<Integer, Entry> getLinksForPage(List<Entry> entries, int page, int perPage) throws Exception {
         if (page < 1 || perPage < 1) {
             return null;
         };
@@ -439,7 +415,7 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
         return result;
     }
 
-    public static List<Entry> getUrls(Document webpage) throws Exception {
+    public static List<Entry> getAllLinks(Document webpage) throws Exception {
         List<Entry> urls = new ArrayList<>(); //why
         String title = webpage.title();
         Elements links = webpage.select("a[href]");
@@ -527,14 +503,14 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
     }
 
     private void help() throws Exception {
-        logo();
+        // writeHeader();
         println();
         println();
         println("Press any key to go back");
         readKey();
     }
 
-    private void logo() throws Exception {
+    private void writeHeader() throws Exception {
         write(CLR, LOWERCASE, CASE_LOCK);
         // write(TheOldNet.LOGO);
         // write(LOGO);
@@ -546,6 +522,7 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
     private void writeFooter() throws Exception {
         gotoXY(0,21);
         write(BROWSERBOTTOM);
+        write(GREY3);
     }
 
     private final static byte[] LOGO = {
@@ -580,8 +557,8 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
     private final static byte[] BROWSERTOP = {
         -101, 18, 32, 32, 32, 32, 32, 32, 32, 32, 32, -110, -73, -73, -73, -73,
         -73, -73, -73, -73, -73, -73, -73, -73, -73, -73, -73, -73, -73, -73, -73, -73,
-        -73, -73, -73, -73, -73, -73, -73, -73, -73, 18, 32, 32, -104, 32, 32, 32,
-        -43, -46, -52, 32, 32, 32, 31, -110, 32, 32, 32, 32, 32, 32, 32, 32,
+        -73, -73, -73, -73, -73, -73, -73, -73, -73, 18, 32, 32, -104, 32, 91, -43,
+        93, -46, -52, 32, 32, 32, 31, -110, 32, 32, 32, 32, 32, 32, 32, 32,
         32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32,
         32, 5, 32, 32, 32, 32, -104, 18, 32, 32, -105, 32, 32, 32, 32, 32,
         32, 32, 32, 32, -110, -81, -81, -81, -81, -81, -81, -81, -81, -81, -81, -81,
