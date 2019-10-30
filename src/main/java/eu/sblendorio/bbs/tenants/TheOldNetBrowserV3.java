@@ -146,6 +146,8 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
 
             boolean startOfDocument = page <= 1;
             boolean endOfDocument = currentRow == rows.size();
+
+            boolean startOfPage = currentRow % __screenRows == 1;
             boolean endOfPage = currentRow > 0 && currentRow % __screenRows == 0 && forward;
 
             // if (endOfDocument){
@@ -155,15 +157,16 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
             //     write(GREY3);
             // }
 
+            if (startOfPage){
+                printPageNumber(page);
+            }
+
             if (endOfPage || endOfDocument) { 
 
                 // println();
                 // gotoXY(0,21);
                 // write(BROWSERBOTTOM);
-                gotoXY(1,22);
-                write(WHITE);
-                print("PAGE " + page);
-                write(GREY3);
+                // printPageNumber(page);
                 gotoXY(0,0);
                 
                 // print("PAGE " + page + " (N)EXT  (P)REV  (L)INKS (B)ACK");
@@ -187,10 +190,7 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
                     --page;
                     currentRow = ( page -1 ) * __screenRows;
                     forward = false;
-                    // cls();
-                    // logo();
-                    writeAddressBar(head);
-                    clearBrowserWindow();
+                    prepareDisplayForNewPage(head);
                     continue;
 
                 } else if (ch == 'n' || ch == 'N') {  //NEXT PAGE
@@ -198,15 +198,13 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
                         continue;
                     }
                     ++page;
-
+                    //shouldn't next page explicitly draw it just like previous page?
+                    //It should also set forward to true instead of implying it.
                 } else {
                     continue;
                 }
 
-                // cls();
-                // logo();
-                writeAddressBar(head);
-                clearBrowserWindow();
+                prepareDisplayForNewPage(head);
             }
 
             //success path
@@ -245,6 +243,21 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
             }
 
         }
+    }
+
+    void printPageNumber(int page){
+        gotoXY(1,22);
+        write(WHITE);
+        print("PAGE " + page);
+        write(GREY3);
+    }
+
+    void prepareDisplayForNewPage(String head){
+        // cls();
+        // logo();
+        waitOn();//move these three lines to function
+        clearBrowserWindow();
+        writeAddressBar(head);
     }
 
     void writeAddressBar(String url){
@@ -334,7 +347,9 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
     }  
 
     private void listPosts(List<Entry> entries) throws Exception {
-        logo();
+        // logo();
+        clearBrowserWindow();
+        gotoXY(0,4);
         write(ORANGE);
         println("Links On Page:");
         println();
@@ -509,8 +524,8 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
         -73, -73, -73, -73, -73, -73, -73, -73, -73, -73, -73, -73, 18, 32, -110, -73,
         -73, -73, -73, -73, -73, -73, -73, -73, -73, -73, -73, -73, -73, -73, 18, 32,
         -104, 32, 5, -110, 32, 32, 32, 32, 32, 32, -104, 18, 32, 5, -110, 32,
-        -104, 91, 5, 78, -104, 93, -101, 69, 88, 84, 5, 32, -104, 91, 5, 80,
-        -104, 93, -101, 82, 69, 86, 32, -104, 18, 32, -110, 91, 5, 76, -104, 93,
+        -104, 91, 5, 80, -104, 93, -101, 82, 69, 86, 5, 32, -104, 91, 5, 78,
+        -104, 93, -101, 69, 88, 84, 32, -104, 18, 32, -110, 91, 5, 76, -104, 93,
         -101, 73, 78, 75, 83, 32, -104, 91, 5, 66, -104, 93, -101, 65, 67, 75,
         -102, 32, -104, 18, 32, -105, 32, -110, -81, -81, -81, -81, -81, -81, 18, 32,
         -110, -81, -81, -81, -81, -81, -81, -81, -81, -81, -81, -81, -81, -81, -81, -81,
