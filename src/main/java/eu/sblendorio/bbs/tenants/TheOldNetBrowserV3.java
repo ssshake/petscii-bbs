@@ -47,11 +47,11 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
         public Entry(String url, String name) throws Exception {
             this.url = defaultString(url);
             this.name = name;
-            // if (name.length() > 60){
-            //         this.name = " ..." + StringUtils.right(name, 31).trim();
-            // } else {
-            //         this.name = StringUtils.left(name, 35).trim();
-            // }
+            if (name.length() > 60){
+                    this.name = " ..." + StringUtils.right(name, 31).trim();
+            } else {
+                    this.name = StringUtils.left(name, 35).trim();
+            }
             this.fileType = defaultString(this.name).replaceAll("(?is)^.*\\.(.*?)$", "$1").toLowerCase();
         }
     }
@@ -373,7 +373,7 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
     }  
 
     private void listLinks(Document webpage) throws Exception {
-        // clearForLinks();
+        clearForLinks();
         gotoXY(0,4);
         write(ORANGE);
         println("Links On Page:");
@@ -400,13 +400,12 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
             print(i + "."); 
             write(GREY3);
             
-            // final int iLen = 37-String.valueOf(i).length(); //I'm guessing something to do with the row width
+            final int iLen = 37-String.valueOf(i).length(); //I'm guessing something to do with the row width
             
-            // String title = post.name;
-            // String line = WordUtils.wrap(filterPrintable(HtmlUtils.htmlClean(title)), iLen, "\r", true);
+            String title = post.name;
+            String line = WordUtils.wrap(filterPrintable(HtmlUtils.htmlClean(title)), iLen, "\r", true);
             
-            // println(line.replaceAll("\r", "\r " + repeat(" ", 37-iLen)));
-            println(post.name);
+            println(line.replaceAll("\r", "\r " + repeat(" ", 37-iLen)));
         }
         newline();
     }
