@@ -107,7 +107,7 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
 
     void clearAddressBar(){
         gotoXY(10,1);
-        print("                           ");
+        print("                            ");
     }
 
     void enterAddress(String previousAddress) throws Exception {
