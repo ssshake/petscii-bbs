@@ -167,6 +167,7 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
                 // gotoXY(0,21);
                 // write(BROWSERBOTTOM);
                 // printPageNumber(page);
+		write(GREY3);
                 gotoXY(0,0);
                 
                 // print("PAGE " + page + " (N)EXT  (P)REV  (L)INKS (B)ACK");
@@ -246,7 +247,8 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
     }
 
     void printPageNumber(int page){
-        gotoXY(1,22);
+        write(BLACK);
+	gotoXY(1,22);
         write(WHITE);
         print("PAGE " + page);
         write(GREY3);
@@ -434,11 +436,12 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
 
     private void clearBrowserWindow(){
         write(BLACK);
-        for (int i=0; i<18; ++i) {
-            gotoXY(0, i + 3);
-            for (int j=0; j<40; ++j) {
-                write(DEL);
-            }
+            gotoXY(0, 3);
+        for (int i=0; i<720; ++i) {
+            //gotoXY(0, i + 3);
+            //for (int j=0; j<40; ++j) {
+                write(SPACE_CHAR);
+            //}
         }
         flush();
         write(GREY3);
