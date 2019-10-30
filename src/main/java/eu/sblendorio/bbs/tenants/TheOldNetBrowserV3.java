@@ -355,7 +355,7 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
 
     private void listPosts(List<Entry> entries) throws Exception {
         // logo();
-        clearBrowserWindow();
+        clearForLinks();
         gotoXY(0,4);
         write(ORANGE);
         println("Links On Page:");
@@ -441,12 +441,25 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
 
     private void clearBrowserWindow(){
         write(BLACK);
-            gotoXY(0, 3);
+        gotoXY(0, 3);
         for (int i=0; i<720; ++i) {
             //gotoXY(0, i + 3);
             //for (int j=0; j<40; ++j) {
                 write(SPACE_CHAR);
             //}
+        }
+        flush();
+        write(GREY3);
+    }
+
+    private void clearForLinks(){
+        write(BLACK);
+        gotoXY(0, 3);
+        for (int i=0; i<18; ++i) {
+            gotoXY(0, i + 3);
+            for (int j=0; j<40; ++j) {
+                write(DEL);
+            }
         }
         flush();
         write(GREY3);
