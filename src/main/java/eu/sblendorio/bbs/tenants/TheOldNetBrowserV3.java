@@ -331,7 +331,7 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
     }
 
     void getAndDisplayLinksOnPage(Document webpage) throws Exception{
-        loading();
+        // loading();
         while (true) {
             listLinks(webpage);
 
@@ -482,18 +482,18 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
     }
 
     private void clearBrowserWindow(){
-        // clearForLinks();
-        write(BLACK);
-        gotoXY(0, 3);
-        for (int i=0; i<720; ++i) {
-                write(PERIOD);
-        }
-        flush();
-        write(GREY3);
+        clearForLinks();
+        // write(BLACK);
+        // gotoXY(0, 3);
+        // for (int i=0; i<720; ++i) {
+        //         write(PERIOD);
+        // }
+        // flush();
+        // write(GREY3);
     }
 
     private void clearForLinks(){
-        write(YELLOW);
+        write(BLACK);
         gotoXY(0, 3);
         for (int i=0; i<18; ++i) {
             gotoXY(0, i + 3);
