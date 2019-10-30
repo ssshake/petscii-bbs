@@ -484,7 +484,7 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
     }
 
     private void clearBrowserWindow(){
-        // clearForLinks();
+        clearForLinks();
         // write(BLACK);
         // gotoXY(0, 3);
         // for (int i=0; i<720; ++i) {
