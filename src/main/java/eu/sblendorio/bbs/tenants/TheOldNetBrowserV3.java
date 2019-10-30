@@ -334,8 +334,8 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
         loading();
         while (true) {
             
-            listLinks(webpage);
             writeAddressBar(currentAddress);
+            listLinks(webpage);
             write(WHITE);
             print("Enter Link # or Command> ");
             write(GREY3);
