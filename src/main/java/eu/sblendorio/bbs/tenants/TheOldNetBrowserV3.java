@@ -493,11 +493,11 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
     }
 
     private void clearForLinks(){
-        write(BLACK);
+        write(YELLOW);
         gotoXY(0, 3);
         for (int i=0; i<18; ++i) {
-            gotoXY(40, i + 3);
-            for (int j=0; j<40; ++j) {
+            gotoXY(0, i + 3);
+            for (int j=0; j<30; ++j) {
                 write(PERIOD);
             }
         }
