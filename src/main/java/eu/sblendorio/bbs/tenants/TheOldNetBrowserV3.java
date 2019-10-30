@@ -85,15 +85,13 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
                 return;
             }
 
-            loading();
-            
-            Document webpage = getWebpage(url);
-            displayPage(webpage, url);
+            loadWebPage(url);
             
         } while (true);
     }
 
     String focusAddressBar() throws Exception{
+        clearAddressBar();
         gotoXY(10,1);
         flush();
         resetInput();
@@ -107,13 +105,23 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
         return url;
     }
 
-    void enterAddress() throws Exception {
+    void clearAddressBar(){
+        gotoXY(10,1);
+        print("                           ");
+    }
+
+    void enterAddress(String previousAddress) throws Exception {
         String url = focusAddressBar();
+        loadWebPage(url);
+        clearBrowserWindow();
+        writeAddressBar(previousAddress);
+    }
+
+    void loadWebPage(String url) throws Exception{
         loading();
         clearBrowserWindow();
         Document webpage = getWebpage(url);
         displayPage(webpage, url);
-        clearBrowserWindow();
     }
 
     protected void displayPage(Document webpage, String url) throws Exception {
@@ -179,12 +187,12 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
         log("Prior Page Start Row: " + Integer.toString((pager.page - 1 )* __screenRows));
     }
 
-    String promptForUserInput(Pager pager, Document webpage, String head, boolean startOfDocument, boolean endOfDocument) throws Exception {
+    String promptForUserInput(Pager pager, Document webpage, String currentAddress, boolean startOfDocument, boolean endOfDocument) throws Exception {
         String instruction = "";
         switch(getInputKey()){
             case 'u' :
             case 'U' :
-                enterAddress();
+                enterAddress(currentAddress);
                 break;
             case '.': 
             case 'b': 
@@ -195,6 +203,7 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
             case 'l': 
             case 'L': 
                 listLinksForPage(pager, webpage);
+                writeAddressBar(currentAddress);
                 break;
 
             case 'p': 
@@ -204,7 +213,7 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
                     break;
                 }
 
-                loadPreviousPage(pager, head);
+                loadPreviousPage(pager, currentAddress);
                 instruction = "skip";
                 break;
             
@@ -214,7 +223,7 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
                     instruction = "skip";
                     break;
                 }
-                loadNextPage(pager, head);
+                loadNextPage(pager, currentAddress);
                 break;
             
             default: 
@@ -312,6 +321,7 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
     }
 
     void writeAddressBar(String url){
+        clearAddressBar();
         write(GREEN);
         gotoXY(10,1);
         print(StringUtils.left(url, 28));
@@ -355,9 +365,7 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
             //DO THE THING WHERE YOU LOAD A NEW PAGE
             else if (links.containsKey(toInt(input))) { 
                 final Entry link = links.get(toInt(input));
-                Document nextWebpage = getWebpage(link.url);
-                clearBrowserWindow();
-                displayPage(nextWebpage, link.url);  
+                loadWebPage(link.url);
             } 
         }
     }  
