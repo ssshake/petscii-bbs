@@ -47,6 +47,11 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
         public Entry(String url, String name) throws Exception {
             this.url = defaultString(url);
             this.name = name;
+	    //if (name.length() > 60){
+            //	this.name = "..." + StringUtils.right(name, 32).trim();
+	    //} else {
+            //	this.name = StringUtils.left(name, 35).trim();
+	    //}
             this.fileType = defaultString(this.name).replaceAll("(?is)^.*\\.(.*?)$", "$1").toLowerCase();
         }
     }
@@ -167,8 +172,8 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
                 // gotoXY(0,21);
                 // write(BROWSERBOTTOM);
                 // printPageNumber(page);
-		write(GREY3);
-                gotoXY(0,0);
+		write(BLACK);
+                gotoXY(9,1);
                 
                 // print("PAGE " + page + " (N)EXT  (P)REV  (L)INKS (B)ACK");
                 write(GREY3);
@@ -257,7 +262,7 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
     void prepareDisplayForNewPage(String head){
         // cls();
         // logo();
-        waitOn();//move these three lines to function
+        waitOn();
         clearBrowserWindow();
         writeAddressBar(head);
     }
@@ -430,7 +435,7 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
         gotoXY(10,1);
         write(PURPLE);
         print("LOADING...                 ");
-        write(GREY3);
+        write(BLACK);
         flush();
     }
 
