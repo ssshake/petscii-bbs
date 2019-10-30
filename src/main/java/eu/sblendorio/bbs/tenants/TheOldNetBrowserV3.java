@@ -85,7 +85,7 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
             // write(BROWSERSPLASH);
             // println();
             gotoXY(10,1);
-            print("URL: ");
+            // print("URL: ");
             // write(GREY1);
             // println("(\".\" to go back):");
             // write(GREY3);
@@ -93,15 +93,15 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
             // gotoXY(10,2);
             // print(StringUtils.repeat(chr(163), 21));
             // write(UP, UP);
-            gotoXY(15,1);
+            // gotoXY(15,1);
             flush();
     }
 
     protected void displayPage(Document webpage, String url) throws Exception {
         __currentPage = 1;
 
-        cls();
-        logo();
+        // cls();
+        // logo();
 
         String title = url;
 
@@ -127,6 +127,7 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
         }
 
         writeAddressBar(head);
+        writeFooter();
 
         List<String> rows = wordWrap("");
         rows.addAll(wordWrap(content));
@@ -147,18 +148,18 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
             boolean endOfDocument = currentRow == rows.size();
             boolean endOfPage = currentRow > 0 && currentRow % __screenRows == 0 && forward;
 
-            if (endOfDocument){
-                println();
-                write(RED);
-                println("-- End of Document --");
-                write(GREY3);
-            }
+            // if (endOfDocument){
+            //     println();
+            //     write(RED);
+            //     println("-- End of Document --");
+            //     write(GREY3);
+            // }
 
             if (endOfPage || endOfDocument) { 
 
                 // println();
-                gotoXY(0,21);
-                write(BROWSERBOTTOM);
+                // gotoXY(0,21);
+                // write(BROWSERBOTTOM);
                 gotoXY(1,22);
                 write(WHITE);
                 print("PAGE " + page);
@@ -174,7 +175,7 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
                 if (ch == '.' || ch == 'b' || ch == 'B') {
                     return; //should bail
                 } else if (ch == 'l' || ch == 'L') {
-                    waitOn();
+                    // waitOn();
                     getAndDisplayLinksOnPage(webpage);
                     currentRow = 0;
                     page = 0;
@@ -186,9 +187,10 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
                     --page;
                     currentRow = ( page -1 ) * __screenRows;
                     forward = false;
-                    cls();
-                    logo();
+                    // cls();
+                    // logo();
                     writeAddressBar(head);
+                    clearBrowserWindow();
                     continue;
 
                 } else if (ch == 'n' || ch == 'N') {  //NEXT PAGE
@@ -201,9 +203,10 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
                     continue;
                 }
 
-                cls();
-                logo();
+                // cls();
+                // logo();
                 writeAddressBar(head);
+                clearBrowserWindow();
             }
 
             //success path
@@ -230,8 +233,8 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
                     log("MATCHES!!!!!!!!!!!");
                     write(YELLOW);
                 }
-                
-                println(row);
+                gotoXY(0, currentRow % __screenRows + 3);
+                print(row);
                 
                 if (matchesLink || matchesImage){
                     write(GREY3);
@@ -246,17 +249,17 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
 
     void writeAddressBar(String url){
         write(GREEN);
-        gotoXY(9,1);
-        print(StringUtils.left(url, 29));
+        gotoXY(10,1);
+        print(StringUtils.left(url, 28));
         // print ("[URL: " + StringUtils.left(head, 30) + "]");
         gotoXY(0,3);
         write(GREY3);
     }
 
     public void getAndDisplayLinksOnPage(Document webpage) throws Exception{
-        waitOn();
+        // waitOn();
         List<Entry> entries = getUrls(webpage);
-        waitOff();
+        // waitOff();
         if (isEmpty(entries)) {
             write(RED); println("Zero result page - press any key");
             flush(); 
@@ -282,7 +285,8 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
             write(WHITE); print("B"); write(GREY3);
             print("]ack> ");
             resetInput();
-            flush(); String inputRaw = readLine();
+            flush(); 
+            String inputRaw = readLine();
             String input = lowerCase(trim(inputRaw));
             if ("B".equals(input) || "b".equals(input) || ".".equals(input) || "exit".equals(input) || "quit".equals(input) || "q".equals(input)) {
                 break;
@@ -406,8 +410,23 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
     }  
 
     private void waitOn() {
-        print("LOADING...");
+        gotoXY(10,1);
+        write(PURPLE);
+        print("LOADING...                  ");
+        write(GREY3);
         flush();
+    }
+
+    private void clearBrowserWindow(){
+        write(BLACK);
+        for (int i=0; i<18; ++i) {
+            gotoXY(0, i + 3);
+            for (int j=0; j<40; ++j) {
+                write(DEL);
+            }
+        }
+        flush();
+        write(GREY3);
     }
 
     private void waitOff() {
@@ -430,7 +449,13 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
         // write(TheOldNet.LOGO);
         // write(LOGO);
         write(BROWSERTOP);
-        write(GREY3); gotoXY(0,5);
+        write(GREY3); 
+        gotoXY(0,5);
+    }
+
+    private void writeFooter() throws Exception {
+        gotoXY(0,21);
+        write(BROWSERBOTTOM);
     }
 
     private final static byte[] LOGO = {
