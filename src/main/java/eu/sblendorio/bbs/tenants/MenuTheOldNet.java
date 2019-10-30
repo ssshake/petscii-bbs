@@ -65,6 +65,9 @@ public class MenuTheOldNet extends PetsciiThread {
             int delta = 1;
             write(CLR, LOWERCASE, CASE_LOCK);
             log("Starting MenuTheOldNet BBS / main menu");
+            gotoXY(0,10);
+            write(LOADING);
+            cls();
             logo();
 
             gotoXY(0, delta + 4); write(WHITE); print("Blog / News"); write(GREY3);
@@ -133,7 +136,8 @@ public class MenuTheOldNet extends PetsciiThread {
                     else if (key == '2') launch(new HomeAwesomation());
                     // else if (key == '3') launch(new Daggasoft());
                     else if (key == '3') launch(new Sys64738());
-                    else if (key == 'o') launch(new TheOldNetSearch());
+                    // else if (key == 'o') launch(new TheOldNetSearch());
+                    else if (key == 'o') launch(new TheOldNetBrowserV2());
                     else if (key == 'i') launch(new TheOldNetBrowserV3());
 
                     else if (key == '4') launch(new Vcfed());
@@ -177,6 +181,16 @@ public class MenuTheOldNet extends PetsciiThread {
         // write(LIGHT_GREEN);
         // print("http://theoldnet.com");
     }
+
+    public static byte[] LOADING = new byte[] {
+        28, -92, -92, -92, -127, -81, -81, -81, -81, -98, -71, -71, -71, -71, 30, -94,
+        -94, -94, -94, -102, 18, 32, 32, 76, 79, 65, 68, 73, 78, 71, 32, 32,
+        31, -110, -72, -72, -72, -72, -72, -100, -73, -73, -73, -73, -73, 5, -93, -93,
+        -93, -93, -102, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32,
+        32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32,
+
+        32, 32, 32,
+    };
 
     public static byte[] LOGO = new byte[] {
         32,  32,  32,  32,  32,  28, -84,  32,  32,  32,  32,  32,  32,  32,  32,  32,
