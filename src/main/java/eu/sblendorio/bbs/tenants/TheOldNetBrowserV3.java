@@ -80,6 +80,9 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
             writeHeader();
             writeFooter();
 
+            loadWebPage(makeUrl("w3c.org"));
+            clearBrowserWindow();
+
             String url = focusAddressBar();
 
             if (url == "_quit_program"){
@@ -89,6 +92,10 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
             loadWebPage(url);
             
         } while (true);
+    }
+
+    String makeUrl(String url) throws Exception {
+        return URL_TEMPLATE + URLEncoder.encode(url, "UTF-8");
     }
 
     String focusAddressBar() throws Exception{
@@ -102,7 +109,7 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
             return "_quit_program";
         }
 
-        String url = URL_TEMPLATE + URLEncoder.encode(search, "UTF-8");
+        String url = makeUrl(search);
         return url;
     }
 
