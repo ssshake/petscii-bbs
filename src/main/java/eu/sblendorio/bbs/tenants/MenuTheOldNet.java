@@ -65,7 +65,8 @@ public class MenuTheOldNet extends PetsciiThread {
             int delta = 1;
             write(CLR, LOWERCASE, CASE_LOCK);
             log("Starting MenuTheOldNet BBS / main menu");
-            gotoXY(0,10);
+            print("TheOldNet.com");
+	    gotoXY(0,10);
             write(LOADING);
             cls();
             logo();
