@@ -333,9 +333,9 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
     void getAndDisplayLinksOnPage(Document webpage, String currentAddress) throws Exception{
         loading();
         while (true) {
-            writeAddressBar(currentAddress);
+            
             listLinks(webpage);
-
+            writeAddressBar(currentAddress);
             write(WHITE);
             print("Enter Link # or Command> ");
             write(GREY3);
