@@ -92,18 +92,19 @@ public class MenuTheOldNet extends PetsciiThread {
 
             gotoXY(20, delta + 4); write(WHITE); print("Services");
             write(GREEN);
-            gotoXY(20, delta + 6); write(REVON); print(" I "); write(REVOFF); print(" Internet!");
+            gotoXY(20, delta + 6); write(REVON); print(" I "); write(REVOFF); print(" Internet BETA");
+            gotoXY(20, delta + 7); write(REVON); print(" O "); write(REVOFF); print(" Internet ALPHA");
             write(CYAN);
-            gotoXY(20, delta + 7); write(REVON); print(" M "); write(REVOFF); print(" Mail");
-            gotoXY(20, delta + 8); write(REVON); print(" D "); write(REVOFF); print(" Files [CSDb]");
-            gotoXY(20, delta + 9); write(REVON); print(" A "); write(REVOFF); print(" Files [CBM]");
-            gotoXY(20, delta + 10); write(REVON); print(" K "); write(REVOFF); print(" CSDb to SD2IEC");
-            gotoXY(20, delta + 11); write(REVON); print(" P "); write(REVOFF); print(" Petscii Art");
+            gotoXY(20, delta + 8); write(REVON); print(" M "); write(REVOFF); print(" Mail");
+            gotoXY(20, delta + 9); write(REVON); print(" D "); write(REVOFF); print(" Files [CSDb]");
+            gotoXY(20, delta + 10); write(REVON); print(" A "); write(REVOFF); print(" Files [CBM]");
+            gotoXY(20, delta + 11); write(REVON); print(" K "); write(REVOFF); print(" CSDb to SD2IEC");
+            gotoXY(20, delta + 12); write(REVON); print(" P "); write(REVOFF); print(" Petscii Art");
 
-            gotoXY(20, delta + 13); write(WHITE); print("Games"); write(YELLOW);
-            gotoXY(20, delta + 15); write(REVON); print(" X "); write(REVOFF); print(" TIC-TAC-TOE");
-            gotoXY(20, delta + 16); write(REVON); print(" C "); write(REVOFF); print(" CONNECT-4");
-            gotoXY(20, delta + 17); write(REVON); print(" F "); write(REVOFF); print(" MAGIC-15");
+            gotoXY(20, delta + 14); write(WHITE); print("Games"); write(YELLOW);
+            gotoXY(20, delta + 16); write(REVON); print(" X "); write(REVOFF); print(" TIC-TAC-TOE");
+            gotoXY(20, delta + 17); write(REVON); print(" C "); write(REVOFF); print(" CONNECT-4");
+            gotoXY(20, delta + 18); write(REVON); print(" F "); write(REVOFF); print(" MAGIC-15");
 
             // gotoXY(20, delta + 17); write(WHITE); print("Experimental"); write(ORANGE);
 
@@ -138,8 +139,8 @@ public class MenuTheOldNet extends PetsciiThread {
                     // else if (key == '3') launch(new Daggasoft());
                     else if (key == '3') launch(new Sys64738());
                     // else if (key == 'o') launch(new TheOldNetSearch());
-                    else if (key == 'o') launch(new TheOldNetBrowserV2());
-                    else if (key == 'i') launch(new TheOldNetBrowserV3());
+                    else if (key == 'o') launch(new TheOldNetBrowserV3());
+                    else if (key == 'i') launch(new TheOldNetBrowserV2());
 
                     else if (key == '4') launch(new Vcfed());
                     else if (key == '5') launch(new RetroCampus());

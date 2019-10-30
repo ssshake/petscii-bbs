@@ -427,7 +427,7 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
     private void waitOn() {
         gotoXY(10,1);
         write(PURPLE);
-        print("LOADING...                  ");
+        print("LOADING...                 ");
         write(GREY3);
         flush();
     }
