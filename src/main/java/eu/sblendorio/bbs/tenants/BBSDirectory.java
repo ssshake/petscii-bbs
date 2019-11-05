@@ -26,8 +26,7 @@ import static org.apache.commons.lang3.math.NumberUtils.*;
 public class BBSDirectory extends PetsciiThread {
 
     protected int __currentPage = 0;
-    protected int __pageSize = 10;
-    protected int __screenRows = 10;
+    protected int __screenRows = 15;
 
     static class BBS {
         String name;
@@ -98,9 +97,8 @@ public class BBSDirectory extends PetsciiThread {
                     --__currentPage;
                 }
             } else if (bbses.containsKey(toInt(input))) {
-                displayPost(toInt(input));
+                displayBBSInfo(toInt(input));
                 continue;
-
             }
             listBBSes();
         }
@@ -178,7 +176,7 @@ public class BBSDirectory extends PetsciiThread {
         }
         newline();
     }
-    protected void displayPost(int n) throws Exception {
+    protected void displayBBSInfo(int n) throws Exception {
         int i = 3;
         cls();
         logo();
@@ -204,36 +202,35 @@ public class BBSDirectory extends PetsciiThread {
         int page = 1;
         int j = 0;
         boolean forward = true;
-        while (j < rows.size()) {
-            if (j>0 && j % __screenRows == 0 && forward) {
-                println();
-                write(WHITE);
-                print("-PAGE " + page + "-  SPACE=NEXT  -=PREV  .=EXIT");
-                write(GREY3);
 
-                resetInput(); int ch = readKey();
-                if (ch == '.') {
-                    listBBSes();
-                    return;
-                } else if (ch == '-' && page > 1) {
-                    j -= (__screenRows *2);
-                    --page;
-                    forward = false;
-                    cls();
-                    logo();
-                    continue;
-                } else {
-                    ++page;
-                }
-                cls();
-                logo();
-            }
+        while (j < rows.size()) {
+
             String row = rows.get(j);
+
+            if (j % 2 == 0){
+                write(CYAN);
+            } else {
+                write(WHITE);
+            }
+            
             println(row);
-            forward = true;
             ++j;
         }
+
         println();
+        write(WHITE);
+        print(".=EXIT");
+        write(GREY3);
+
+        resetInput(); 
+        int ch = readKey();
+
+        if (ch == '.') {
+            logo();
+            cls();
+            listBBSes();
+            return;
+        }
     }
 
     protected List<String> wordWrap(String s) {
