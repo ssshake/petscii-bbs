@@ -531,6 +531,7 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
     private void writeHeader() throws Exception {
         // write(TheOldNet.LOGO);
         // write(LOGO);
+        gotoXY(0,0);
         write(BROWSERTOP);
         write(GREY3); 
         gotoXY(0,5);
