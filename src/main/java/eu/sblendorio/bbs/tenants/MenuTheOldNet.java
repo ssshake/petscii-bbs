@@ -90,6 +90,11 @@ public class MenuTheOldNet extends PetsciiThread {
             gotoXY(0, delta + 18); write(REVON); print(" L "); write(REVOFF); print(" Le ossa");
             gotoXY(0, delta + 19); write(REVON); print(" T "); write(REVOFF); print(" Televideo");
 
+
+            //TODO 
+            //Add a whos online page using the existing code found in the wordpress tenant
+            //
+            
             gotoXY(20, delta + 4); write(WHITE); print("Services");
             write(GREEN);
             gotoXY(20, delta + 6); write(REVON); print(" I "); write(REVOFF); print(" Internet!");

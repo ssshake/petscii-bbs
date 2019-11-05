@@ -27,15 +27,6 @@ public class BBSDirectory extends PetsciiThread {
 
     static String HR_TOP = StringUtils.repeat(chr(163), 39);
 
-    static class Post {
-        long id;
-        String title;
-        String date;
-        String content;
-        String excerpt;
-        Long authorId;
-    }
-
     static class BBS {
         String name;
         String address;
@@ -51,12 +42,11 @@ public class BBSDirectory extends PetsciiThread {
     }
 
     protected String domain = "http://cbbsoutpost.servebbs.com/api/exportbbslist/service.php?f=json";
-    protected byte[] logo = LOGO_WORDPRESS;
+    protected byte[] logo = LOGO;
     protected int pageSize = 10;
     protected int screenRows = 19;
     protected boolean showAuthor = false;
 
-    protected Map<Integer, Post> posts = emptyMap();
     protected Map<Integer, BBS> bbses = emptyMap();
 
     protected int currentPage = 1;
@@ -108,31 +98,31 @@ public class BBSDirectory extends PetsciiThread {
                 continue;
             } else if ("+".equals(input)) {
                 ++currentPage;
-                posts = null;
+                bbses = null;
                 try {
                     listBBSes();
                 } catch (NullPointerException e) {
                     --currentPage;
-                    posts = null;
+                    bbses = null;
                     listBBSes();
                     continue;
                 }
                 continue;
             } else if ("-".equals(input) && currentPage > 1) {
                 --currentPage;
-                posts = null;
+                bbses = null;
                 listBBSes();
                 continue;
             } else if ("--".equals(input) && currentPage > 1) {
                 currentPage = 1;
-                posts = null;
+                bbses = null;
                 listBBSes();
                 continue;
             } else if ("r".equals(input) || "reload".equals(input) || "refresh".equals(input)) {
-                posts = null;
+                bbses = null;
                 listBBSes();
                 continue;
-            } else if (posts.containsKey(toInt(input))) {
+            } else if (bbses.containsKey(toInt(input))) {
                 displayPost(toInt(input));
             } else if ("".equals(input)) {
                 listBBSes();
@@ -158,7 +148,7 @@ public class BBSDirectory extends PetsciiThread {
                 if (!domain.matches("(?is)^http.*"))
                     domain = "https://" + domain;
                 log("new API: "+getApi());
-                posts = null;
+                bbses = null;
                 currentPage = 1;
                 try {
                     listBBSes();
@@ -166,7 +156,7 @@ public class BBSDirectory extends PetsciiThread {
                     log("WORDPRESS FAILED: " + e.getClass().getName() + ": " + e.getMessage());
                     logo = oldLogo;
                     domain = oldDomain;
-                    posts = null;
+                    bbses = null;
                     listBBSes();
                 }
             }
@@ -205,7 +195,7 @@ public class BBSDirectory extends PetsciiThread {
     }
 
     protected void listBBSes() throws Exception {
-        log("LISTING OF POSTS NOW");
+        log("LISTING OF BBSes NOW");
         cls();
         logo();
 
@@ -243,7 +233,7 @@ public class BBSDirectory extends PetsciiThread {
         logo();
         println();
         println();
-        println("Press any key to go back to posts");
+        println("Press any key to go back to bbses");
         readKey();
     }
 
@@ -255,26 +245,25 @@ public class BBSDirectory extends PetsciiThread {
         waitOn();
 
         String author = null;
-        final Post p = posts.get(n);
+        final BBS p = bbses.get(n);
 
         try {
             if (showAuthor) {
-                JSONObject authorJ = (JSONObject) httpGetJson(getApi() + "users/" + p.authorId);
-                author = authorJ.get("name").toString();
+                author = p.sysop;
             }
         } catch (Exception e) {
             log("Error during retrieving author");
             e.printStackTrace();
         }
-        final String content = p.content
+        final String content = p.comment
                 .replaceAll("(?is)<style>.*</style>", EMPTY)
                 .replaceAll("(?is)<script .*</script>", EMPTY)
                 .replaceAll("(?is)^[\\s\\n\\r]+|^\\s*(</?(br|div|figure|iframe|img|p|h[0-9])[^>]*>\\s*)+", EMPTY)
                 .replaceAll("(?is)^(<[^>]+>(\\s|\n|\r)*)+", EMPTY);
-        final String head = p.title + (isNotBlank(author) ? " - di " + author : EMPTY) + "<br>" + HR_TOP ;
+        final String head = p.name + (isNotBlank(author) ? " - di " + author : EMPTY) + "<br>" + HR_TOP ;
         List<String> rows = wordWrap(head);
 
-        List<String> article = wordWrap(p.date.replaceAll("^(\\d\\d\\d\\d).(\\d\\d).(\\d\\d).*","$3/$2/$1") +
+        List<String> article = wordWrap(p.update.replaceAll("^(\\d\\d\\d\\d).(\\d\\d).(\\d\\d).*","$3/$2/$1") +
                 " - " + content
         );
         rows.addAll(article);
@@ -324,30 +313,36 @@ public class BBSDirectory extends PetsciiThread {
         flush();
     }
 
-    public final static byte[] LOGO_WORDPRESS = new byte[] {
-        -104, -84, 32, 32, -84, 32, 32, 32, 32, 32, 32, 32, 32, -84, -94, 13,
-        -68, -69, 32, 18, -65, -110, -84, 18, -94, -110, -65, 18, -95, -94, -110, -69,
-        18, -84, -110, -65, 18, -95, -110, 32, -95, 18, -84, -110, -65, 18, -95, -94,
-        -110, -84, 18, -94, -110, -66, 18, -65, -94, -110, 13, 32, -65, -65, -66, 18,
-        -95, -110, 32, 18, -95, -95, -94, -110, -69, -95, 18, -95, -95, -94, -110, 32,
-        18, -84, -110, -65, 18, -95, -110, -66, 32, 18, -94, -110, -69, -68, -65, 13,
-        32, -68, -68, 32, 32, 18, -94, -110, -66, -68, 32, -66, 18, -94, -110, -66,
-        -68, 32, 32, -66, -68, -68, 18, -94, -110, -68, 18, -94, -110, 32, 18, -94,
-        -110, -66, 13
+    public final static byte[] LOGO = new byte[] {
+        -102, 18, -87, 32, 32, 32, -110, 32, 32, 32, 5, 18, 32, 32, -110, 32,
+        32, 18, 32, 32, -102, -110, 32, 32, 32, 5, 18, 32, 32, -102, -110, 32,
+        5, 32, 32, 32, 32, -102, 32, 5, 32, 32, 32, 32, 32, 32, 32, 32,
+        32, 32, 32, 32, -102, 32, 32, 32, 32, 18, 32, -110, -87, 32, 32, 18,
+        32, -110, -87, 32, 5, 18, 32, -110, 32, 18, 32, -110, 32, 18, 32, -110,
+        32, 18, 32, -102, -110, 32, 5, 18, 32, -102, -110, 32, 32, 32, 5, 67,
+        66, 66, 83, 79, 85, 84, 80, 79, 83, 84, 46, -102, 32, 32, 32, 32,
+        32, 32, 32, 32, 32, 18, 32, -110, 32, 32, 32, 32, 32, 32, 5, 18,
+        32, 32, -110, 32, 32, 18, 32, 32, -102, -110, 32, 32, 32, 5, 18, 32,
+        -102, -110, 32, 32, 5, 83, 69, 82, 86, 69, 66, 66, 83, 46, 32, 32,
+        32, 32, -102, 32, 32, 32, 32, 32, 32, 32, 32, 18, 32, -33, -110, 32,
+        32, 28, 18, 32, -33, -102, -110, 32, 5, 18, 32, -102, -110, 32, 5, 18,
+        32, -110, 32, 18, 32, -102, -110, 32, 5, 18, 32, -102, -110, 32, 32, 32,
+        5, 18, 32, -102, -110, 32, 5, 67, 79, 77, 32, -102, 32, 5, 32, -102,
+        32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, -33,
+        18, 32, 32, 32, -110, 32, 32, 32, 5, 18, 32, 32, -110, 32, 32, 18,
+        32, 32, -102, -110, 32, 32, 5, 18, 32, 32, -102, -110, 32, 32, 5, 32,
+        32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32,
+        32, 32, 32, 32, 32, 32, 32, -102, 32, 32, 32, 32, 32, 32, 32, 32,
+        32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 5, 32, 32, -102,
+        32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32,
+
+        32, 32, 32, 32, 32, 32, 32,
+
+        13
     };
 
     protected void logo() throws IOException {
-        if (!equalsDomain(domain, originalDomain)) {
-            final String normDomain = normalizeDomain(domain);
-            gotoXY(25,1); write(WHITE); print(substring(normDomain, 0, 14));
-            if (normDomain.length() > 14) {
-                gotoXY(25, 2); print(substring(normDomain, 14, 28));
-            }
-            gotoXY(0,0);
-            write(LOGO_WORDPRESS);
-        } else {
-            write(logo);
-        }
+        write(LOGO);
         write(GREY3);
     }
 
