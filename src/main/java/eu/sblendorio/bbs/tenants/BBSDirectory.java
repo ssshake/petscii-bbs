@@ -226,8 +226,6 @@ public class BBSDirectory extends PetsciiThread {
         int ch = readKey();
 
         if (ch == '.') {
-            logo();
-            cls();
             listBBSes();
             return;
         }
