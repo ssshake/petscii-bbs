@@ -253,6 +253,7 @@ public class TheOldNetBrowserV3 extends PetsciiThread {
         prepareDisplayForNewPage(head);        
     }
 
+    //why doest this function exist and getLinksForPage
     void listLinksForPage(Pager pager, Document webpage, String currentAddress) throws Exception {
         getAndDisplayLinksOnPage(webpage, currentAddress);
         clearBrowserWindow();

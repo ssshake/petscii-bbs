@@ -93,8 +93,12 @@ public class MenuTheOldNet extends PetsciiThread {
 
             //TODO 
             //Add a whos online page using the existing code found in the wordpress tenant
+            //Also there is already ability to change handle
+            //Send direct message
+            //etc
+            //so extract all of that into a chat class
             //
-            
+
             gotoXY(20, delta + 4); write(WHITE); print("Services");
             write(GREEN);
             gotoXY(20, delta + 6); write(REVON); print(" I "); write(REVOFF); print(" Internet!");

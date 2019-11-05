@@ -25,7 +25,9 @@ import static org.apache.commons.lang3.math.NumberUtils.*;
 @Hidden
 public class BBSDirectory extends PetsciiThread {
 
-    static String HR_TOP = StringUtils.repeat(chr(163), 39);
+    protected int __currentPage = 0;
+    protected int __pageSize = 10;
+    protected int __screenRows = 10;
 
     static class BBS {
         String name;
@@ -43,14 +45,9 @@ public class BBSDirectory extends PetsciiThread {
 
     protected String domain = "http://cbbsoutpost.servebbs.com/api/exportbbslist/service.php?f=json";
     protected byte[] logo = LOGO;
-    protected int pageSize = 10;
-    protected int screenRows = 19;
     protected boolean showAuthor = false;
 
     protected Map<Integer, BBS> bbses = emptyMap();
-
-    protected int currentPage = 1;
-    private String originalDomain;
 
     public BBSDirectory() {
         // Mandatory
@@ -67,112 +64,57 @@ public class BBSDirectory extends PetsciiThread {
 
     protected final String getApi() { return domain; };
 
+    void printCommandOptions(){
+        write(WHITE);print("#"); write(GREY3);
+        print(", [");
+        write(WHITE); print("+-"); write(GREY3);
+        print("]Page [");
+        write(WHITE); print("."); write(GREY3);
+        print("]");
+        write(WHITE); print("Q"); write(GREY3);
+        print("uit> ");
+    }
+
     @Override
     public void doLoop() throws Exception {
-        originalDomain = domain;
         write(LOWERCASE, CASE_LOCK);
-        log("Wordpress entering (" + domain + ")");
+        log("BBS List entering (" + domain + ")");
         listBBSes();
         while (true) {
-            log("Wordpress waiting for input");
-            write(WHITE);print("#"); write(GREY3);
-            print(", [");
-            write(WHITE); print("+-"); write(GREY3);
-            print("]Page [");
-            write(WHITE); print("H"); write(GREY3);
-            print("]elp [");
-            write(WHITE); print("R"); write(GREY3);
-            print("]eload [");
-            write(WHITE); print("."); write(GREY3);
-            print("]");
-            write(WHITE); print("Q"); write(GREY3);
-            print("uit> ");
+
+            log("BBS List waiting for input");
+            printCommandOptions();
             resetInput();
             flush(); String inputRaw = readLine();
             String input = lowerCase(trim(inputRaw));
+
             if (".".equals(input) || "exit".equals(input) || "quit".equals(input) || "q".equals(input)) {
                 break;
-            } else if ("help".equals(input) || "h".equals(input)) {
-                help();
-                listBBSes();
-                continue;
+
             } else if ("+".equals(input)) {
-                ++currentPage;
-                bbses = null;
-                try {
-                    listBBSes();
-                } catch (NullPointerException e) {
-                    --currentPage;
-                    bbses = null;
-                    listBBSes();
-                    continue;
+                ++__currentPage;
+            } else if ("-".equals(input)) {
+                if (__currentPage > 0){
+                    --__currentPage;
                 }
-                continue;
-            } else if ("-".equals(input) && currentPage > 1) {
-                --currentPage;
-                bbses = null;
-                listBBSes();
-                continue;
-            } else if ("--".equals(input) && currentPage > 1) {
-                currentPage = 1;
-                bbses = null;
-                listBBSes();
-                continue;
-            } else if ("r".equals(input) || "reload".equals(input) || "refresh".equals(input)) {
-                bbses = null;
-                listBBSes();
-                continue;
             } else if (bbses.containsKey(toInt(input))) {
                 displayPost(toInt(input));
-            } else if ("".equals(input)) {
-                listBBSes();
                 continue;
-            } else if ("clients".equals(input)) {
-                listClients();
-                continue;
-            } else if (substring(input,0,5).equalsIgnoreCase("send ")) {
-                long client = toLong(input.replaceAll("^send ([0-9]+).*$", "$1"));
-                String message = input.replaceAll("^send [0-9]+ (.*)$", "$1");
-                if (getClients().containsKey(client) && isNotBlank(message)) {
-                    System.out.println("Sending '"+message+"' to #"+client);
-                    int exitCode = send(client, message);
-                    System.out.println("Message sent, exitCode="+exitCode+".");
-                }
-            } else if (substring(input,0,5).equalsIgnoreCase("name ")) {
-                String newName = defaultString(input.replaceAll("^name ([^\\s]+).*$", "$1"));
-                changeClientName(newName);
-            } else if (substring (input, 0, 8).equalsIgnoreCase("connect ")) {
-                final String oldDomain = domain;
-                final byte[] oldLogo = logo;
-                domain = defaultString(input.replaceAll("^connect ([^\\s]+).*$", "$1"));
-                if (!domain.matches("(?is)^http.*"))
-                    domain = "https://" + domain;
-                log("new API: "+getApi());
-                bbses = null;
-                currentPage = 1;
-                try {
-                    listBBSes();
-                } catch (Exception e) {
-                    log("WORDPRESS FAILED: " + e.getClass().getName() + ": " + e.getMessage());
-                    logo = oldLogo;
-                    domain = oldDomain;
-                    bbses = null;
-                    listBBSes();
-                }
+
             }
+            listBBSes();
         }
         flush();
     }
 
-    protected Map<Integer, BBS> getBBSes(int page, int perPage) throws Exception {
-        if (page < 1 || perPage < 1) return null;
-
-        Map<Integer, BBS> result = new LinkedHashMap<>();
+    protected Map<Integer, BBS> getAllBBSes() throws Exception {
         
         JSONObject response = (JSONObject) httpGetJson(getApi());
         
         JSONArray bbsList = (JSONArray) response.get("bbs_list");
         
+        Map<Integer, BBS> result = new LinkedHashMap<>();
+
         for (int i=0; i<bbsList.size(); ++i) {
             BBS bbs = new BBS();
             JSONObject bbsJSON = (JSONObject) bbsList.get(i);
@@ -189,8 +131,25 @@ public class BBSDirectory extends PetsciiThread {
             bbs.location = bbsJSON.get("bbs_location").toString();
             bbs.update = bbsJSON.get("bbs_update").toString();
             
-            result.put(i+1+(perPage*(page-1)), bbs);
+            // result.put( i + 1 + ( perPage * ( page - 1 ) ), bbs); //wut
+            result.put(i + 1, bbs);
         }
+        return result;
+    }
+
+    protected Map<Integer, BBS> getBBSesForPage(){
+        int minRow = __currentPage * __screenRows;
+        int maxRow = minRow + __screenRows;
+
+        Map<Integer, BBS> result = new LinkedHashMap<>();
+
+        for (Map.Entry<Integer, BBS> entry: bbses.entrySet()) {
+            int i = entry.getKey();
+            BBS bbs = entry.getValue();
+            if (i >= minRow && i <= maxRow){
+                result.put(i, bbs);
+            }
+        }        
         return result;
     }
 
@@ -201,11 +160,15 @@ public class BBSDirectory extends PetsciiThread {
 
         if (isEmpty(bbses)) {
             waitOn();
-            bbses = getBBSes(currentPage, pageSize);
+            bbses = getAllBBSes();
             waitOff();
         }
 
-        for (Map.Entry<Integer, BBS> entry: bbses.entrySet()) {
+        Map<Integer, BBS> bbsForThisPage = getBBSesForPage();
+
+
+
+        for (Map.Entry<Integer, BBS> entry: bbsForThisPage.entrySet()) {
             int i = entry.getKey();
             BBS bbs = entry.getValue();
             write(WHITE); print(i + "."); write(GREY3);
@@ -215,31 +178,8 @@ public class BBSDirectory extends PetsciiThread {
         }
         newline();
     }
-
-    protected List<String> wordWrap(String s) {
-        String[] cleaned = filterPrintableWithNewline(HtmlUtils.htmlClean(s)).split("\n");
-        List<String> result = new ArrayList<>();
-        for (String item: cleaned) {
-            String[] wrappedLine = WordUtils
-                    .wrap(item, 39, "\n", true)
-                    .split("\n");
-            result.addAll(asList(wrappedLine));
-        }
-        return result;
-    }
-
-    protected void help() throws Exception {
-        cls();
-        logo();
-        println();
-        println();
-        println("Press any key to go back to bbses");
-        readKey();
-    }
-
     protected void displayPost(int n) throws Exception {
         int i = 3;
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         cls();
         logo();
         waitOn();
@@ -249,23 +189,23 @@ public class BBSDirectory extends PetsciiThread {
 
         List<String> rows = wordWrap("Name: " + p.name);
 
-        rows.add(wordWrap("Address: " + p.address));
-        rows.add(wordWrap("Port: " + p.port));
-        rows.add(wordWrap("Sysop: " + p.sysop));
-        rows.add(wordWrap("Warez: " + p.warez));
-        rows.add(wordWrap("Hardware: " + p.hardware));
-        rows.add(wordWrap("Web: " + p.web));
-        rows.add(wordWrap("Flashterm: " + p.flashterm));
-        rows.add(wordWrap("Comment: " + p.comment));
-        rows.add(wordWrap("Location: " + p.location));
-        rows.add(wordWrap("Update: " + p.update));
+        rows.add("Address: " + p.address);
+        rows.add("Port: " + p.port);
+        rows.add("Sysop: " + p.sysop);
+        rows.add("Warez: " + p.warez);
+        rows.add("Hardware: " + p.hardware);
+        rows.add("Web: " + p.web);
+        rows.add("Flashterm: " + p.flashterm);
+        rows.add("Comment: " + p.comment);
+        rows.add("Location: " + p.location);
+        rows.add("Update: " + p.update);
 
         waitOff();
         int page = 1;
         int j = 0;
         boolean forward = true;
         while (j < rows.size()) {
-            if (j>0 && j % screenRows == 0 && forward) {
+            if (j>0 && j % __screenRows == 0 && forward) {
                 println();
                 write(WHITE);
                 print("-PAGE " + page + "-  SPACE=NEXT  -=PREV  .=EXIT");
@@ -276,7 +216,7 @@ public class BBSDirectory extends PetsciiThread {
                     listBBSes();
                     return;
                 } else if (ch == '-' && page > 1) {
-                    j -= (screenRows *2);
+                    j -= (__screenRows *2);
                     --page;
                     forward = false;
                     cls();
@@ -295,6 +235,19 @@ public class BBSDirectory extends PetsciiThread {
         }
         println();
     }
+
+    protected List<String> wordWrap(String s) {
+        String[] cleaned = filterPrintableWithNewline(HtmlUtils.htmlClean(s)).split("\n");
+        List<String> result = new ArrayList<>();
+        for (String item: cleaned) {
+            String[] wrappedLine = WordUtils
+                    .wrap(item, 39, "\n", true)
+                    .split("\n");
+            result.addAll(asList(wrappedLine));
+        }
+        return result;
+    }
+
 
     protected void waitOn() {
         print("PLEASE WAIT...");
@@ -337,27 +290,6 @@ public class BBSDirectory extends PetsciiThread {
     protected void logo() throws IOException {
         write(LOGO);
         write(GREY3);
-    }
-
-    protected void listClients() throws Exception {
-        cls();
-        println("You are #" + getClientId() + ": "+getClientName() + " [" + getClientClass().getSimpleName() + "]");
-        newline();
-        for (Map.Entry<Long, PetsciiThread> entry: clients.entrySet())
-            if (entry.getKey() != getClientId())
-                println("#" + entry.getKey() +": "+entry.getValue().getClientName() + " [" + entry.getValue().getClientClass().getSimpleName() + "]");
-        println();
-    }
-
-    @Override
-    public void receive(long sender, Object message) {
-        log("--------------------------------");
-        log("From "+getClients().get(sender).getClientName()+": " +message);
-        log("--------------------------------");
-        println();
-        println("--------------------------------");
-        println("From "+getClients().get(sender).getClientName()+": " +message);
-        println("--------------------------------");
     }
 
 }
