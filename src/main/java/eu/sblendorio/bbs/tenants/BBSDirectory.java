@@ -247,26 +247,19 @@ public class BBSDirectory extends PetsciiThread {
         String author = null;
         final BBS p = bbses.get(n);
 
-        try {
-            if (showAuthor) {
-                author = p.sysop;
-            }
-        } catch (Exception e) {
-            log("Error during retrieving author");
-            e.printStackTrace();
-        }
-        final String content = p.comment
-                .replaceAll("(?is)<style>.*</style>", EMPTY)
-                .replaceAll("(?is)<script .*</script>", EMPTY)
-                .replaceAll("(?is)^[\\s\\n\\r]+|^\\s*(</?(br|div|figure|iframe|img|p|h[0-9])[^>]*>\\s*)+", EMPTY)
-                .replaceAll("(?is)^(<[^>]+>(\\s|\n|\r)*)+", EMPTY);
-        final String head = p.name + (isNotBlank(author) ? " - di " + author : EMPTY) + "<br>" + HR_TOP ;
-        List<String> rows = wordWrap(head);
+        List<String> rows = wordWrap("Name: " + p.name);
 
-        List<String> article = wordWrap(p.update.replaceAll("^(\\d\\d\\d\\d).(\\d\\d).(\\d\\d).*","$3/$2/$1") +
-                " - " + content
-        );
-        rows.addAll(article);
+        rows.add(wordWrap("Address: " + p.address));
+        rows.add(wordWrap("Port: " + p.port));
+        rows.add(wordWrap("Sysop: " + p.sysop));
+        rows.add(wordWrap("Warez: " + p.warez));
+        rows.add(wordWrap("Hardware: " + p.hardware));
+        rows.add(wordWrap("Web: " + p.web));
+        rows.add(wordWrap("Flashterm: " + p.flashterm));
+        rows.add(wordWrap("Comment: " + p.comment));
+        rows.add(wordWrap("Location: " + p.location));
+        rows.add(wordWrap("Update: " + p.update));
+
         waitOff();
         int page = 1;
         int j = 0;
