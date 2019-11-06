@@ -168,9 +168,9 @@ public class Chat extends PetsciiThread {
     protected void sendToAllClients(String message) throws Exception {
 
         for (Map.Entry<Long, PetsciiThread> entry: clients.entrySet())
-            //if (entry.getKey() != getClientId()) {
+            if (entry.getKey() != getClientId()) {
                 sendToClient(entry.getKey(), message);
-            //}
+            }
         println();
     }    
 
