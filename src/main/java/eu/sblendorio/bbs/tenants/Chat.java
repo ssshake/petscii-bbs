@@ -49,6 +49,7 @@ public class Chat extends PetsciiThread {
         write(LOWERCASE, CASE_LOCK);
         cls();
         logo();
+        listClients();
         help();
         println();
         log("Chat");
@@ -98,7 +99,9 @@ public class Chat extends PetsciiThread {
     }
 
     protected void help() throws Exception {
+        write(WHITE);
         println("Valid Commands Are:");
+        write(GREY3);
         println("quit, help, users, send, name");
     }
 
@@ -146,12 +149,16 @@ public class Chat extends PetsciiThread {
     }
 
     protected void prompt(){
-        write(ORANGE);
+        write(PURPLE);
         print(">> ");
     }
 
     //CHAT
     protected void listClients() throws Exception {
+        write(WHITE);
+        println("Users Online");
+        write(GREY3);
+        println();
         println("You are #" + getClientId() + ": "+getClientName() + " [" + getClientClass().getSimpleName() + "]");
         newline();
         for (Map.Entry<Long, PetsciiThread> entry: clients.entrySet())
