@@ -189,7 +189,8 @@ public class Chat extends PetsciiThread {
         println(message.toString());
 
         write(ORANGE);
-        print(">> ");      
+        print(">> ");
+        write(GREY3);      
     }
 
 }
