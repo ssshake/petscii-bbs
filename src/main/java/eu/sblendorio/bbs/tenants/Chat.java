@@ -103,7 +103,9 @@ public class Chat extends PetsciiThread {
         write(WHITE);
         println("Valid Commands Are:");
         write(GREY3);
-        println("quit, help, users, send, name");
+        println("quit, help, users");
+        println("send <#> <message>");
+        println("name <new-name>");
     }
 
     protected void waitOn() {
