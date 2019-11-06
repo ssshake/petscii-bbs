@@ -87,9 +87,10 @@ public class Chat extends PetsciiThread {
 
             } else if (substring(input,0,5).equalsIgnoreCase("name ")) {
                 String newName = defaultString(input.replaceAll("^name ([^\\s]+).*$", "$1"));
+                String oldName = getClientName();
                 changeClientName(newName);
                 // println("name changed to " + newName);
-                sendToAllClients("name changed to " + newName);
+                sendToAllClients("name changed from " + oldName + " to " + newName);
 
 
             } else {
