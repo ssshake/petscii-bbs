@@ -54,6 +54,7 @@ public class Chat extends PetsciiThread {
         println();
         //prompt();
         log("Chat");
+        sendToAllClients(getClientName() + " joined the chat!");
         while (true) {
 
             log("Chat waiting for input");
