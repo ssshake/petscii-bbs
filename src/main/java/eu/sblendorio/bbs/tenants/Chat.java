@@ -52,7 +52,7 @@ public class Chat extends PetsciiThread {
         listClients();
         help();
         println();
-        prompt();
+        //prompt();
         log("Chat");
         while (true) {
 
@@ -60,7 +60,8 @@ public class Chat extends PetsciiThread {
             
             write(GREY3);
             resetInput();
-            flush(); String inputRaw = readLine();
+            flush(); 
+            String inputRaw = readLine();
             String input = lowerCase(trim(inputRaw));
 
 
@@ -200,7 +201,7 @@ public class Chat extends PetsciiThread {
         write(GREY3);
         println(message.toString());
 
-        prompt();
+        //prompt();
         write(GREY3);      
     }
 
