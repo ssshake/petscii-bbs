@@ -52,12 +52,12 @@ public class Chat extends PetsciiThread {
         listClients();
         help();
         println();
+        prompt();
         log("Chat");
         while (true) {
 
             log("Chat waiting for input");
             
-            prompt();
             write(GREY3);
             resetInput();
             flush(); String inputRaw = readLine();
