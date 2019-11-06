@@ -165,6 +165,7 @@ public class Chat extends PetsciiThread {
             if (entry.getKey() != getClientId())
                 print("#" + entry.getKey() +": "+entry.getValue().getClientName() + " [" + entry.getValue().getClientClass().getSimpleName() + "]");
         println();
+        println();
     }
 
     protected void sendToClient(long client, String message) throws Exception{
