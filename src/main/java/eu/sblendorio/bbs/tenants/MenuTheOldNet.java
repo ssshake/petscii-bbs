@@ -84,11 +84,11 @@ public class MenuTheOldNet extends PetsciiThread {
             gotoXY(0, delta + 12); write(REVON); print(" 7 "); write(REVOFF); print(" Open Online");
             
 
-            gotoXY(0, delta + 14); write(WHITE); print("Misc"); write(PURPLE);
-            gotoXY(0, delta + 16); write(REVON); print(" 8 "); write(REVOFF); print(" Il Post");
-            gotoXY(0, delta + 17); write(REVON); print(" S "); write(REVOFF); print(" Sportal.IT");
-            gotoXY(0, delta + 18); write(REVON); print(" L "); write(REVOFF); print(" Le ossa");
-            gotoXY(0, delta + 19); write(REVON); print(" T "); write(REVOFF); print(" Televideo");
+            // gotoXY(0, delta + 14); write(WHITE); print("Misc"); write(PURPLE);
+            // gotoXY(0, delta + 16); write(REVON); print(" 8 "); write(REVOFF); print(" Il Post");
+            // gotoXY(0, delta + 17); write(REVON); print(" S "); write(REVOFF); print(" Sportal.IT");
+            // gotoXY(0, delta + 18); write(REVON); print(" L "); write(REVOFF); print(" Le ossa");
+            // gotoXY(0, delta + 19); write(REVON); print(" T "); write(REVOFF); print(" Televideo");
 
 
             //TODO 
@@ -103,18 +103,19 @@ public class MenuTheOldNet extends PetsciiThread {
             write(GREEN);
             gotoXY(20, delta + 6); write(REVON); print(" I "); write(REVOFF); print(" Internet!");
             write(CYAN);
-            gotoXY(20, delta + 7); write(REVON); print(" B "); write(REVOFF); print(" BBS Directory");
-            write(CYAN);
-            gotoXY(20, delta + 8); write(REVON); print(" M "); write(REVOFF); print(" Mail");
-            gotoXY(20, delta + 9); write(REVON); print(" D "); write(REVOFF); print(" Files [CSDb]");
-            gotoXY(20, delta + 10); write(REVON); print(" A "); write(REVOFF); print(" Files [CBM]");
-            gotoXY(20, delta + 11); write(REVON); print(" K "); write(REVOFF); print(" CSDb to SD2IEC");
-            gotoXY(20, delta + 12); write(REVON); print(" P "); write(REVOFF); print(" Petscii Art");
+            gotoXY(20, delta + 8); write(REVON); print(" B "); write(REVOFF); print(" BBS Directory");
+            gotoXY(20, delta + 9); write(REVON); print(" C "); write(REVOFF); print(" Chat <NEW>");
 
-            gotoXY(20, delta + 14); write(WHITE); print("Games"); write(YELLOW);
-            gotoXY(20, delta + 16); write(REVON); print(" X "); write(REVOFF); print(" TIC-TAC-TOE");
-            gotoXY(20, delta + 17); write(REVON); print(" C "); write(REVOFF); print(" CONNECT-4");
-            gotoXY(20, delta + 18); write(REVON); print(" F "); write(REVOFF); print(" MAGIC-15");
+            gotoXY(20, delta + 10); write(REVON); print(" M "); write(REVOFF); print(" Mail");
+            gotoXY(20, delta + 11); write(REVON); print(" D "); write(REVOFF); print(" Files [CSDb]");
+            gotoXY(20, delta + 12); write(REVON); print(" F "); write(REVOFF); print(" Files [CBM]");
+            gotoXY(20, delta + 13); write(REVON); print(" K "); write(REVOFF); print(" CSDb to SD2IEC");
+            gotoXY(20, delta + 14); write(REVON); print(" P "); write(REVOFF); print(" Petscii Art");
+
+            gotoXY(0, delta + 14); write(WHITE); print("Games"); write(YELLOW);
+            gotoXY(0, delta + 16); write(REVON); print(" X "); write(REVOFF); print(" TIC-TAC-TOE");
+            gotoXY(0, delta + 17); write(REVON); print(" Y "); write(REVOFF); print(" CONNECT-4");
+            gotoXY(0, delta + 18); write(REVON); print(" Z "); write(REVOFF); print(" MAGIC-15");
 
             // gotoXY(20, delta + 17); write(WHITE); print("Experimental"); write(ORANGE);
 
@@ -152,6 +153,7 @@ public class MenuTheOldNet extends PetsciiThread {
                     else if (key == 'i') launch(new TheOldNetBrowserV3());
                     // else if (key == 'i') launch(new TheOldNetBrowserV2());
                     else if (key == 'b') launch(new BBSDirectory());
+                    else if (key == 'c') launch(new Chat());
                     else if (key == '4') launch(new Vcfed());
                     else if (key == '5') launch(new RetroCampus());
                     // else if (key == '4') launch(new Medbunker());
@@ -160,15 +162,15 @@ public class MenuTheOldNet extends PetsciiThread {
                     else if (key == '7') launch(new OpenOnline());
                     else if (key == '8') launch(new IlPost());
                     else if (key == 'x') launch(new TicTacToe());
-                    else if (key == 'c') launch(new ConnectFour());
-                    else if (key == 'f') launch(new Magic15());
+                    else if (key == 'y') launch(new ConnectFour());
+                    else if (key == 'z') launch(new Magic15());
                     else if (key == 's') launch(new Sportal());
                     else if (key == 'l') launch(new Ossa());
                     else if (key == 'p') launch(new PetsciiArtGallery());
                     else if (key == 'm') launch(new UserLogon());
                     else if (key == 't') launch(new TelevideoRai());
                     else if (key == 'd') launch(new CsdbReleases());
-                    else if (key == 'a') launch(new ArnoldC64());
+                    else if (key == 'f') launch(new ArnoldC64());
                     else if (key == 'k') launch(new CsdbReleasesSD2IEC());
                     else validKey = false;
             } while (!validKey);
