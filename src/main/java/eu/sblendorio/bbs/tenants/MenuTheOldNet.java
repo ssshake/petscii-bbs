@@ -105,7 +105,7 @@ public class MenuTheOldNet extends PetsciiThread {
             write(PURPLE);
             gotoXY(20, delta + 8); write(REVON); print(" B "); write(REVOFF); print(" BBS Directory");
             write(LIGHT_BLUE);
-            gotoXY(20, delta + 10); write(REVON); print(" C "); write(REVOFF); print(" Chat <NEW>");
+            gotoXY(20, delta + 10); write(REVON); print(" C "); write(REVOFF); print(" Chat");
             write(CYAN);
             gotoXY(20, delta + 12); write(REVON); print(" M "); write(REVOFF); print(" Mail");
             gotoXY(20, delta + 13); write(REVON); print(" D "); write(REVOFF); print(" Files [CSDb]");
