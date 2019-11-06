@@ -119,7 +119,9 @@ public class MenuTheOldNet extends PetsciiThread {
             gotoXY(0, delta + 18); write(REVON); print(" Z "); write(REVOFF); print(" MAGIC-15");
 
             // gotoXY(20, delta + 17); write(WHITE); print("Experimental"); write(ORANGE);
-
+            write(WHITE);
+            String usersOnline = Integer.toString(getClients().size());
+            gotoXY(20, delta + 20); write(REVON); print(usersOnline + "Users Online"); write(REVOFF);
             write(LIGHT_GREEN);
             gotoXY(20, delta + 22); write(REVON); print(" . "); write(REVOFF); print(" Logoff");
 
