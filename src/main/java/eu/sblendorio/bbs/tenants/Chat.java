@@ -183,12 +183,13 @@ public class Chat extends PetsciiThread {
         println();
         
         write(LIGHT_BLUE);
-        println(getClients().get(sender).getClientName() + " says: ");
-        write(ORANGE);
-        print(">> ");
+        print(getClients().get(sender).getClientName() + " says: ");
+  
         write(GREY3);
         println(message.toString());
-        
+
+        write(ORANGE);
+        print(">> ");      
     }
 
 }
