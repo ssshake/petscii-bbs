@@ -58,7 +58,7 @@ public class Chat extends PetsciiThread {
 
             log("Chat waiting for input");
             
-            write(GREY3);
+            write(CYAN);
             resetInput();
             flush(); 
             String inputRaw = readLine();
@@ -167,11 +167,11 @@ public class Chat extends PetsciiThread {
         }
         print(getClients().get(sender).getClientName() + " says: ");
   
-        write(WHITE);
+        write(GREY3);
         println(message.toString());
 
         //prompt();
-        write(GREY3);      
+        write(CYAN);      
     }
 
     public final static byte[] LOGO = new byte[] {
