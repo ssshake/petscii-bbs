@@ -102,15 +102,15 @@ public class MenuTheOldNet extends PetsciiThread {
             gotoXY(20, delta + 4); write(WHITE); print("Services");
             write(GREEN);
             gotoXY(20, delta + 6); write(REVON); print(" I "); write(REVOFF); print(" Internet!");
-            write(CYAN);
+            write(ORANGE);
             gotoXY(20, delta + 8); write(REVON); print(" B "); write(REVOFF); print(" BBS Directory");
             gotoXY(20, delta + 9); write(REVON); print(" C "); write(REVOFF); print(" Chat <NEW>");
-
-            gotoXY(20, delta + 10); write(REVON); print(" M "); write(REVOFF); print(" Mail");
-            gotoXY(20, delta + 11); write(REVON); print(" D "); write(REVOFF); print(" Files [CSDb]");
-            gotoXY(20, delta + 12); write(REVON); print(" F "); write(REVOFF); print(" Files [CBM]");
-            gotoXY(20, delta + 13); write(REVON); print(" K "); write(REVOFF); print(" CSDb to SD2IEC");
-            gotoXY(20, delta + 14); write(REVON); print(" P "); write(REVOFF); print(" Petscii Art");
+            write(CYAN);
+            gotoXY(20, delta + 11); write(REVON); print(" M "); write(REVOFF); print(" Mail");
+            gotoXY(20, delta + 12); write(REVON); print(" D "); write(REVOFF); print(" Files [CSDb]");
+            gotoXY(20, delta + 13); write(REVON); print(" F "); write(REVOFF); print(" Files [CBM]");
+            gotoXY(20, delta + 14); write(REVON); print(" K "); write(REVOFF); print(" CSDb to SD2IEC");
+            gotoXY(20, delta + 15); write(REVON); print(" P "); write(REVOFF); print(" Petscii Art");
 
             gotoXY(0, delta + 14); write(WHITE); print("Games"); write(YELLOW);
             gotoXY(0, delta + 16); write(REVON); print(" X "); write(REVOFF); print(" TIC-TAC-TOE");

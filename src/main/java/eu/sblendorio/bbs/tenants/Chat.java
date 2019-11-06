@@ -56,8 +56,7 @@ public class Chat extends PetsciiThread {
 
             log("Chat waiting for input");
             
-            write(ORANGE);
-            print(">> ");
+            prompt();
             write(GREY3);
             resetInput();
             flush(); String inputRaw = readLine();
@@ -146,6 +145,10 @@ public class Chat extends PetsciiThread {
         write(GREY3);
     }
 
+    protected void prompt(){
+        write(ORANGE);
+        print(">> ");
+    }
 
     //CHAT
     protected void listClients() throws Exception {
@@ -188,8 +191,7 @@ public class Chat extends PetsciiThread {
         write(GREY3);
         println(message.toString());
 
-        write(ORANGE);
-        print(">> ");
+        prompt();
         write(GREY3);      
     }
 
