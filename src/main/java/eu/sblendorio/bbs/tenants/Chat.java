@@ -163,8 +163,7 @@ public class Chat extends PetsciiThread {
         newline();
         for (Map.Entry<Long, PetsciiThread> entry: clients.entrySet())
             if (entry.getKey() != getClientId())
-                print("#" + entry.getKey() +": "+entry.getValue().getClientName() + " [" + entry.getValue().getClientClass().getSimpleName() + "]");
-        println();
+                println("#" + entry.getKey() +": "+entry.getValue().getClientName() + " [" + entry.getValue().getClientClass().getSimpleName() + "]");
         println();
     }
 
