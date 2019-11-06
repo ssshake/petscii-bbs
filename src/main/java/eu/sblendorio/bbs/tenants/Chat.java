@@ -67,6 +67,7 @@ public class Chat extends PetsciiThread {
 
 
             if (".".equals(input) || "exit".equals(input) || "quit".equals(input) || "q".equals(input)) {
+                sendToAllClients(getClientName() + " left the chat.");
                 break;
 
             } else if ("help".equals(input) || "h".equals(input)) {
