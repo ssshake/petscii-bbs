@@ -108,7 +108,7 @@ public class Chat extends PetsciiThread {
         println("Valid Commands Are:");
         write(GREY3);
         println("quit, help, users");
-        println("send <#> <message>");
+        println("send <id> <message>");
         println("name <new-name>");
     }
 
@@ -132,6 +132,7 @@ public class Chat extends PetsciiThread {
         println("Users Online");
         write(GREY3);
         println();
+        println("ID   Name");
         print("#" + getClientId() + ": "+getClientName() + " [" + getClientClass().getSimpleName() + "] (YOU)");
         newline();
         for (Map.Entry<Long, PetsciiThread> entry: clients.entrySet())
