@@ -1,3 +1,18 @@
+TheOldNet.com is a website that lets users browse the internet like it was the 90's again. It uses the Internet Archive Way Back Machine and strips out all moderns code to allow vintage computers to participate. 
+
+TheOldNet.com BBS allows users of the Commodore 64 combined with a WIFI Modem to experience text based web browsing of TheOldNet.com.
+
+This BBS was build upon the amazing work of the PETSCII-BBS project [sblendorio/petscii-bbs](https://github.com/sblendorio/petscii-bbs)
+
+The current state of the project is a text only browser with the ability to follow links. Future hope are for a image transcoder that reduces high resolution images down to low resolution PETSCII graphics.
+
+There are two additional features: 
+
+1) A BBS directory/phonebook. It retrives information from the C64 BBS Outpost website and displays the phonebook on the BBS
+2) Real time chat. Unlike BBS's which were usually single tenant (one phone line). This BBS is multitenant and there is a basic chat room.
+
+
+--Original Readme---------------------------------------------------------------------------------------------------------
 # PETSCII BBS Builder
 A Java framework for building highly customizable **PETSCII**-enabled **BBS**es, accessible from 8-bit Commodore computers
 
