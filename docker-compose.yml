@@ -1,0 +1,10 @@
+version: '3'
+services:
+  bbs:
+    restart: on-failure
+    container_name: bbs
+    build:
+      context: .
+      dockerfile: Dockerfile 
+    ports:
+      - "6510:6510"
