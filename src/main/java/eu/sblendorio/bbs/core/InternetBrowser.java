@@ -3,11 +3,20 @@ package eu.sblendorio.bbs.core;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import static java.util.Arrays.asList;
+import java.util.List;
+import java.util.ArrayList;
 
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.defaultString;
+import static org.apache.commons.lang3.StringUtils.defaultIfBlank;
+
 
 public class InternetBrowser {
+
     public static Document getWebpage(String url) throws Exception {
         Connection conn;
         try {
@@ -39,6 +48,23 @@ public class InternetBrowser {
     public static String makeUrl(String url) {
         if (!defaultString(url).startsWith("http")) return "http://" + defaultString(url);
         return url;
-    }    
+    }
+
+    public static List<InternetBrowserLink> getAllLinks(Document webpage) throws Exception {
+        List<InternetBrowserLink> urls = new ArrayList<>(); //why
+        Elements links = webpage.select("a[href]");
+        Element link;
+
+        for(int j=0; j < links.size(); j++){
+            link=links.get(j);
+            final String label = defaultIfBlank(link.text(), link.attr("href"));
+
+            urls.add(new InternetBrowserLink(link.absUrl("href"), label));
+
+        }
+        return urls;
+    }
     
 }
+
+

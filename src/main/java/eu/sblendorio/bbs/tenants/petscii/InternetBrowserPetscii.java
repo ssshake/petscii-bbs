@@ -8,6 +8,7 @@ package eu.sblendorio.bbs.tenants.petscii;
 import eu.sblendorio.bbs.core.Hidden;
 import eu.sblendorio.bbs.core.HtmlUtils;
 import eu.sblendorio.bbs.core.InternetBrowser;
+import eu.sblendorio.bbs.core.InternetBrowserLink;
 
 import static eu.sblendorio.bbs.core.PetsciiColors.BLACK;
 import static eu.sblendorio.bbs.core.PetsciiColors.GREEN;
@@ -61,22 +62,6 @@ public class InternetBrowserPetscii extends PetsciiThread {
     protected int __pageSize = 10;
     protected int __screenRows = 18;
 
-    static class Entry {
-        public final String name;
-        public final String url;
-        public final String fileType;
-
-        public Entry(String url, String name) throws Exception {
-            this.url = defaultString(url);
-            if (name.length() > 60){
-                this.name = " ..." + StringUtils.right(name, 31).trim();
-            } else {
-                this.name = StringUtils.left(name, 35).trim();
-            }
-            this.fileType = defaultString(this.name).replaceAll("(?is)^.*\\.(.*?)$", "$1").toLowerCase();
-        }
-    }
-
     static class Pager {
         public boolean forward;
         public int page;
@@ -89,7 +74,7 @@ public class InternetBrowserPetscii extends PetsciiThread {
         }
     }
 
-    protected Map<Integer, Entry> links = emptyMap();
+    protected Map<Integer, InternetBrowserLink> links = emptyMap();
 
     @Override
     public void doLoop() throws Exception {
@@ -350,6 +335,7 @@ public class InternetBrowserPetscii extends PetsciiThread {
         write(GREY3);
     }
 
+    //TODO Get & Display should be their own thing
     void getAndDisplayLinksOnPage(Document webpage, String currentAddress) throws Exception{
         loading();
         while (true) {
@@ -390,7 +376,7 @@ public class InternetBrowserPetscii extends PetsciiThread {
             //SUCCESS PATH
             //DO THE THING WHERE YOU LOAD A NEW PAGE
             else if (links != null && input != null && links.containsKey(toInt(input))) {
-                final Entry link = links.get(toInt(input));
+                final InternetBrowserLink link = links.get(toInt(input));
                 loadWebPage(link.url);
             }
         }
@@ -403,7 +389,7 @@ public class InternetBrowserPetscii extends PetsciiThread {
         println("Links On Page:");
         println();
 
-        List<Entry> entries = getAllLinks(webpage);
+        List<InternetBrowserLink> entries = InternetBrowser.getAllLinks(webpage);
 
         if (isEmpty(entries)) {
             write(RED);
@@ -416,9 +402,9 @@ public class InternetBrowserPetscii extends PetsciiThread {
 
         links = getLinksForPage(entries, __currentPage, __pageSize);
 
-        for (Map.Entry<Integer, Entry> entry: links.entrySet()) {
+        for (Map.Entry<Integer, InternetBrowserLink> entry: links.entrySet()) {
             int i = entry.getKey();
-            Entry post = entry.getValue();
+            InternetBrowserLink post = entry.getValue();
 
             write(WHITE);
             print(i + ".");
@@ -434,12 +420,12 @@ public class InternetBrowserPetscii extends PetsciiThread {
         newline();
     }
 
-    private Map<Integer, Entry> getLinksForPage(List<Entry> entries, int page, int perPage) throws Exception {
+    private Map<Integer, InternetBrowserLink> getLinksForPage(List<InternetBrowserLink> entries, int page, int perPage) throws Exception {
         if (page < 1 || perPage < 1) {
             return null;
         };
 
-        Map<Integer, Entry> result = new LinkedHashMap<>();
+        Map<Integer, InternetBrowserLink> result = new LinkedHashMap<>();
 
         for ( int i = ( page - 1 ) * perPage; i < page * perPage; ++i ){
             if (i<entries.size()) {
@@ -449,20 +435,7 @@ public class InternetBrowserPetscii extends PetsciiThread {
         return result;
     }
 
-    public static List<Entry> getAllLinks(Document webpage) throws Exception {
-        List<Entry> urls = new ArrayList<>(); //why
-        Elements links = webpage.select("a[href]");
-        Element link;
 
-        for(int j=0; j < links.size(); j++){
-            link=links.get(j);
-            final String label = defaultIfBlank(link.text(), link.attr("href"));
-
-            urls.add(new Entry(link.absUrl("href"), label));
-
-        }
-        return urls;
-    }
 
     protected List<String> wordWrap(String s) {
         String[] cleaned = filterPrintableWithNewline(HtmlUtils.htmlClean(s)).split("\n");
