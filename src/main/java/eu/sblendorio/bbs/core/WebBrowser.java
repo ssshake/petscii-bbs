@@ -6,7 +6,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import static java.util.Arrays.asList;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -15,7 +14,7 @@ import static org.apache.commons.lang3.StringUtils.defaultString;
 import static org.apache.commons.lang3.StringUtils.defaultIfBlank;
 
 
-public class InternetBrowser {
+public class WebBrowser {
 
     public static Document getWebpage(String url) throws Exception {
         Connection conn;
@@ -50,8 +49,8 @@ public class InternetBrowser {
         return url;
     }
 
-    public static List<InternetBrowserLink> getAllLinks(Document webpage) throws Exception {
-        List<InternetBrowserLink> urls = new ArrayList<>(); //why
+    public static List<WebBrowserLink> getAllLinks(Document webpage) throws Exception {
+        List<WebBrowserLink> urls = new ArrayList<>(); //why
         Elements links = webpage.select("a[href]");
         Element link;
 
@@ -59,7 +58,7 @@ public class InternetBrowser {
             link=links.get(j);
             final String label = defaultIfBlank(link.text(), link.attr("href"));
 
-            urls.add(new InternetBrowserLink(link.absUrl("href"), label));
+            urls.add(new WebBrowserLink(link.absUrl("href"), label));
 
         }
         return urls;

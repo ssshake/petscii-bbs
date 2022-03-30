@@ -7,8 +7,9 @@ package eu.sblendorio.bbs.tenants.petscii;
 
 import eu.sblendorio.bbs.core.Hidden;
 import eu.sblendorio.bbs.core.HtmlUtils;
-import eu.sblendorio.bbs.core.InternetBrowser;
-import eu.sblendorio.bbs.core.InternetBrowserLink;
+import eu.sblendorio.bbs.core.WebBrowser;
+import eu.sblendorio.bbs.core.WebBrowserLink;
+import eu.sblendorio.bbs.core.WebBrowser;
 
 import static eu.sblendorio.bbs.core.PetsciiColors.BLACK;
 import static eu.sblendorio.bbs.core.PetsciiColors.GREEN;
@@ -56,7 +57,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 @Hidden
-public class InternetBrowserPetscii extends PetsciiThread {
+public class WebBrowserPetscii extends PetsciiThread {
 
     protected int __currentPage = 1;
     protected int __pageSize = 10;
@@ -74,7 +75,7 @@ public class InternetBrowserPetscii extends PetsciiThread {
         }
     }
 
-    protected Map<Integer, InternetBrowserLink> links = emptyMap();
+    protected Map<Integer, WebBrowserLink> links = emptyMap();
 
     @Override
     public void doLoop() throws Exception {
@@ -85,7 +86,7 @@ public class InternetBrowserPetscii extends PetsciiThread {
                 writeHeader();
                 writeFooter();
 
-                loadWebPage(InternetBrowser.makeUrl("w3c.org"));
+                loadWebPage(WebBrowser.makeUrl("w3c.org"));
                 clearBrowserWindow();
 
                 String url = focusAddressBar();
@@ -115,7 +116,7 @@ public class InternetBrowserPetscii extends PetsciiThread {
             return "_quit_program";
         }
 
-        return InternetBrowser.makeUrl(search);
+        return WebBrowser.makeUrl(search);
     }
 
     void clearAddressBar(){
@@ -140,7 +141,7 @@ public class InternetBrowserPetscii extends PetsciiThread {
         clearBrowserWindow();
         Document webpage;
         try {
-            webpage = InternetBrowser.getWebpage(url);
+            webpage = WebBrowser.getWebpage(url);
         } catch (HttpStatusException | UnknownHostException ex) {
             webpage = Jsoup.parseBodyFragment("HTTP connection error");
         }
@@ -152,7 +153,7 @@ public class InternetBrowserPetscii extends PetsciiThread {
 
         Pager pager = new Pager(true, 1, 0);
 
-        final String content = InternetBrowser.formattedWebpage(webpage);
+        final String content = WebBrowser.formattedWebpage(webpage);
 
         writeAddressBar(url);
 
@@ -376,7 +377,7 @@ public class InternetBrowserPetscii extends PetsciiThread {
             //SUCCESS PATH
             //DO THE THING WHERE YOU LOAD A NEW PAGE
             else if (links != null && input != null && links.containsKey(toInt(input))) {
-                final InternetBrowserLink link = links.get(toInt(input));
+                final WebBrowserLink link = links.get(toInt(input));
                 loadWebPage(link.url);
             }
         }
@@ -389,7 +390,7 @@ public class InternetBrowserPetscii extends PetsciiThread {
         println("Links On Page:");
         println();
 
-        List<InternetBrowserLink> entries = InternetBrowser.getAllLinks(webpage);
+        List<WebBrowserLink> entries = WebBrowser.getAllLinks(webpage);
 
         if (isEmpty(entries)) {
             write(RED);
@@ -402,9 +403,9 @@ public class InternetBrowserPetscii extends PetsciiThread {
 
         links = getLinksForPage(entries, __currentPage, __pageSize);
 
-        for (Map.Entry<Integer, InternetBrowserLink> entry: links.entrySet()) {
+        for (Map.Entry<Integer, WebBrowserLink> entry: links.entrySet()) {
             int i = entry.getKey();
-            InternetBrowserLink post = entry.getValue();
+            WebBrowserLink post = entry.getValue();
 
             write(WHITE);
             print(i + ".");
@@ -420,12 +421,12 @@ public class InternetBrowserPetscii extends PetsciiThread {
         newline();
     }
 
-    private Map<Integer, InternetBrowserLink> getLinksForPage(List<InternetBrowserLink> entries, int page, int perPage) throws Exception {
+    private Map<Integer, WebBrowserLink> getLinksForPage(List<WebBrowserLink> entries, int page, int perPage) throws Exception {
         if (page < 1 || perPage < 1) {
             return null;
         };
 
-        Map<Integer, InternetBrowserLink> result = new LinkedHashMap<>();
+        Map<Integer, WebBrowserLink> result = new LinkedHashMap<>();
 
         for ( int i = ( page - 1 ) * perPage; i < page * perPage; ++i ){
             if (i<entries.size()) {

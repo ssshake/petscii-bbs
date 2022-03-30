@@ -4,12 +4,12 @@ import org.apache.commons.lang3.StringUtils;
 import static org.apache.commons.lang3.StringUtils.defaultString;
 
 //TODO this name sucks, its for the browsers
-public class InternetBrowserLink {
+public class WebBrowserLink {
     public final String name;
     public final String url;
     public final String fileType;
 
-    public InternetBrowserLink(String url, String name) throws Exception {
+    public WebBrowserLink(String url, String name) throws Exception {
         this.url = defaultString(url);
         if (name.length() > 60){
             this.name = " ..." + StringUtils.right(name, 31).trim();

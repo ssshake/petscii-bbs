@@ -1,6 +1,6 @@
 package eu.sblendorio.bbs.tenants.ascii;
 import eu.sblendorio.bbs.core.AsciiThread;
-import eu.sblendorio.bbs.core.InternetBrowser;
+import eu.sblendorio.bbs.core.WebBrowser;
 
 import static eu.sblendorio.bbs.core.Utils.STR_ALPHANUMERIC;
 import static eu.sblendorio.bbs.core.Utils.setOfChars;
@@ -17,9 +17,9 @@ import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
-public class InternetBrowserAscii extends AsciiThread{
+public class WebBrowserAscii extends AsciiThread{
 
-    public InternetBrowserAscii() {
+    public WebBrowserAscii() {
         super();
     }
 
@@ -37,6 +37,8 @@ public class InternetBrowserAscii extends AsciiThread{
                 
                 print("Where do you want to go? > ");
 
+                print("[u]rl [p]rev [n]ext [l]inks [b]ack [q]uit");
+
                 String url = readLine(setOfChars(STR_ALPHANUMERIC, "."));
                 resetInput();
 
@@ -44,7 +46,7 @@ public class InternetBrowserAscii extends AsciiThread{
 
                 Document webpage;
                 try {
-                    webpage = InternetBrowser.getWebpage(InternetBrowser.makeUrl(url));
+                    webpage = WebBrowser.getWebpage(WebBrowser.makeUrl(url));
                     println("got website");
                 } catch (HttpStatusException | UnknownHostException ex) {
                     println("error getting website!!!");
@@ -61,7 +63,7 @@ public class InternetBrowserAscii extends AsciiThread{
     }
 
     protected void displayPage(Document webpage, String url) throws Exception {
-        final String content = InternetBrowser.formattedWebpage(webpage);
+        final String content = WebBrowser.formattedWebpage(webpage);
         // println(content);
         List<String> rows = new ArrayList<>();
         rows.addAll(wordWrap(content));
