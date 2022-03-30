@@ -7,6 +7,8 @@ package eu.sblendorio.bbs.tenants.petscii;
 
 import eu.sblendorio.bbs.core.Hidden;
 import eu.sblendorio.bbs.core.HtmlUtils;
+import eu.sblendorio.bbs.core.InternetBrowser;
+
 import static eu.sblendorio.bbs.core.PetsciiColors.BLACK;
 import static eu.sblendorio.bbs.core.PetsciiColors.GREEN;
 import static eu.sblendorio.bbs.core.PetsciiColors.GREY3;
@@ -36,7 +38,7 @@ import java.util.regex.Pattern;
 import static org.apache.commons.collections4.CollectionUtils.isEmpty;
 import org.apache.commons.lang3.StringUtils;
 import static org.apache.commons.lang3.StringUtils.CR;
-import static org.apache.commons.lang3.StringUtils.EMPTY;
+
 import static org.apache.commons.lang3.StringUtils.defaultIfBlank;
 import static org.apache.commons.lang3.StringUtils.defaultString;
 import static org.apache.commons.lang3.StringUtils.isBlank;
@@ -53,7 +55,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 @Hidden
-public class InternetBrowser extends PetsciiThread {
+public class InternetBrowserPetscii extends PetsciiThread {
 
     protected int __currentPage = 1;
     protected int __pageSize = 10;
@@ -98,7 +100,7 @@ public class InternetBrowser extends PetsciiThread {
                 writeHeader();
                 writeFooter();
 
-                loadWebPage(makeUrl("w3c.org"));
+                loadWebPage(InternetBrowser.makeUrl("w3c.org"));
                 clearBrowserWindow();
 
                 String url = focusAddressBar();
@@ -115,10 +117,7 @@ public class InternetBrowser extends PetsciiThread {
         }
     }
 
-    String makeUrl(String url) {
-        if (!defaultString(url).startsWith("http")) return "http://" + defaultString(url);
-        return url;
-    }
+
 
     String focusAddressBar() throws Exception{
         clearAddressBar();
@@ -131,7 +130,7 @@ public class InternetBrowser extends PetsciiThread {
             return "_quit_program";
         }
 
-        return makeUrl(search);
+        return InternetBrowser.makeUrl(search);
     }
 
     void clearAddressBar(){
@@ -156,7 +155,7 @@ public class InternetBrowser extends PetsciiThread {
         clearBrowserWindow();
         Document webpage;
         try {
-            webpage = getWebpage(url);
+            webpage = InternetBrowser.getWebpage(url);
         } catch (HttpStatusException | UnknownHostException ex) {
             webpage = Jsoup.parseBodyFragment("HTTP connection error");
         }
@@ -168,7 +167,7 @@ public class InternetBrowser extends PetsciiThread {
 
         Pager pager = new Pager(true, 1, 0);
 
-        final String content = formattedWebpage(webpage);
+        final String content = InternetBrowser.formattedWebpage(webpage);
 
         writeAddressBar(url);
 
@@ -298,20 +297,7 @@ public class InternetBrowser extends PetsciiThread {
         write(GREY3);
     }
 
-    String formattedWebpage(Document webpage){
-        final String result = webpage == null ? "" :webpage
-                .toString()
-                .replaceAll("<img [^>]*?>", "<br>[IMAGE] ")
-                .replaceAll("<a [^>]*?>(.*)?</a>", " <br>[LINK] $1")
-                .replaceAll("&quot;", "\"")
-                .replaceAll("&apos;", "'")
-                .replaceAll("&#xA0;", " ")
-                .replaceAll("(?is)<style(\\s|>).*?</style>", EMPTY)
-                .replaceAll("(?is)<script(\\s|>).*?</script>", EMPTY)
-                .replaceAll("(?is)^[\\s\\n\\r]+|^\\s*(</?(br|div|figure|iframe|img|p|h[0-9])[^>]*>\\s*)+", EMPTY)
-                .replaceAll("(?is)^(<[^>]+>(\\s|\n|\r)*)+", EMPTY);
-        return result;
-    }
+
 
     void printRowWithColor(Pager pager, List<String> rows){
         String row = rows.get(pager.currentRow);
@@ -476,19 +462,6 @@ public class InternetBrowser extends PetsciiThread {
 
         }
         return urls;
-    }
-
-    public Document getWebpage(String url) throws Exception {
-        Connection conn;
-        try {
-            conn = Jsoup.connect(url);
-        } catch (Exception e1) {
-            log("Couldn't connect with the website.");
-            return null;
-        }
-        return conn
-                //.header("HTTP-User-Agent", "")
-                .get();
     }
 
     protected List<String> wordWrap(String s) {

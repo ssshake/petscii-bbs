@@ -115,7 +115,7 @@ public class Menu64 extends PetsciiThread {
                 else if (key == '4') menuDownloads();
                 else if (key == '5') launch(new Chat64());
                 else if (key == '6') launch(new UserLogon());
-                else if (key == '7') launch(new InternetBrowser());
+                else if (key == '7') launch(new InternetBrowserPetscii());
                 else if (key == '8') launch(new PetsciiArtGallery());
                 else if (key == '9') launch(new Ossa());
                 else if (key == '0') about();
