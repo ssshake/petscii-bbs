@@ -49,9 +49,9 @@ public class MenuApple1M10 extends MenuApple1 {
         println("Italian News---------  S - Hitchhiker's");
         println("F - Televideo RAI");
         println("G - Wired Italia");
-        println("H - Disinformatico");
-        println("I - Next Quotidiano     Services");
-        println("J - Fatto Quotidiano    ----------");
+        println("H - Disinformatico      Services");
+        println("I - Next Quotidiano     ----------");
+        println("J - Fatto Quotidiano    7 - Internet");
         println("K - Indie Campus        T - Chat");
         println("L - Butac.it            U - Private Msg");
         println("M - Alessandro Albano   . - Logout");
