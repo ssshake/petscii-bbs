@@ -61,10 +61,10 @@ public class WebBrowserAscii extends AsciiThread{
         println("The Old Net");
         println("Internet Services Access Terminal");
         newline();
-        newline();
-        println("Recommended Sites:");
-        newline();
-        println("[1] The Old Net [2] 68k.news [3] Old'a Vista");
+        // newline();
+        // println("Recommended Sites:");
+        // newline();
+        // println("[1] The Old Net [2] 68k.news [3] Old'a Vista");
         newline();
         println("Enter [U]RL");
         newline();
@@ -156,26 +156,26 @@ public class WebBrowserAscii extends AsciiThread{
 
     String promptForUserInput(Pager pager, Document webpage, String currentAddress, boolean startOfDocument, boolean endOfDocument) throws Exception {
         String instruction = "";
-        switch(getInputKey()){
-            case 'u':
-            case 'U':
+        switch(getInputKey()){ 
+            case 'r':
+            case 'R':
                 instruction = "exit";
-                break;            
+                break;  
             case '.':
-                throw new UnsupportedOperationException();
             case 'q':
             case 'Q':
                 throw new UnsupportedOperationException();
-                // instruction = "exit";
-                // break;
-
+            case 'b':
+            case 'B':
+                instruction = "exit";
+                break;
             case 'l':
             case 'L':
                 listLinksForPage(pager, webpage, currentAddress);
                 break;
 
-            case 'p':
-            case 'P':
+            case 'u':
+            case 'U':
                 if (startOfDocument){
                     instruction = "skip";
                     break;
@@ -185,8 +185,8 @@ public class WebBrowserAscii extends AsciiThread{
                 instruction = "skip";
                 break;
 
-            case 'n':
-            case 'N':
+            case 'd':
+            case 'D':
                 if (endOfDocument){
                     instruction = "skip";
                     break;
@@ -211,7 +211,7 @@ public class WebBrowserAscii extends AsciiThread{
     }
     
     void writeFooter(){
-        println("[P]rev [N]ext [L]inks [Q]uit [U]RL > ");
+        println("PAGE [U]P | PAGE [D]OWN | LIST [L]INKS | [Q]UIT | ENTER U[R]L > ");
     }
 
     void loadPreviousPage(Pager pager, String head){
