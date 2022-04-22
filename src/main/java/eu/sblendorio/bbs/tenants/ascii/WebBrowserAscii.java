@@ -33,6 +33,7 @@ public class WebBrowserAscii extends AsciiThread{
     protected int __currentPage = 1;
     protected int __pageSize = 10;
     protected int __screenRows = 18;
+    protected int __screenCols = 79;
 
     static class Pager {
         public boolean forward;
@@ -61,7 +62,7 @@ public class WebBrowserAscii extends AsciiThread{
         // newline();
         // println("Recommended Sites:");
         // newline();
-        // println("[1] The Old Net [2] 68k.news [3] Old'a Vista");
+        // println("[1] The Old Net [2] 68k.news [3] Old'a Vista [4] Wikipedia");
         // newline();
         // println("Enter [U]RL");
         newline();
@@ -69,21 +70,7 @@ public class WebBrowserAscii extends AsciiThread{
 
         try {
             do {
-                
-                newline();
-                print("Enter a website address | http://");
-
-                String url = readLine(setOfChars(STR_ALPHANUMERIC, "."));
-                resetInput();
-
-                println(">> Going to " + url);
-
-                if ("_quit_program".equalsIgnoreCase(url)) {
-                    break;
-                }
-
-                loadWebPage(url);
-
+               enterAddress();
             } while (true);
 
         } catch (UnsupportedOperationException ex) {
@@ -124,13 +111,12 @@ public class WebBrowserAscii extends AsciiThread{
             boolean startOfPage = pager.currentRow % __screenRows == 1;
             boolean endOfPage = pager.currentRow > 0 && pager.currentRow % __screenRows == 0 && pager.forward;
 
-            if (startOfPage){
-                printPageNumber(pager.page);
-                // gotoXY(0, pager.currentRow % __screenRows + 3);
-            }
+            // if (startOfPage){
+            //     printPageNumber(pager.page);
+            // }
 
             if (endOfPage || endOfDocument) {
-                writeFooter(startOfDocument, endOfDocument);
+                writeFooter(startOfDocument, endOfDocument, pager.page);
 
                 String nextStep = promptForUserInput(pager, webpage, url, startOfDocument, endOfDocument);
                 switch (nextStep){
@@ -156,7 +142,7 @@ public class WebBrowserAscii extends AsciiThread{
         switch(getInputKey()){ 
             case 'e':
             case 'E':
-                instruction = "exit";
+                enterAddress();
                 break;  
             case '.':
             case 'q':
@@ -199,7 +185,7 @@ public class WebBrowserAscii extends AsciiThread{
 
     void printPageNumber(int page) {
         println(">> PAGE " + page + repeat(' ', 3-String.valueOf(page).length()));
-    }
+    } 
 
     void printRow(Pager pager, List<String> rows){
         String row = rows.get(pager.currentRow);
@@ -210,15 +196,33 @@ public class WebBrowserAscii extends AsciiThread{
         resetInput();
         return readKey();
     }
+
+    void enterAddress() throws Exception {
+        newline();
+        print("Enter a website address http://");
+
+        String url = readLine(setOfChars(STR_ALPHANUMERIC, "."));
+        resetInput();
+
+        println(">> Going to " + url);
+
+        //todo not sure if this is right
+        if ("_quit_program".equalsIgnoreCase(url)) {
+            throw new UnsupportedOperationException();
+        }
+
+        loadWebPage(url);
+
+    }
     
-    void writeFooter(Boolean startOfDocument, Boolean endOfDocument){
+    void writeFooter(Boolean startOfDocument, Boolean endOfDocument, int page){
         newline();
         if (startOfDocument){            
-            print("[D]OWN | LIST [L]INKS | [Q]UIT | [E]NTER URL > ");
+            print("PAGE " + page + " | [D]OWN | [B]ACK | LIST [L]INKS | [Q]UIT | [E]NTER URL > ");
         } else if (endOfDocument){
-            print("[U]P | LIST [L]INKS | [Q]UIT | [E]NTER URL > ");
+            print("PAGE " + page + " | [U]P | [B]ACK | LIST [L]INKS | [Q]UIT | [E]NTER URL > ");
         } else {
-            print("[U]P | [D]OWN | LIST [L]INKS | [Q]UIT | [E]NTER URL > ");
+            print("PAGE " + page + " | [U]P | [D]OWN | [B]ACK | LIST [L]INKS | [Q]UIT | [E]NTER URL > ");
         }
     }
 
@@ -307,7 +311,7 @@ public class WebBrowserAscii extends AsciiThread{
 
             print(i + ".");
 
-            final int iLen = 37 - String.valueOf(i).length(); //I'm guessing something to do with the row width
+            final int iLen = __screenCols - String.valueOf(i).length(); //I'm guessing something to do with the row width
 
             String title = post.name;
             String line = WordUtils.wrap(filterPrintable(HtmlUtils.htmlClean(title)), iLen, "\r", true);
@@ -337,7 +341,7 @@ public class WebBrowserAscii extends AsciiThread{
         List<String> result = new ArrayList<>();
         for (String item: cleaned) {
             String[] wrappedLine = WordUtils
-                    .wrap(item, 39, "\n", true)
+                    .wrap(item, __screenCols, "\n", true)
                     .split("\n");
             result.addAll(asList(wrappedLine));
         }

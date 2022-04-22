@@ -33,7 +33,7 @@ public class WebBrowser {
         final String result = webpage == null ? "" :webpage
                 .toString()
                 .replaceAll("<img [^>]*?>", "<br>[IMAGE] ")
-                .replaceAll("<a [^>]*?>(.*)?</a>", " <br>[LINK] $1")
+                .replaceAll("<a [^>]*?>(.*)?</a>", " <br>[LINK]( $1 )")
                 .replaceAll("&quot;", "\"")
                 .replaceAll("&apos;", "'")
                 .replaceAll("&#xA0;", " ")
