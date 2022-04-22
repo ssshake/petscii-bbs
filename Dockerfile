@@ -10,4 +10,6 @@ RUN chown -R nobody:nobody /bbs
 COPY --from=build /bbs/target/* /bbs/
 RUN chown -R nobody:nobody /bbs
 user nobody
-ENTRYPOINT ["java", "-jar","petscii-bbs.jar","--bbs","StdChoice:6510"]
+# ENTRYPOINT ["java", "-jar","petscii-bbs.jar","--bbs","StdChoice:6510"]
+ENTRYPOINT ["java", "-jar","petscii-bbs.jar","--bbs","WebBrowserAscii:6510"]
+

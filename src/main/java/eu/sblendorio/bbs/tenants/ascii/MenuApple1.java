@@ -175,8 +175,8 @@ public class MenuApple1 extends AsciiThread {
         println("-----------------");
         println("F - Televideo RAI");
         println("G - Wired Italia");
-        println("H - Disinformatico");
-        println("I - Next Quotidiano   "+ sp +"  Services");
+        println("H - Disinformatico    "+ sp +"  Services");
+        println("I - Next Quotidiano   "+ sp +"  ----------");
         println("J - Fatto Quotidiano  "+ sp +"  7 - Internet");
         println("K - Indie Campus      "+ sp +"  T - Chat");
         println("L - Butac.it          "+ sp +"  U - Private Msg");
