@@ -61,10 +61,10 @@ public class WebBrowserAscii extends AsciiThread{
         println("The Old Net");
         println("Internet Services Access Terminal");
         newline();
-        // newline();
-        // println("Recommended Sites:");
-        // newline();
-        // println("[1] The Old Net [2] 68k.news [3] Old'a Vista");
+        newline();
+        println("Recommended Sites:");
+        newline();
+        println("[1] The Old Net [2] 68k.news [3] Old'a Vista");
         newline();
         println("Enter [U]RL");
         newline();
@@ -211,7 +211,7 @@ public class WebBrowserAscii extends AsciiThread{
     }
     
     void writeFooter(){
-        println("PAGE [U]P | PAGE [D]OWN | LIST [L]INKS | [Q]UIT | ENTER U[R]L > ");
+        print("PAGE [U]P | PAGE [D]OWN | LIST [L]INKS | [Q]UIT | ENTER U[R]L > ");
     }
 
     void loadPreviousPage(Pager pager, String head){
