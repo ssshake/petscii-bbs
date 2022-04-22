@@ -61,12 +61,12 @@ public class WebBrowserAscii extends AsciiThread{
         println("The Old Net");
         println("Internet Services Access Terminal");
         newline();
-        newline();
-        println("Recommended Sites:");
-        newline();
-        println("[1] The Old Net [2] 68k.news [3] Old'a Vista");
-        newline();
-        println("Enter [U]RL");
+        // newline();
+        // println("Recommended Sites:");
+        // newline();
+        // println("[1] The Old Net [2] 68k.news [3] Old'a Vista");
+        // newline();
+        // println("Enter [U]RL");
         newline();
         newline();
 
@@ -127,13 +127,12 @@ public class WebBrowserAscii extends AsciiThread{
             boolean endOfPage = pager.currentRow > 0 && pager.currentRow % __screenRows == 0 && pager.forward;
 
             if (startOfPage){
-                // printPageNumber(pager.page);
+                printPageNumber(pager.page);
                 // gotoXY(0, pager.currentRow % __screenRows + 3);
             }
 
             if (endOfPage || endOfDocument) {
-                // parkCursor();
-                writeFooter();
+                writeFooter(startOfDocument, endOfDocument);
 
                 String nextStep = promptForUserInput(pager, webpage, url, startOfDocument, endOfDocument);
                 switch (nextStep){
@@ -200,6 +199,10 @@ public class WebBrowserAscii extends AsciiThread{
         return instruction;
     }
 
+    void printPageNumber(int page) {
+        println("PAGE " + page + repeat(' ', 3-String.valueOf(page).length()));
+    }
+
     void printRow(Pager pager, List<String> rows){
         String row = rows.get(pager.currentRow);
         println(row);
@@ -210,8 +213,14 @@ public class WebBrowserAscii extends AsciiThread{
         return readKey();
     }
     
-    void writeFooter(){
-        print("PAGE [U]P | PAGE [D]OWN | LIST [L]INKS | [Q]UIT | ENTER U[R]L > ");
+    void writeFooter(Boolean startOfDocument, Boolean endOfDocument){
+        if (startOfDocument){
+            print("PAGE [D]OWN | LIST [L]INKS | [Q]UIT | ENTER U[R]L > ");
+        } else if (endOfDocument){
+            print("PAGE [U]P | LIST [L]INKS | [Q]UIT | ENTER U[R]L > ");
+        } else {
+            print("PAGE [U]P | PAGE [D]OWN | LIST [L]INKS | [Q]UIT | ENTER U[R]L > ");
+        }
     }
 
     void loadPreviousPage(Pager pager, String head){
