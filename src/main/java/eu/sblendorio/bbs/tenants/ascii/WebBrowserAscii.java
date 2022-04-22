@@ -54,10 +54,7 @@ public class WebBrowserAscii extends AsciiThread{
 
     @Override
     public void doLoop() throws Exception {
-        log("Internet Browser doLoop");
-        
         cls();
-        newline();
         println("The Old Net");
         println("Internet Services Access Terminal");
         newline();
@@ -73,21 +70,22 @@ public class WebBrowserAscii extends AsciiThread{
         try {
             do {
                 
-                print("Enter a website address> http://");
+                newline();
+                print("Enter a website address | http://");
 
                 String url = readLine(setOfChars(STR_ALPHANUMERIC, "."));
                 resetInput();
 
-                println("Going to " + url);
+                println(">> Going to " + url);
 
                 if ("_quit_program".equalsIgnoreCase(url)) {
                     break;
                 }
 
                 loadWebPage(url);
-                
 
             } while (true);
+
         } catch (UnsupportedOperationException ex) {
             log("Exit browser");
         }
@@ -97,9 +95,9 @@ public class WebBrowserAscii extends AsciiThread{
         Document webpage;
         try {
             webpage = WebBrowser.getWebpage(WebBrowser.makeUrl(url));
-            println("got website");
+            println(">> Website Found");
         } catch (HttpStatusException | UnknownHostException ex) {
-            println("error getting website!!!");
+            println(">> Error Getting Website");
             webpage = Jsoup.parseBodyFragment("HTTP connection error");
         }
 
@@ -156,8 +154,8 @@ public class WebBrowserAscii extends AsciiThread{
     String promptForUserInput(Pager pager, Document webpage, String currentAddress, boolean startOfDocument, boolean endOfDocument) throws Exception {
         String instruction = "";
         switch(getInputKey()){ 
-            case 'r':
-            case 'R':
+            case 'e':
+            case 'E':
                 instruction = "exit";
                 break;  
             case '.':
@@ -200,7 +198,7 @@ public class WebBrowserAscii extends AsciiThread{
     }
 
     void printPageNumber(int page) {
-        println("PAGE " + page + repeat(' ', 3-String.valueOf(page).length()));
+        println(">> PAGE " + page + repeat(' ', 3-String.valueOf(page).length()));
     }
 
     void printRow(Pager pager, List<String> rows){
@@ -214,12 +212,13 @@ public class WebBrowserAscii extends AsciiThread{
     }
     
     void writeFooter(Boolean startOfDocument, Boolean endOfDocument){
-        if (startOfDocument){
-            print("PAGE [D]OWN | LIST [L]INKS | [Q]UIT | ENTER U[R]L > ");
+        newline();
+        if (startOfDocument){            
+            print("[D]OWN | LIST [L]INKS | [Q]UIT | [E]NTER URL > ");
         } else if (endOfDocument){
-            print("PAGE [U]P | LIST [L]INKS | [Q]UIT | ENTER U[R]L > ");
+            print("[U]P | LIST [L]INKS | [Q]UIT | [E]NTER URL > ");
         } else {
-            print("PAGE [U]P | PAGE [D]OWN | LIST [L]INKS | [Q]UIT | ENTER U[R]L > ");
+            print("[U]P | [D]OWN | LIST [L]INKS | [Q]UIT | [E]NTER URL > ");
         }
     }
 
@@ -236,7 +235,6 @@ public class WebBrowserAscii extends AsciiThread{
 
     void listLinksForPage(Pager pager, Document webpage, String currentAddress) throws Exception {
         getAndDisplayLinksOnPage(webpage, currentAddress);
-        // clearBrowserWindow();
         cls();
         pager.currentRow = 0;
         pager.page = 0;
