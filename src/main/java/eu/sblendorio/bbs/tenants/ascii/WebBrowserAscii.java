@@ -58,7 +58,7 @@ public class WebBrowserAscii extends AsciiThread{
         
         cls();
         newline();
-        println("The Old Net: Internet Archive Terminal Access Service");
+        println("The Old Net: Internet Services Access Terminal");
         newline();
 
         try {
