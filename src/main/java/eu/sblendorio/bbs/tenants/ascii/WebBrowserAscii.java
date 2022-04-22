@@ -61,34 +61,49 @@ public class WebBrowserAscii extends AsciiThread{
         println("The Old Net");
         println("Internet Services Access Terminal");
         newline();
+        newline();
+        println("Recommended Sites:");
+        newline();
+        println("[1] The Old Net [2] 68k.news [3] Old'a Vista");
+        newline();
+        println("Enter [U]RL");
+        newline();
+        newline();
 
         try {
             do {
                 
-                print("Enter a website address >");
+                print("Enter a website address> http://");
 
                 String url = readLine(setOfChars(STR_ALPHANUMERIC, "."));
                 resetInput();
 
                 println("Going to " + url);
 
-                Document webpage;
-                try {
-                    webpage = WebBrowser.getWebpage(WebBrowser.makeUrl(url));
-                    println("got website");
-                } catch (HttpStatusException | UnknownHostException ex) {
-                    println("error getting website!!!");
-                    webpage = Jsoup.parseBodyFragment("HTTP connection error");
+                if ("_quit_program".equalsIgnoreCase(url)) {
+                    break;
                 }
 
-                println("displaying webpage");
-                displayPage(webpage, url);
+                loadWebPage(url);
                 
 
             } while (true);
         } catch (UnsupportedOperationException ex) {
             log("Exit browser");
         }
+    }
+
+    void loadWebPage(String url) throws Exception{
+        Document webpage;
+        try {
+            webpage = WebBrowser.getWebpage(WebBrowser.makeUrl(url));
+            println("got website");
+        } catch (HttpStatusException | UnknownHostException ex) {
+            println("error getting website!!!");
+            webpage = Jsoup.parseBodyFragment("HTTP connection error");
+        }
+
+        displayPage(webpage, url);
     }
 
     protected void displayPage(Document webpage, String url) throws Exception {
@@ -150,8 +165,9 @@ public class WebBrowserAscii extends AsciiThread{
                 throw new UnsupportedOperationException();
             case 'q':
             case 'Q':
-                instruction = "exit";
-                break;
+                throw new UnsupportedOperationException();
+                // instruction = "exit";
+                // break;
 
             case 'l':
             case 'L':
@@ -212,6 +228,7 @@ public class WebBrowserAscii extends AsciiThread{
     void listLinksForPage(Pager pager, Document webpage, String currentAddress) throws Exception {
         getAndDisplayLinksOnPage(webpage, currentAddress);
         // clearBrowserWindow();
+        cls();
         pager.currentRow = 0;
         pager.page = 0;
     }
@@ -222,7 +239,7 @@ public class WebBrowserAscii extends AsciiThread{
 
             // writeAddressBar(currentAddress);
             listLinks(webpage);
-            print("Enter Link # or Command> ");
+            print("Enter Link # or [B]ack, [P]rev, [N]ext> ");
 
             resetInput();
             flush();
@@ -255,7 +272,7 @@ public class WebBrowserAscii extends AsciiThread{
             //DO THE THING WHERE YOU LOAD A NEW PAGE
             else if (links != null && input != null && links.containsKey(toInt(input))) {
                 final WebBrowserLink link = links.get(toInt(input));
-                WebBrowser.getWebpage(link.url);
+                loadWebPage(link.url);
             }
         }
     }
