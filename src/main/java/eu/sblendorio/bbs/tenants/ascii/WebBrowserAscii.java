@@ -316,7 +316,7 @@ public class WebBrowserAscii extends AsciiThread{
             String title = post.name;
             String line = WordUtils.wrap(filterPrintable(HtmlUtils.htmlClean(title)), iLen, "\r", true);
 
-            println(line.replaceAll("\r", "\r " + repeat(" ", 37-iLen)));
+            println(line.replaceAll("\r", "\r " + repeat(" ", __screenCols-iLen)));
         }
         newline();
     }
