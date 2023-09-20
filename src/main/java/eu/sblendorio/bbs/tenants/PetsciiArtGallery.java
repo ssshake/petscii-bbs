@@ -20,12 +20,11 @@ public class PetsciiArtGallery extends PetsciiThread {
       "John Canady", "commodore4ever.com"
     );
 
-
     public List<Path> getDirContent(String path) throws Exception {
         List<Path> result = new ArrayList<>();
         URL jar = getClass().getProtectionDomain().getCodeSource().getLocation();
         Path jarFile = Paths.get(jar.toURI());
-        FileSystem fs = FileSystems.newFileSystem(jarFile, null);
+        FileSystem fs = FileSystems.newFileSystem(jarFile, (ClassLoader)null);
         DirectoryStream<Path> directoryStream = Files.newDirectoryStream(fs.getPath(path));
         for (Path p : directoryStream) result.add(p);
         Collections.sort(result, new Comparator<Path>() {

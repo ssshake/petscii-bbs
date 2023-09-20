@@ -112,6 +112,7 @@ public class MenuTheOldNet extends PetsciiThread {
             gotoXY(20, delta + 14); write(REVON); print(" F "); write(REVOFF); print(" Files [CBM]");
             gotoXY(20, delta + 15); write(REVON); print(" K "); write(REVOFF); print(" CSDb to SD2IEC");
             gotoXY(20, delta + 16); write(REVON); print(" P "); write(REVOFF); print(" Petscii Art");
+            gotoXY(20, delta + 17); write(REVON); print(" G "); write(REVOFF); print(" ChatGPT");
 
             gotoXY(0, delta + 14); write(WHITE); print("Games"); write(YELLOW);
             gotoXY(0, delta + 16); write(REVON); print(" X "); write(REVOFF); print(" TIC-TAC-TOE");
@@ -175,6 +176,7 @@ public class MenuTheOldNet extends PetsciiThread {
                     else if (key == 'd') launch(new CsdbReleases());
                     else if (key == 'f') launch(new ArnoldC64());
                     else if (key == 'k') launch(new CsdbReleasesSD2IEC());
+                    else if (key == 'g') launch(new ChatGPT());
                     else validKey = false;
             } while (!validKey);
         }
